@@ -49,11 +49,11 @@ class highlevelLambdas:
         self.M_HH = lambda l1,l2,j1,j2,met : op.invariant_mass(l1.p4,l2.p4,j1.p4,j2.p4,met.p4)
         self.MinDR_lj = lambda l1,l2,j1,j2 : op.min(op.min(op.deltaR(l1.p4,j1.p4),op.deltaR(l1.p4,j2.p4)),
                                                op.min(op.deltaR(l2.p4,j1.p4),op.deltaR(l2.p4,j2.p4)))
-        self.MinDR_part1_partCont   = lambda part1,partCont : op.rng_min(partCont, lambda part2 : op.deltaR(part1.p4, part2.p4))
-        self.MinDEta_part1_partCont = lambda part1,partCont : op.rng_min(partCont, lambda part2 : op.abs(part1.eta - part2.eta))
-        self.MinDPhi_part1_partCont = lambda part1,partCont : op.rng_min(partCont, lambda part2 : op.abs(op.deltaPhi(part1.p4, part2.p4)))
+        self.MinDR_part1_partCont   = lambda part1_p4,partCont : op.rng_min(partCont, lambda part2 : op.deltaR(part1_p4, part2.p4))
+        self.MinDEta_part1_partCont = lambda part1_p4,partCont : op.rng_min(partCont, lambda part2 : op.abs(part1_p4.Eta() - part2.eta))
+        self.MinDPhi_part1_partCont = lambda part1_p4,partCont : op.rng_min(partCont, lambda part2 : op.abs(op.deltaPhi(part1_p4, part2.p4)))
 
-        self.MinDR_part1_dipart = lambda part1,dipart: op.min(*(op.deltaR(part1.p4, dipart[i2].p4) for i2 in range(2)))
+        self.MinDR_part1_dipart = lambda part1,dipart: op.min(*(op.deltaR(part1, dipart[i2]) for i2 in range(2)))
 
         self.JetsMinDR = lambda l,j1,j2 : op.min(op.deltaR(l.p4,j1.p4),op.deltaR(l.p4,j2.p4))
         self.LepsMinDR = lambda j,l1,l2 : op.min(op.deltaR(j.p4,l1.p4),op.deltaR(j.p4,l2.p4))
@@ -237,9 +237,10 @@ class highlevelLambdas:
         lepSumPy = lambda mus, els : op.rng_sum(mus, lambda l : l.p4.Py()) + op.rng_sum(els, lambda l : l.p4.Py())
         self.MET_LD = lambda met, jets, mus, els : 0.6*met.pt + 0.4*op.sqrt(op.pow(jetSumPx(jets)+lepSumPx(mus,els),2)+op.pow(jetSumPy(jets)+lepSumPy(mus,els),2)) 
         
-        empty_p4 = op.construct("ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> >",([op.c_float(0.),op.c_float(0.),op.c_float(0.),op.c_float(0.)]))
-        self.MET_LD_DL = lambda met, jets, electrons, muons : 0.6 * met.pt +\
-                    0.4* (op.rng_sum(jets, (lambda j : j.p4), start=empty_p4) + op.rng_sum(electrons, (lambda e : e.p4), start=empty_p4) + op.rng_sum(muons, (lambda m : m.p4), start=empty_p4)).Pt()
+        self.empty_p4 = op.construct("ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> >",([op.c_float(0.),op.c_float(0.),op.c_float(0.),op.c_float(0.)]))
+        self.MET_LD_DL = lambda met, jets, electrons, muons : 0.6 * met.pt  +\
+                    0.4 * (op.rng_sum(jets, (lambda j : j.p4), start=self.empty_p4) + \
+                        op.rng_sum(electrons, (lambda e : e.p4), start=self.empty_p4) + op.rng_sum(muons, (lambda m : m.p4), start=self.empty_p4)).Pt()
 
 
         # conept
@@ -253,9 +254,6 @@ class highlevelLambdas:
         #self.angleWWplane = lambda lp4, met, j3p4, j4p4 : ((j3p4+j4p4).Vect().Unit()).Angle((self.neuP4(j3p4+j4p4+lp4, met)+lp4).Vect().Unit())
         self.angleBetPlanes = lambda j1p4,j2p4,j3p4,j4p4 : op.acos(op.c_float(aDotB(j1p4+j2p4, j3p4+j4p4)/aMagB(j1p4+j2p4, j3p4+j4p4)))
 
-        self.empty_p4 = op.construct("ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> >",([op.c_float(0.),op.c_float(0.),op.c_float(0.),op.c_float(0.)]))
-        self.MET_LD_DL = lambda met, jets, electrons, muons : 0.6 * met.pt +\
-                    0.4* (op.rng_sum(jets, (lambda j : j.p4), start=self.empty_p4) + op.rng_sum(electrons, (lambda e : e.p4), start=self.empty_p4) + op.rng_sum(muons, (lambda m : m.p4), start=self.empty_p4)).Pt()
 
         self.isBoosted  = op.AND(op.rng_len(HHself.ak8BJets) >= 1, op.rng_len(HHself.ak4JetsCleanedFromAk8b) >= 1)
         #self.isBoosted  = op.rng_len(HHself.ak8BJets) >= 1

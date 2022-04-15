@@ -53,7 +53,20 @@ for sample, dico in samples.items():
         else:
             command += dasCommand%(dico['db'].replace('das:',''))
     elif 'files' in dico:
-        command += ' '+' '.join(dico['files'])
+        files = dico['files']
+        if not isinstance(files,list):
+            files = [files]
+        rootfiles = []
+        for f in files:
+            if f.endswith('root'):
+                rootfiles.append(f)
+            elif f.endswith('txt'):
+                with open(f,'r') as handle:
+                    for line in handle:
+                        rootfiles.append(line.strip())
+            else:
+                raise ValueError
+        command += ' '+' '.join(rootfiles)
     else:
         raise RuntimeError("Could not find any files on which to compute PU weights for sample %s"%sample)
     try:

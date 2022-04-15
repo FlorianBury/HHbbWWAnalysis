@@ -2510,6 +2510,8 @@ def makeDoubleLeptonMachineLearningInputPlots(sel,suffix,channel,inputs):
     plots = []
     channelLabel = DoubleLeptonChannelTitleLabel(channel)
     for (varname,vartitle,binning),variable in inputs.items():
+        if binning is None:
+            continue
         plots.append(Plot.make1D("%s_%s_DNNInput_%s"%(channel,suffix,varname),
                                  variable,
                                  sel,
