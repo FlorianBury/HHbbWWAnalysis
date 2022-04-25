@@ -263,31 +263,31 @@ class highlevelLambdas:
         #self.isFullReco = op.AND(op.rng_len(HHself.bJetsByScore) >= 2, op.rng_len(HHself.wJetsPairs) >= 1)
         #self.isMissReco = op.AND(op.rng_len(HHself.bJetsByScore) >= 2, op.rng_len(HHself.probableWJets) == 1)
 
-        #self.comp_m_hh_bregcorr = lambda bjets, wjets, lep, met : (op.rng_sum(bjets, (lambda bj : self.bJetCorrP4(bj)), start=empty_p4) + 
-        #                                                           op.rng_sum(wjets, (lambda wj : self.bJetCorrP4(wj)), start=empty_p4) + 
+        #self.comp_m_hh_bregcorr = lambda bjets, wjets, lep, met : (op.rng_sum(bjets, (lambda bj : self.bJetCorrP4(bj)), start=self.empty_p4) + 
+        #                                                           op.rng_sum(wjets, (lambda wj : self.bJetCorrP4(wj)), start=self.empty_p4) + 
         #                                                           met.p4 + 
         #                                                           lep.p4).M()
-        self.comp_m_hh_bregcorr = lambda bjets, wjets, lepconep4, met : (op.rng_sum(bjets, (lambda bj : self.bJetCorrP4(bj)), start=empty_p4) + 
-                                                                         op.rng_sum(wjets, (lambda wj : self.bJetCorrP4(wj)), start=empty_p4) + 
+        self.comp_m_hh_bregcorr = lambda bjets, wjets, lepconep4, met : (op.rng_sum(bjets, (lambda bj : self.bJetCorrP4(bj)), start=self.empty_p4) + 
+                                                                         op.rng_sum(wjets, (lambda wj : self.bJetCorrP4(wj)), start=self.empty_p4) + 
                                                                          met.p4 + 
                                                                          lepconep4).M()
 
-        #self.comp_pt_hh         = lambda bjets, wjets, lep, met : (op.rng_sum(bjets, (lambda bj : bj.p4), start=empty_p4) + 
-        #                                                           op.rng_sum(wjets, (lambda wj : wj.p4), start=empty_p4) + 
+        #self.comp_pt_hh         = lambda bjets, wjets, lep, met : (op.rng_sum(bjets, (lambda bj : bj.p4), start=self.empty_p4) + 
+        #                                                           op.rng_sum(wjets, (lambda wj : wj.p4), start=self.empty_p4) + 
         #                                                           met.p4 + 
         #                                                           lep.p4).Pt()
-        self.comp_pt_hh         = lambda bjets, wjets, lepconep4, met : (op.rng_sum(bjets, (lambda bj : bj.p4), start=empty_p4) + 
-                                                                         op.rng_sum(wjets, (lambda wj : wj.p4), start=empty_p4) + 
+        self.comp_pt_hh         = lambda bjets, wjets, lepconep4, met : (op.rng_sum(bjets, (lambda bj : bj.p4), start=self.empty_p4) + 
+                                                                         op.rng_sum(wjets, (lambda wj : wj.p4), start=self.empty_p4) + 
                                                                          met.p4 + 
                                                                          lepconep4).Pt()
-        #self.comp_dphi_hbb_hww  = lambda bjets, wjets, lep, met : op.deltaPhi((op.rng_sum(wjets, (lambda wj : wj.p4), start=empty_p4) + met.p4 + lep.p4),
-        #                                                                            op.rng_sum(bjets, (lambda bj : bj.p4), start=empty_p4))
-        #self.comp_dphi_hbb_hwwvis = lambda bjets, wjets, lep : op.deltaPhi((op.rng_sum(wjets, (lambda wj : wj.p4), start=empty_p4) + lep.p4),
+        #self.comp_dphi_hbb_hww  = lambda bjets, wjets, lep, met : op.deltaPhi((op.rng_sum(wjets, (lambda wj : wj.p4), start=self.empty_p4) + met.p4 + lep.p4),
+        #                                                                            op.rng_sum(bjets, (lambda bj : bj.p4), start=self.empty_p4))
+        #self.comp_dphi_hbb_hwwvis = lambda bjets, wjets, lep : op.deltaPhi((op.rng_sum(wjets, (lambda wj : wj.p4), start=self.empty_p4) + lep.p4),
         #                                                                         op.rng_sum(bjets, (lambda bj : bj.p4), start=empty_p4))
-        self.comp_dphi_hbb_hww  = lambda bjets, wjets, lepconep4, met : op.deltaPhi((op.rng_sum(wjets, (lambda wj : wj.p4), start=empty_p4) + met.p4 + lepconep4),
-                                                                                    op.rng_sum(bjets, (lambda bj : bj.p4), start=empty_p4))
-        self.comp_dphi_hbb_hwwvis = lambda bjets, wjets, lepconep4 : op.deltaPhi((op.rng_sum(wjets, (lambda wj : wj.p4), start=empty_p4) + lepconep4),
-                                                                                 op.rng_sum(bjets, (lambda bj : bj.p4), start=empty_p4))
+        self.comp_dphi_hbb_hww  = lambda bjets, wjets, lepconep4, met : op.deltaPhi((op.rng_sum(wjets, (lambda wj : wj.p4), start=self.empty_p4) + met.p4 + lepconep4),
+                                                                                    op.rng_sum(bjets, (lambda bj : bj.p4), start=self.empty_p4))
+        self.comp_dphi_hbb_hwwvis = lambda bjets, wjets, lepconep4 : op.deltaPhi((op.rng_sum(wjets, (lambda wj : wj.p4), start=self.empty_p4) + lepconep4),
+                                                                                 op.rng_sum(bjets, (lambda bj : bj.p4), start=self.empty_p4))
 
     def getCorrBp4(self,j):
         return  op.construct("ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> >", (j.pt*j.bRegCorr, j.eta, j.phi, j.mass*j.bRegCorr)) 

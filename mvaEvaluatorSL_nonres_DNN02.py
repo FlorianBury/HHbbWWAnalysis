@@ -120,7 +120,7 @@ def returnHighLevelMVAInputs(self, lep, conep4, bjets, wjets, VBFJetPairs, chann
         ('m_wlep',           'm_wlep',            (25,0,200))  : op.invariant_mass(self.corrMET.p4, conep4),    
         #('pt_wlep',          'pt_wlep',           (25,0,200))  : (self.corrMET.p4 + lep.p4).Pt(),
         ('pt_wlep',          'pt_wlep',           (25,0,200))  : (self.corrMET.p4 + conep4).Pt(),
-        ('min_dr_lepbjets',  'min_dr_lepbjets',   (25,0,5))    : op.switch(op.rng_len(bjets) > 0, self.HLL.MinDR_part1_partCont(lep, bjets), op.c_float(0.)),
+        ('min_dr_lepbjets',  'min_dr_lepbjets',   (25,0,5))    : op.switch(op.rng_len(bjets) > 0, self.HLL.MinDR_part1_partCont(lep.p4, bjets), op.c_float(0.)),
         #('dphi_hbb_hww',     'dphi_hbb_hww',      (22,0,3.2))  : op.abs(self.HLL.comp_dphi_hbb_hww(bjets, wjets, lep, self.corrMET)),
         ('dphi_hbb_hww',     'dphi_hbb_hww',      (22,0,3.2))  : op.abs(self.HLL.comp_dphi_hbb_hww(bjets, wjets, conep4, self.corrMET)),
         #('dphi_hbb_hwwvis',  'dphi_hbb_hwwvis',   (22,0,3.2))  : op.abs(self.HLL.comp_dphi_hbb_hwwvis(bjets, wjets, lep)),
