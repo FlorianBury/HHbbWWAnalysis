@@ -1066,7 +1066,7 @@ One lepton and and one jet argument must be specified in addition to the require
                                                   for njets,listBin in dict_weights.items() for weights in listBin], op.c_float(1.))
                 else:
                     raise RuntimeError("Stitching weight format not understood")
-                noSel = noSel.refine("DYStitching",weight = stitch_op)
+                noSel = noSel.refine("stitching",weight = stitch_op)
                 if self.args.PrintYield:
                     self.yields.add(noSel)
                 print ('Applied stitching')
@@ -1617,7 +1617,7 @@ One lepton and and one jet argument must be specified in addition to the require
                                                                  combine="weight", systName="el_loose", defineOnFirstUse=(not forSkimmer))
                 self.elLooseRecoPtLt20 = self.SF.get_scalefactor("lepton", ('electron_loosereco_{}'.format(era) , 'electron_loosereco_ptlt20'),
                                                                  combine="weight", systName="el_loose", defineOnFirstUse=(not forSkimmer))
-                self.elLooseReco = lambda el: op.switch(el.pt>20,self.elLooseRecoPtGt20(el),self.elLooseRecoPtGt20(el))
+                self.elLooseReco = lambda el: op.switch(el.pt>20,self.elLooseRecoPtGt20(el),self.elLooseRecoPtLt20(el))
             elif era == "2018": # Does not depend on pt for 2018
                 self.elLooseReco = self.SF.get_scalefactor("lepton", 'electron_loosereco_{}'.format(era), combine="weight", systName="el_loose", defineOnFirstUse=(not forSkimmer))
 

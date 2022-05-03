@@ -349,102 +349,132 @@ class SkimmerNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
             # SF #
             if self.is_MC:
                 electronMuon_cont = op.combine((self.electronsFakeSel, self.muonsFakeSel))
-                varsToKeep["trigger_SF"] = op.multiSwitch(
-                        (op.AND(op.rng_len(self.electronsTightSel)==1,op.rng_len(self.muonsTightSel)==0) , self.ttH_singleElectron_trigSF(self.electronsTightSel[0])),
-                        (op.AND(op.rng_len(self.electronsTightSel)==0,op.rng_len(self.muonsTightSel)==1) , self.ttH_singleMuon_trigSF(self.muonsTightSel[0])),
-                        (op.AND(op.rng_len(self.electronsTightSel)>=2,op.rng_len(self.muonsTightSel)==0) , self.lambda_ttH_doubleElectron_trigSF(self.electronsTightSel)),
-                        (op.AND(op.rng_len(self.electronsTightSel)==0,op.rng_len(self.muonsTightSel)>=2) , self.lambda_ttH_doubleMuon_trigSF(self.muonsTightSel)),
-                        (op.AND(op.rng_len(self.electronsTightSel)>=1,op.rng_len(self.muonsTightSel)>=1) , self.lambda_ttH_electronMuon_trigSF(electronMuon_cont[0])),
-                         op.c_float(1.))
+                #varsToKeep["trigger_SF"] = op.multiSwitch(
+                #        (op.AND(op.rng_len(self.electronsTightSel)==1,op.rng_len(self.muonsTightSel)==0) , self.ttH_singleElectron_trigSF(self.electronsTightSel[0])),
+                #        (op.AND(op.rng_len(self.electronsTightSel)==0,op.rng_len(self.muonsTightSel)==1) , self.ttH_singleMuon_trigSF(self.muonsTightSel[0])),
+                #        (op.AND(op.rng_len(self.electronsTightSel)>=2,op.rng_len(self.muonsTightSel)==0) , self.lambda_ttH_doubleElectron_trigSF(self.electronsTightSel)),
+                #        (op.AND(op.rng_len(self.electronsTightSel)==0,op.rng_len(self.muonsTightSel)>=2) , self.lambda_ttH_doubleMuon_trigSF(self.muonsTightSel)),
+                #        (op.AND(op.rng_len(self.electronsTightSel)>=1,op.rng_len(self.muonsTightSel)>=1) , self.lambda_ttH_electronMuon_trigSF(electronMuon_cont[0])),
+                #         op.c_float(1.))
+                if self.args.Channel == 'ElEl':
+                    varsToKeep["weight_trigger"] = op.switch(op.rng_len(self.ElElFakeSel) > 0, self.lambda_ttH_doubleElectron_trigSF(self.ElElFakeSel[0]), op.c_float(0.))
+                if self.args.Channel == 'MuMu':
+                    varsToKeep["weight_trigger"] = op.switch(op.rng_len(self.MuMuFakeSel) > 0, self.lambda_ttH_doubleMuon_trigSF(self.MuMuFakeSel[0]), op.c_float(0.))
+                if self.args.Channel == 'ElMu':
+                    varsToKeep["weight_trigger"] = op.switch(op.rng_len(self.ElMuFakeSel) > 0, self.lambda_ttH_electronMuon_trigSF(self.ElMuFakeSel[0]), op.c_float(0.))
 
-                varsToKeep["weight_trigger_ee_sf"] = op.switch(op.rng_len(self.ElElTightSel)>0,self.lambda_ttH_doubleElectron_trigSF(self.ElElTightSel[0]),op.c_float(1.))
-                varsToKeep["weight_trigger_mumu_sf"] = op.switch(op.rng_len(self.MuMuTightSel)>0,self.lambda_ttH_doubleMuon_trigSF(self.MuMuTightSel[0]),op.c_float(1.))
-                varsToKeep["weight_trigger_emu_sf"] = op.switch(op.rng_len(self.ElMuTightSel)>0,self.lambda_ttH_electronMuon_trigSF(self.ElMuTightSel[0]),op.c_float(1.))
+                if self.args.Channel == "ElEl":
+                    varsToKeep["weight_electron_id_loose"] = op.switch(op.rng_len(self.ElElFakeSel) > 0,
+                                                                       reduce(mul,self.lambda_ElectronLooseSF(self.ElElFakeSel[0][0]))* \
+                                                                       reduce(mul,self.lambda_ElectronLooseSF(self.ElElFakeSel[0][1])), 
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_muon_idiso_loose"] = op.c_float(1.)
+                    varsToKeep["weight_electron_tth_tight"] = op.switch(op.rng_len(self.ElElFakeSel) > 0 ,
+                                                                       op.switch(op.AND(self.lambda_electronTightSel(self.ElElFakeSel[0][0]), self.lambda_is_matched(self.ElElFakeSel[0][0])),
+                                                                                 self.elTightMVA(self.ElElFakeSel[0][0]),
+                                                                                 op.c_float(1.)) * \
+                                                                       op.switch(op.AND(self.lambda_electronTightSel(self.ElElFakeSel[0][1]), self.lambda_is_matched(self.ElElFakeSel[0][1])),
+                                                                                 self.elTightMVA(self.ElElFakeSel[0][1]),
+                                                                                 op.c_float(1.)),
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_electron_tth_relaxed"] = op.switch(op.rng_len(self.ElElFakeSel) > 0 ,
+                                                                       op.switch(op.AND(self.lambda_electronTightSel(self.ElElFakeSel[0][0]), self.lambda_is_matched(self.ElElFakeSel[0][0])),
+                                                                                 self.elRelaxedTightMVA(self.ElElFakeSel[0][0]),
+                                                                                 op.c_float(1.)) * \
+                                                                       op.switch(op.AND(self.lambda_electronTightSel(self.ElElFakeSel[0][1]), self.lambda_is_matched(self.ElElFakeSel[0][1])),
+                                                                                 self.elRelaxedTightMVA(self.ElElFakeSel[0][1]),
+                                                                                 op.c_float(1.)),
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_electron_total_tight"] = op.switch(op.rng_len(self.ElElFakeSel) > 0 ,
+                                                                       reduce(mul,self.lambda_ElectronTightSF(self.ElElFakeSel[0][0]))*\
+                                                                       reduce(mul,self.lambda_ElectronTightSF(self.ElElFakeSel[0][1])), 
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_muon_tth_tight"] = op.c_float(1.)
+                    varsToKeep["weight_muon_tth_relaxed"] = op.c_float(1.)
+                    varsToKeep["weight_muon_total_tight"] = op.c_float(1.)
+                    varsToKeep["weight_lepton_total_SF"] = op.switch(op.rng_len(self.ElElFakeSel) > 0 ,
+                                                               reduce(mul,self.lambda_ElectronLooseSF(self.ElElFakeSel[0][0]))* \
+                                                               reduce(mul,self.lambda_ElectronLooseSF(self.ElElFakeSel[0][1]))* \
+                                                               reduce(mul,self.lambda_ElectronTightSF(self.ElElFakeSel[0][0]))* \
+                                                               reduce(mul,self.lambda_ElectronTightSF(self.ElElFakeSel[0][1])),
+                                                               op.c_float(1.))
+                if self.args.Channel == "MuMu":
+                    varsToKeep["weight_electron_id_loose"] = op.c_float(1.)
+                    varsToKeep["weight_muon_idiso_loose"] = op.switch(op.rng_len(self.MuMuFakeSel) > 0, 
+                                                                       reduce(mul,self.lambda_MuonLooseSF(self.MuMuFakeSel[0][0]))* \
+                                                                       reduce(mul,self.lambda_MuonLooseSF(self.MuMuFakeSel[0][1])), 
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_electron_tth_tight"] = op.c_float(1.)
+                    varsToKeep["weight_electron_tth_relaxed"] = op.c_float(1.)
 
-                varsToKeep["lepton_IDSF"] = op.rng_product(self.electronsFakeSel, lambda el : reduce(mul,self.lambda_ElectronLooseSF(el)+self.lambda_ElectronTightSF(el))) * \
-                                            op.rng_product(self.muonsFakeSel, lambda mu : reduce(mul,self.lambda_MuonLooseSF(mu)+self.lambda_MuonTightSF(mu))) 
+                    varsToKeep["weight_electron_total_tight"] = op.c_float(1.)
+                    varsToKeep["weight_muon_tth_tight"] = op.switch(op.rng_len(self.MuMuFakeSel) > 0 ,
+                                                                       op.switch(op.AND(self.lambda_muonTightSel(self.MuMuFakeSel[0][0]), self.lambda_is_matched(self.MuMuFakeSel[0][0])),
+                                                                                 self.muTightMVA(self.MuMuFakeSel[0][0]),
+                                                                                 op.c_float(1.)) * \
+                                                                       op.switch(op.AND(self.lambda_muonTightSel(self.MuMuFakeSel[0][1]), self.lambda_is_matched(self.MuMuFakeSel[0][1])),
+                                                                                 self.muTightMVA(self.MuMuFakeSel[0][1]),
+                                                                                 op.c_float(1.)),
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_muon_tth_relaxed"] = op.switch(op.rng_len(self.MuMuFakeSel) > 0, 
+                                                                       op.switch(op.AND(self.lambda_muonTightSel(self.MuMuFakeSel[0][0]), self.lambda_is_matched(self.MuMuFakeSel[0][0])),
+                                                                                 self.muRelaxedTightMVA(self.MuMuFakeSel[0][0]),
+                                                                                 op.c_float(1.)) * \
+                                                                       op.switch(op.AND(self.lambda_muonTightSel(self.MuMuFakeSel[0][1]), self.lambda_is_matched(self.MuMuFakeSel[0][1])),
+                                                                                 self.muRelaxedTightMVA(self.MuMuFakeSel[0][1]),
+                                                                                 op.c_float(1.)),
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_muon_total_tight"] = op.switch(op.rng_len(self.MuMuFakeSel) > 0 ,
+                                                                       reduce(mul,self.lambda_MuonTightSF(self.MuMuFakeSel[0][0]))*\
+                                                                       reduce(mul,self.lambda_MuonTightSF(self.MuMuFakeSel[0][1])), 
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_lepton_total_SF"] = op.switch(op.rng_len(self.MuMuFakeSel) > 0,
+                                                               reduce(mul,self.lambda_MuonLooseSF(self.MuMuFakeSel[0][0]))* \
+                                                               reduce(mul,self.lambda_MuonLooseSF(self.MuMuFakeSel[0][1]))* \
+                                                               reduce(mul,self.lambda_MuonTightSF(self.MuMuFakeSel[0][0]))* \
+                                                               reduce(mul,self.lambda_MuonTightSF(self.MuMuFakeSel[0][1])),
+                                                               op.c_float(1.))
+                if self.args.Channel == "ElMu":
+                    varsToKeep["weight_electron_id_loose"] = op.switch(op.rng_len(self.ElMuFakeSel) > 0, 
+                                                                       reduce(mul,self.lambda_ElectronLooseSF(self.ElMuFakeSel[0][0])), 
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_muon_idiso_loose"] = op.switch(op.rng_len(self.ElMuFakeSel) > 0,
+                                                                       reduce(mul,self.lambda_MuonLooseSF(self.ElMuFakeSel[0][1])), 
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_electron_tth_tight"] = op.switch(op.rng_len(self.ElMuFakeSel) > 0,
+                                                                       op.switch(op.AND(self.lambda_electronTightSel(self.ElMuFakeSel[0][0]), self.lambda_is_matched(self.ElMuFakeSel[0][0])),
+                                                                                 self.elTightMVA(self.ElMuFakeSel[0][0]),
+                                                                                 op.c_float(1.)),
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_electron_tth_relaxed"] = op.switch(op.rng_len(self.ElMuFakeSel) > 0, 
+                                                                       op.switch(op.AND(self.lambda_electronTightSel(self.ElMuFakeSel[0][0]), self.lambda_is_matched(self.ElMuFakeSel[0][0])),
+                                                                                 self.elRelaxedTightMVA(self.ElMuFakeSel[0][0]),
+                                                                                 op.c_float(1.)),
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_electron_total_tight"] = op.switch(op.rng_len(self.ElMuFakeSel) > 0, 
+                                                                       reduce(mul,self.lambda_ElectronTightSF(self.ElMuFakeSel[0][0])), 
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_muon_tth_tight"] = op.switch(op.rng_len(self.ElMuFakeSel) > 0, 
+                                                                       op.switch(op.AND(self.lambda_muonTightSel(self.ElMuFakeSel[0][1]), self.lambda_is_matched(self.ElMuFakeSel[0][1])),
+                                                                                 self.muTightMVA(self.ElMuFakeSel[0][1]),
+                                                                                 op.c_float(1.)),
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_muon_tth_relaxed"] = op.switch(op.rng_len(self.ElMuFakeSel) > 0, 
+                                                                       op.switch(op.AND(self.lambda_muonTightSel(self.ElMuFakeSel[0][1]), self.lambda_is_matched(self.ElMuFakeSel[0][1])),
+                                                                                 self.muRelaxedTightMVA(self.ElMuFakeSel[0][1]),
+                                                                                 op.c_float(1.)),
+                                                                       self.muRelaxedTightMVA(self.ElMuFakeSel[0][1]), 
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_muon_total_tight"] = op.switch(op.rng_len(self.ElMuFakeSel) > 0, 
+                                                                       reduce(mul,self.lambda_MuonTightSF(self.ElMuFakeSel[0][1])), 
+                                                                       op.c_float(1.))
+                    varsToKeep["weight_lepton_total_SF"] = op.switch(op.rng_len(self.ElMuFakeSel) > 0, 
+                                                               reduce(mul,self.lambda_ElectronLooseSF(self.ElMuFakeSel[0][0]))* \
+                                                               reduce(mul,self.lambda_MuonLooseSF(self.ElMuFakeSel[0][1]))* \
+                                                               reduce(mul,self.lambda_ElectronTightSF(self.ElMuFakeSel[0][0]))* \
+                                                               reduce(mul,self.lambda_MuonTightSF(self.ElMuFakeSel[0][1])),
+                                                               op.c_float(1.))
 
-                varsToKeep["lepton_IDSF_recoToLoose"] = op.rng_product(self.electronsFakeSel, lambda el : reduce(mul,self.lambda_ElectronLooseSF(el))) * \
-                                                        op.rng_product(self.muonsFakeSel, lambda mu : reduce(mul,self.lambda_MuonLooseSF(mu)))
-                varsToKeep["lepton_IDSF_looseToTight"] = op.rng_product(self.electronsFakeSel, lambda el : reduce(mul,self.lambda_ElectronTightSF(el))) * \
-                                                         op.rng_product(self.muonsFakeSel, lambda mu : reduce(mul,self.lambda_MuonTightSF(mu)))
-
-                if not self.inclusive_sel:
-                    if self.args.Channel == "ElEl":
-                        if era == "2016" or era == "2017": 
-                            varsToKeep["weight_electron_reco_low"] = op.multiSwitch((op.AND(self.lambda_is_matched(dilepton[0]),dilepton[0].pt<=20.,self.lambda_is_matched(dilepton[1]),dilepton[1].pt<=20.),
-                                                                                     self.elLooseRecoPtLt20(dilepton[0])*self.elLooseRecoPtLt20(dilepton[1])),
-                                                                                    (op.AND(self.lambda_is_matched(dilepton[0]),dilepton[0].pt<=20.),self.elLooseRecoPtLt20(dilepton[0])),
-                                                                                    (op.AND(self.lambda_is_matched(dilepton[1]),dilepton[1].pt<=20.),self.elLooseRecoPtLt20(dilepton[1])),
-                                                                                    op.c_float(1.))
-                            varsToKeep["weight_electron_reco_high"] = op.multiSwitch((op.AND(self.lambda_is_matched(dilepton[0]),dilepton[0].pt>20.,self.lambda_is_matched(dilepton[1]),dilepton[1].pt>20.),
-                                                                                      self.elLooseRecoPtGt20(dilepton[0])*self.elLooseRecoPtGt20(dilepton[1])),
-                                                                                     (op.AND(self.lambda_is_matched(dilepton[0]),dilepton[0].pt>20.),self.elLooseRecoPtGt20(dilepton[0])),
-                                                                                     (op.AND(self.lambda_is_matched(dilepton[1]),dilepton[1].pt>20.),self.elLooseRecoPtGt20(dilepton[1])),
-                                                                                     op.c_float(1.))
-                        else:
-                            varsToKeep["weight_electron_reco_low"] = op.multiSwitch((op.AND(self.lambda_is_matched(dilepton[0]),self.lambda_is_matched(dilepton[1])),
-                                                                                     self.elLooseReco(dilepton[0])*self.elLooseReco(dilepton[1])),
-                                                                                    (self.lambda_is_matched(dilepton[0]),self.elLooseReco(dilepton[0])),
-                                                                                    (self.lambda_is_matched(dilepton[1]),self.elLooseReco(dilepton[1])),
-                                                                                    op.c_float(1.))
-                            varsToKeep["weight_electron_reco_high"] = op.c_float(1.)
-
-                        varsToKeep["weight_muon_idiso_loose"] = op.c_float(1.)
-                        varsToKeep["weight_electron_id_loose_01"] = op.multiSwitch((op.AND(self.lambda_is_matched(dilepton[0]),self.lambda_is_matched(dilepton[1])),
-                                                                                    self.elLooseEff(dilepton[0])*self.elLooseEff(dilepton[1])),
-                                                                                   (self.lambda_is_matched(dilepton[0]),self.elLooseEff(dilepton[0])),
-                                                                                   (self.lambda_is_matched(dilepton[1]),self.elLooseEff(dilepton[1])),
-                                                                                   op.c_float(1.))
-                        varsToKeep["weight_electron_id_loose_02"] = op.multiSwitch((op.AND(self.lambda_is_matched(dilepton[0]),self.lambda_is_matched(dilepton[1])),
-                                                                                    self.elLooseId(dilepton[0])*self.elLooseId(dilepton[1])),
-                                                                                   (self.lambda_is_matched(dilepton[0]),self.elLooseId(dilepton[0])),
-                                                                                   (self.lambda_is_matched(dilepton[1]),self.elLooseId(dilepton[1])),
-                                                                                   op.c_float(1.))
-                        varsToKeep["weight_electron_tth_loose"] = self.lambda_ElectronTightSF(dilepton[0])[0] * self.lambda_ElectronTightSF(dilepton[1])[0]
-                        varsToKeep["weight_muon_tth_loose"] = op.c_float(1.)
-
-                    if self.args.Channel == "MuMu":
-                        varsToKeep["weight_muon_idiso_loose"] = op.multiSwitch((op.AND(self.lambda_is_matched(dilepton[0]),self.lambda_is_matched(dilepton[1])),
-                                                                                self.muLooseId(dilepton[0])*self.muLooseId(dilepton[1])),
-                                                                                (self.lambda_is_matched(dilepton[0]),self.muLooseId(dilepton[0])),
-                                                                                (self.lambda_is_matched(dilepton[1]),self.muLooseId(dilepton[1])),
-                                                                                op.c_float(1.))
-                        if era == "2016" or era == "2017": 
-                            varsToKeep["weight_electron_reco_low"] = op.c_float(1.)
-                            varsToKeep["weight_electron_reco_high"] = op.c_float(1.)
-                        else:
-                            varsToKeep["weight_electron_reco_low"] = op.c_float(1.)
-                            varsToKeep["weight_electron_reco_high"] = op.c_float(1.)
-                        varsToKeep["weight_electron_id_loose_01"] = op.c_float(1.)
-                        varsToKeep["weight_electron_id_loose_02"] = op.c_float(1.)
-                        varsToKeep["weight_electron_tth_loose"] = op.c_float(1.)
-                        varsToKeep["weight_muon_tth_loose"] = self.lambda_MuonTightSF(dilepton[0])[0] * self.lambda_MuonTightSF(dilepton[1])[0]
-                    if self.args.Channel == "ElMu":
-                        if era == "2016" or era == "2017": 
-                            varsToKeep["weight_electron_reco_low"] = op.switch(op.AND(self.lambda_is_matched(dilepton[0]),dilepton[0].pt<=20.),
-                                                                               self.elLooseRecoPtLt20(dilepton[0]),
-                                                                               op.c_float(1.))
-                            varsToKeep["weight_electron_reco_high"] = op.switch(op.AND(self.lambda_is_matched(dilepton[0]),dilepton[0].pt>20.),
-                                                                                self.elLooseRecoPtGt20(dilepton[0]),
-                                                                                op.c_float(1.))
-                        else:
-                            varsToKeep["weight_electron_reco_low"] = op.c_float(1.)
-                            varsToKeep["weight_electron_reco_high"] = op.switch(self.lambda_is_matched(dilepton[0]),                                                                                        
-                                                                                self.elLooseReco(dilepton[0]),
-                                                                            op.c_float(1.))
-
-                        varsToKeep["weight_muon_idiso_loose"] = op.switch(self.lambda_is_matched(dilepton[1]),
-                                                                          self.muLooseId(dilepton[1]),
-                                                                          op.c_float(1.))
-                        varsToKeep["weight_electron_id_loose_01"] = op.switch(self.lambda_is_matched(dilepton[0]),
-                                                                              self.elLooseEff(dilepton[0]),
-                                                                              op.c_float(1.))
-                        varsToKeep["weight_electron_id_loose_02"] = op.switch(self.lambda_is_matched(dilepton[0]),
-                                                                              self.elLooseId(dilepton[0]),
-                                                                              op.c_float(1.))
-                        varsToKeep["weight_electron_tth_loose"] = self.lambda_ElectronTightSF(dilepton[0])[0]
-                        varsToKeep["weight_muon_tth_loose"] = self.lambda_MuonTightSF(dilepton[1])[0]
 
                 # L1 Prefire #
                 if era in ["2016","2017"]:
@@ -481,17 +511,18 @@ class SkimmerNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
 
             # PU ID SF #
             if self.is_MC:
-                varsToKeep["PU_jetID_SF"] = self.puid_reweighting
+                varsToKeep["weight_jet_PUid"] = self.puid_reweighting
                 varsToKeep["weight_jet_PUid_efficiency"] = self.puid_reweighting_efficiency
                 varsToKeep["weight_jet_PUid_mistag"] = self.puid_reweighting_mistag
 
             # Btagging SF #
             if self.is_MC:
-                varsToKeep["btag_SF"] = self.btagAk4SF
-                varsToKeep["weight_btagWeight"] = self.btagAk4SF
+                #varsToKeep["btag_SF"] = self.btagAk4SF
+                varsToKeep["weight_ak4BtagWeight"] = self.btagAk4SF
                 if "BtagRatioWeight" in self.__dict__.keys():
-                    varsToKeep["btag_ratio_SF"] = self.BtagRatioWeight
-                    varsToKeep["weight_btagNorm"] = self.BtagRatioWeight
+                    #varsToKeep["btag_ratio_SF"] = self.BtagRatioWeight
+                    varsToKeep["weight_ak4BtagNorm"] = self.BtagRatioWeight
+                varsToKeep["weight_ak8BtagWeight"] = self.ak8BtagReweighting
 
             # PS weights #
             if self.is_MC:
@@ -501,9 +532,9 @@ class SkimmerNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
             # PDF weights #
             if self.is_MC:
                 varsToKeep["weight_scaleWeight"] = self.scaleWeight
-                varsToKeep["weight_LHEScaleWeight_len"] = op.static_cast("UInt_t",op.rng_len(t.LHEScaleWeight)) if hasattr(t,'LHEScaleWeight') else op.c_float(-9999)
-                for i in range(0,10):
-                    varsToKeep["weight_LHEScaleWeight_{}".format(i)] = op.switch(op.rng_len(t.LHEScaleWeight)>i, t.LHEScaleWeight[i], op.c_float(-9999)) if hasattr(t,'LHEScaleWeight') else op.c_float(-9999)
+                #varsToKeep["weight_LHEScaleWeight_len"] = op.static_cast("UInt_t",op.rng_len(t.LHEScaleWeight)) if hasattr(t,'LHEScaleWeight') else op.c_float(-9999)
+                #for i in range(0,10):
+                #    varsToKeep["weight_LHEScaleWeight_{}".format(i)] = op.switch(op.rng_len(t.LHEScaleWeight)>i, t.LHEScaleWeight[i], op.c_float(-9999)) if hasattr(t,'LHEScaleWeight') else op.c_float(-9999)
 
 
             # ttbar PT reweighting #
@@ -522,7 +553,10 @@ class SkimmerNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
             if self.is_MC:
                 varsToKeep["MC_weight"] = t.genWeight
                 varsToKeep["PU_weight"] = self.PUWeight
-                varsToKeep["eventWeight"] = noSel.weight if self.inclusive_sel else selObj.sel.weight
+                currentSel = noSel if self.inclusive_sel else selObj.sel
+                varsToKeep["eventWeight"] = currentSel.weight
+                #for i in range(20):
+                #    varsToKeep[f"weight_{i}"] = op.static_cast('float',currentSel.weights[i]) if len(currentSel.weights)>i else op.c_float(-9999.)
 
             if not self.inclusive_sel:
                 import mvaEvaluatorDL_nonres
