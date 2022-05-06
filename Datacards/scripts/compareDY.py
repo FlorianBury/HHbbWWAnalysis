@@ -2,6 +2,7 @@ import os
 import sys
 import glob
 import copy
+import ctypes
 import json 
 import math
 import argparse
@@ -108,13 +109,17 @@ for plotDict in [plotDict_MC,plotDict_DD,plotDict_CL]:
 def plotCategory(C,h_MC,h_DD,h_CL,title='',method=''):
     C.Clear()
 
-    Nerr_MC = ROOT.Double(0.)
-    Nerr_DD = ROOT.Double(0.)
-    Nerr_CL = ROOT.Double(0.)
+    Nerr_MC = ctypes.c_double(0.)
+    Nerr_DD = ctypes.c_double(0.)
+    Nerr_CL = ctypes.c_double(0.)
     N_MC = h_MC.IntegralAndError(0,h_MC.GetNbinsX()+1,Nerr_MC)
     N_DD = h_DD.IntegralAndError(0,h_DD.GetNbinsX()+1,Nerr_DD)
     N_CL = h_CL.IntegralAndError(0,h_CL.GetNbinsX()+1,Nerr_CL)
     
+    Nerr_MC = Nerr_MC.value 
+    Nerr_DD = Nerr_DD.value
+    Nerr_CL = Nerr_CL.value
+
     factor_DD = computeFactor(N_MC,N_DD,Nerr_MC,Nerr_DD)
     factor_CL = computeFactor(N_MC,N_CL,Nerr_MC,Nerr_CL)
 

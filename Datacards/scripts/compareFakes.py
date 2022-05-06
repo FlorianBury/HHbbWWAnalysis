@@ -23,9 +23,6 @@ parser.add_argument('--name', action='store', required=True, type=str,
                     help='Name of the output files')
 args = parser.parse_args()
 
-#if '{era}' not in args.mc:
-#    raise RuntimeError(f'Missing {{era}} in {args.mc}')
-
 factors = {}
 
 plotDict_MC = {}
@@ -46,8 +43,7 @@ for plotName in sorted(plotNames):
     h_MC = f_MC.Get("TT")
     h_CL = f_CL.Get("TT")
 
-    #xn = [0.,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.9,0.95,1.]
-    xn = np.linspace(0,1,50)
+    xn = np.linspace(0,1,21)
 
     h_MC = h_MC.Rebin(len(xn)-1,'rebin',array('d',xn))
     h_CL = h_CL.Rebin(len(xn)-1,'rebin',array('d',xn))
@@ -143,8 +139,9 @@ for cat in categories:
     else:
         cog = h_MC.GetMean() # Center of gravity
         nom = max(0,min(2,N_MC/N_CL))
-        h_MC.Scale(1./N_MC)
-        h_CL.Scale(1./N_CL)
+        #h_MC.Scale(1./N_MC)
+        #h_CL.Scale(1./N_CL)
+        h_CL.Scale(N_MC/N_CL)
 
         
         ratio = h_MC.Clone("ratio")
@@ -177,7 +174,13 @@ for cat in categories:
         pad2.SetLeftMargin(0.1)
         pad2.SetRightMargin(0.05)
         pad2.Draw()
-        
+
+        # compute quantiles for the fit #
+        prob = np.array([0.01,0.99])
+        quantiles = np.array([0.,0.])
+        h_MC.GetQuantiles(2,quantiles,prob)
+        quantiles = quantiles-cog
+
         y_values = getY(ratio)
         edges_cog = getEdges(ratio)-cog
         ratio_cog = ROOT.TH1F("ratio_cog","ratio_cog",edges_cog.shape[0]-1,edges_cog)
@@ -185,13 +188,12 @@ for cat in categories:
             ratio_cog.SetBinContent(i,ratio.GetBinContent(i))
             ratio_cog.SetBinError(i,ratio.GetBinError(i))
         ratio_cog.SetTitle("")
+        ratio_cog.GetYaxis().SetRangeUser(-1,3)
         ratio_cog.GetXaxis().SetTitle("x-#bar{x}")
         ratio_cog.Draw("e1p")
-#        np.testing.assert_allclose(x_values - cog,getX(ratio_cog))
-#        np.testing.assert_allclose(y_values ,getY(ratio_cog))
 
-        #slope, _ = np.polyfit(x_values - cog, y_values, 1) 
-        ratio_cog.Fit("pol1","QS","")
+        ratio_cog.Fit("pol1","QRS","",quantiles[0],quantiles[1])
+        #ratio_cog.Fit("pol1","QRS","")
         fit = ratio_cog.GetFunction('pol1')
         slope = fit.GetParameter(1)
         k = fit.GetParameter(0)
