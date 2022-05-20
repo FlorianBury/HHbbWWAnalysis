@@ -5,6 +5,7 @@ import argparse
 import pandas as pd
 import time
 import curses
+from IPython import embed
 
 
 parser = argparse.ArgumentParser(description='Utility to monirot jobs')
@@ -40,9 +41,11 @@ def parse_sacct(args):
 
     dict_jobs = {'jobid':[],'array':[],'status':[],'partition':[]}
     prev_j = None
+    pending_flag = True
     for line in out.decode("utf-8").splitlines():
         j, s, p = line.split()
         arrs = []
+        parts = []
         if '_' in j:
             j, a = j.split('_')
             if j != prev_j: 
@@ -54,14 +57,16 @@ def parse_sacct(args):
                     outs,_ = ps.communicate()
                     for pline in outs.decode("utf-8").splitlines():
                         arrs.append(pline.split()[0].split('_')[1])
+                        parts.append(pline.split()[1])
                     pending_flag = False
                 else:
                     continue
             else:
                 arrs.append(a)
+                parts.append(p)
         else:
             arrs = [1]
-        for a in arrs:
+        for a,p in zip(arrs,parts):
             dict_jobs['jobid'].append(j)
             dict_jobs['array'].append(a)
             dict_jobs['status'].append(s)
