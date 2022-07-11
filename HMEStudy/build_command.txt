@@ -1,0 +1,3 @@
+cd build; cmake -DCMAKE_BUILD_TYPE=Release -Dbamboo_DIR=$(python -c 'from pkg_resources import resource_filename; print(resource_filename("bamboo", "cmake"))')  ..; make
+
+verbose : -DCMAKE_CXX_FLAGS='-DHME_DEBUG=1' 
