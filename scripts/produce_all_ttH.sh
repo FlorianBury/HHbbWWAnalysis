@@ -60,6 +60,7 @@ python extractTTHSingleLeptonTriggerScaleFactorsFromRoot.py -s SingleMuon_2018 -
 #python extractTTHFakeRates.py --era 2017 --file ../data/FakeRates/2017/FR_lep_ttH_mva_2017_CERN_2019Jul08.root --wp Tight
 #python extractTTHFakeRates.py --era 2018 --file ../data/FakeRates/2018/FR_lep_ttH_mva_2018_CERN_2019Jul08.root --wp Tight
 
+# First version : grouped systematics into three categories (-> deprecated)
 python extractTTHFakeRates.py --era 2016 --file ../data/FakeRates/2016/FR_lep_mva_hh_multilepton_wFullSyst_2016_KBFI_2020Dec21_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel DL 
 python extractTTHFakeRates.py --era 2017 --file ../data/FakeRates/2017/FR_lep_mva_hh_multilepton_wFullSyst_2017_KBFI_2020Dec21_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel DL
 python extractTTHFakeRates.py --era 2018 --file ../data/FakeRates/2018/FR_lep_mva_hh_multilepton_wFullSyst_2018_KBFI_2020Dec21_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel DL
@@ -71,3 +72,16 @@ python extractTTHFakeRates.py --era 2018 --file ../data/FakeRates/2018/FR_lep_mv
 python extractTTHFakeRates.py --era 2016 --file ../data/FakeRates/2016/FR_lep_mva_hh_bbWW_wFullSyst_2016_KBFI_2021Feb3_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel SL --type mc
 python extractTTHFakeRates.py --era 2017 --file ../data/FakeRates/2017/FR_lep_mva_hh_bbWW_wFullSyst_2017_KBFI_2021Feb3_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel SL --type mc
 python extractTTHFakeRates.py --era 2018 --file ../data/FakeRates/2018/FR_lep_mva_hh_bbWW_wFullSyst_2018_KBFI_2021Feb3_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel SL --type mc
+
+# Second version : One systematic per |eta| and pt region -> 6 for SL, 10 for DL (x2 lepton channels)
+python extractTTHFakeRates_v2.py --era 2016 --file ../data/FakeRates/2016/FR_lep_mva_hh_multilepton_wFullSyst_2016_KBFI_2020Dec21_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel DL 
+python extractTTHFakeRates_v2.py --era 2017 --file ../data/FakeRates/2017/FR_lep_mva_hh_multilepton_wFullSyst_2017_KBFI_2020Dec21_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel DL
+python extractTTHFakeRates_v2.py --era 2018 --file ../data/FakeRates/2018/FR_lep_mva_hh_multilepton_wFullSyst_2018_KBFI_2020Dec21_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel DL
+
+python extractTTHFakeRates_v2.py --era 2016 --file ../data/FakeRates/2016/FR_lep_mva_hh_bbWW_wFullSyst_2016_KBFI_2021Feb3_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel SL
+python extractTTHFakeRates_v2.py --era 2017 --file ../data/FakeRates/2017/FR_lep_mva_hh_bbWW_wFullSyst_2017_KBFI_2021Feb3_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel SL
+python extractTTHFakeRates_v2.py --era 2018 --file ../data/FakeRates/2018/FR_lep_mva_hh_bbWW_wFullSyst_2018_KBFI_2021Feb3_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel SL
+
+python extractTTHFakeRates_v2.py --era 2016 --file ../data/FakeRates/2016/FR_lep_mva_hh_bbWW_wFullSyst_2016_KBFI_2021Feb3_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel SL --type mc
+python extractTTHFakeRates_v2.py --era 2017 --file ../data/FakeRates/2017/FR_lep_mva_hh_bbWW_wFullSyst_2017_KBFI_2021Feb3_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel SL --type mc
+python extractTTHFakeRates_v2.py --era 2018 --file ../data/FakeRates/2018/FR_lep_mva_hh_bbWW_wFullSyst_2018_KBFI_2021Feb3_wCERNUncs2_FRErrTheshold_0p01.root --wp Loose --channel SL --type mc
