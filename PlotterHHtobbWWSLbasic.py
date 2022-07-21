@@ -51,7 +51,7 @@ class PlotterNanoHHtobbWWSL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
             plots.extend(self.base_plots)
 
         #----- Machine Learning Model -----#                
-        model_num = "02"
+        model_num = "03"
         path_model = os.path.join(os.path.abspath(os.path.dirname(__file__)),'MachineLearning','ml-models','models','multi-classification','dnn','SL',model_num,'model','model.pb')
         input_names = ["lep","jet","fat","met","nu","hl","param","eventnr"]
         output_name = "Identity"
