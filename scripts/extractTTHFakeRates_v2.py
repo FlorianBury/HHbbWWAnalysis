@@ -28,11 +28,9 @@ if args.wp == "Loose":
     if args.type == 'data':
         el_nom = f.Get('FR_mva030_el_data_comb')
         mu_nom = f.Get('FR_mva050_mu_data_comb')
-        suffix = 'data'
     if args.type == 'mc':
         el_nom = f.Get('FR_mva030_el_data_comb_QCD_fakes')
         mu_nom = f.Get('FR_mva050_mu_data_comb_QCD_fakes')
-        suffix = 'mc'
             
         
 
@@ -62,7 +60,7 @@ def getValues(h,lepton):
             for ykey in data_dict.keys():
                 ydict = {'bin':ykey,'values':[]}
                 for xkey in data_dict[ykey].keys():
-                    if xedges == xkey and yedges == ykey:
+                    if xedges == xkey and yedges == ykey or args.type == 'mc':
                         content,error = data_dict[ykey][xkey]
                         if args.channel == "SL":
                             content = min(content,0.99) # clipping
@@ -75,11 +73,16 @@ def getValues(h,lepton):
 
                 data.append(ydict)
             json_content = {'dimension': 2, 'variables': ['AbsEta', 'Pt'], 'binning': {'x': ybinning, 'y': xbinning}, 'data': data, 'error_type': 'absolute'}
-            syst_suffix = f"abseta_{yedges[0]}_{yedges[1]}_pt_{xedges[0]}_{xedges[1]}".replace('.','p')
-            filename = f'TTHFakeRates_{suffix}_{args.wp}MVA_{args.channel}_{lepton}_{args.era}_{syst_suffix}.json'
+            if args.type == 'mc':
+                syst_suffix = f"QCD"
+            else:
+                syst_suffix = f"abseta_{yedges[0]}_{yedges[1]}_pt_{xedges[0]}_{xedges[1]}".replace('.','p')
+            filename = f'TTHFakeRates_{args.type}_{args.wp}MVA_{args.channel}_{lepton}_{args.era}_{syst_suffix}.json'
             with open(filename, 'w') as j:
                 json.dump(json_content, j, indent=2)
             print ("Created file %s"%filename)
+            if args.type == 'mc':
+                break
 
 getValues(el_nom,"Electron")
 getValues(mu_nom,"Muon")
