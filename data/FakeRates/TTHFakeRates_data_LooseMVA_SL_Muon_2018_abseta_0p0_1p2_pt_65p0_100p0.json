@@ -1,0 +1,93 @@
+{
+  "dimension": 2,
+  "variables": [
+    "AbsEta",
+    "Pt"
+  ],
+  "binning": {
+    "x": [
+      0.0,
+      1.2,
+      2.4
+    ],
+    "y": [
+      25.0,
+      45.0,
+      65.0,
+      100.0
+    ]
+  },
+  "data": [
+    {
+      "bin": [
+        0.0,
+        1.2
+      ],
+      "values": [
+        {
+          "bin": [
+            25.0,
+            45.0
+          ],
+          "value": 1.0,
+          "error_low": 0.0,
+          "error_high": 0.0
+        },
+        {
+          "bin": [
+            45.0,
+            65.0
+          ],
+          "value": 1.0,
+          "error_low": 0.0,
+          "error_high": 0.0
+        },
+        {
+          "bin": [
+            65.0,
+            100.0
+          ],
+          "value": 0.3826879271070615,
+          "error_low": 0.01696356484561962,
+          "error_high": 0.01696356484561962
+        }
+      ]
+    },
+    {
+      "bin": [
+        1.2,
+        2.4
+      ],
+      "values": [
+        {
+          "bin": [
+            25.0,
+            45.0
+          ],
+          "value": 1.0,
+          "error_low": 0.0,
+          "error_high": 0.0
+        },
+        {
+          "bin": [
+            45.0,
+            65.0
+          ],
+          "value": 1.0,
+          "error_low": 0.0,
+          "error_high": 0.0
+        },
+        {
+          "bin": [
+            65.0,
+            100.0
+          ],
+          "value": 1.0,
+          "error_low": 0.0,
+          "error_high": 0.0
+        }
+      ]
+    }
+  ],
+  "error_type": "absolute"
+}
