@@ -19,8 +19,9 @@ from BaseHHtobbWW import BaseNanoHHtobbWW
 from plotDef import *
 from selectionDef import *
 from JPA import *
-import mvaEvaluatorSL_nonres_DNN01 as mva01
-import mvaEvaluatorSL_nonres_DNN02 as mva02
+#import mvaEvaluatorSL_nonres_DNN01 as mva01
+#import mvaEvaluatorSL_nonres_DNN02 as mva02
+import mvaEvaluatorSL_nonres_DNN03 as mva03
 from DDHelper import DataDrivenFake, DataDrivenDY
 from bamboo.root import gbl
 import ROOT
@@ -40,9 +41,6 @@ class PlotterNanoHHtobbWWSL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
         if "FakeExtrapolation" in self.datadrivenContributions:
             contrib = self.datadrivenContributions["FakeExtrapolation"]
             self.datadrivenContributions["FakeExtrapolation"] = DataDrivenFake(contrib.name, contrib.config)
-        if "DYEstimation" in self.datadrivenContributions: 
-            contrib = self.datadrivenContributions["DYEstimation"]
-            self.datadrivenContributions["DYEstimation"] = DataDrivenDY(contrib.name, contrib.config,"PseudoData" in self.datadrivenContributions)
 
     def definePlots(self, t, noSel, sample=None, sampleCfg=None): 
         noSel = super(PlotterNanoHHtobbWWSL,self).prepareObjects(t, noSel, sample, sampleCfg, 'SL')
@@ -82,8 +80,8 @@ class PlotterNanoHHtobbWWSL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
         ElSelObj,MuSelObj = makeSingleLeptonSelection(self,noSel,plot_yield=True,use_dd=True,fake_selection=self.args.FakeCR)
 
         #----- Apply jet corrections -----#
-        self.beforeJetselection(ElSelObj.sel,'El')
-        self.beforeJetselection(MuSelObj.sel,'Mu')
+        self.beforeJetselection(ElSelObj,'El')
+        self.beforeJetselection(MuSelObj,'Mu')
 
         # selObjectDict : keys -> level (str)
         #                 values -> [El,Mu] x Selection object
@@ -197,33 +195,31 @@ class PlotterNanoHHtobbWWSL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                 #addPrintout(ElSelObjResolved1b.sel, "bamboo_printEntry", op.extVar("ULong_t", "rdfentry_"), t.event)
                 #addPrintout(MuSelObjResolved1b.sel, "bamboo_printEntry", op.extVar("ULong_t", "rdfentry_"), t.event)
                 
-                if not self.args.OnlyYield:
-                    ChannelDictListR.append({'channel':'El','selObj':ElSelObjResolved1b,'sel':ElSelObjResolved1b.sel,
-                                             'lepton':ElColl[0],'jets':self.ak4Jets,
-                                             'bjets':self.bJetsByScore,'wjets':self.wJetsByPt,
-                                             'nJet':op.static_cast("UInt_t",op.rng_len(self.ak4Jets)),'nbJet':1,
-                                             'suffix':ElSelObjResolved1b.selName,
-                                             'is_MC':self.is_MC})
-                    ChannelDictListR.append({'channel':'Mu','selObj':MuSelObjResolved1b,'sel':MuSelObjResolved1b.sel,
-                                             'lepton':MuColl[0],'jets':self.ak4Jets,
-                                             'bjets':self.bJetsByScore,'wjets':self.wJetsByPt,
-                                             'nJet':op.static_cast("UInt_t",op.rng_len(self.ak4Jets)),'nbJet':1,
-                                             'suffix':MuSelObjResolved1b.selName,
-                                             'is_MC':self.is_MC})
-            '''
-            for channelDict in ChannelDictListR:
-                # Singlelepton #
-                #plots.extend(makeSinleptonPlots(**{k:channelDict[k] for k in LeptonKeys}))
-                # Number of jets #
-                #plots.append(objectsNumberPlot(**{k:channelDict[k] for k in commonItems},**JetsN))
-                #plots.append(objectsNumberPlot(**{k:channelDict[k] for k in commonItems},**FatJetsN))
-                # Ak4 Jets #
-                #plots.extend(makeAk4JetsPlots(**{k:channelDict[k] for k in JetKeys},HLL=self.HLL))
-                # MET #
-                #plots.extend(makeMETPlots(**{k:channelDict[k] for k in commonItems}, met=self.corrMET))
-                # High level #
-                ##plots.extend(makeHighLevelPlotsResolved(**{k:channelDict[k] for k in ResolvedKeys},HLL=self.HLL))
-            '''
+#                if not self.args.OnlyYield:
+#                    ChannelDictListR.append({'channel':'El','selObj':ElSelObjResolved1b,'sel':ElSelObjResolved1b.sel,
+#                                             'lepton':ElColl[0],'jets':self.ak4Jets,
+#                                             'bjets':self.bJetsByScore,'wjets':self.wJetsByPt,
+#                                             'nJet':op.static_cast("UInt_t",op.rng_len(self.ak4Jets)),'nbJet':1,
+#                                             'suffix':ElSelObjResolved1b.selName,
+#                                             'is_MC':self.is_MC})
+#                    ChannelDictListR.append({'channel':'Mu','selObj':MuSelObjResolved1b,'sel':MuSelObjResolved1b.sel,
+#                                             'lepton':MuColl[0],'jets':self.ak4Jets,
+#                                             'bjets':self.bJetsByScore,'wjets':self.wJetsByPt,
+#                                             'nJet':op.static_cast("UInt_t",op.rng_len(self.ak4Jets)),'nbJet':1,
+#                                             'suffix':MuSelObjResolved1b.selName,
+#                                             'is_MC':self.is_MC})
+#            for channelDict in ChannelDictListR:
+#                # Singlelepton #
+#                plots.extend(makeSinleptonPlots(**{k:channelDict[k] for k in LeptonKeys}))
+#                # Number of jets #
+#                plots.append(objectsNumberPlot(**{k:channelDict[k] for k in commonItems},**JetsN))
+#                plots.append(objectsNumberPlot(**{k:channelDict[k] for k in commonItems},**FatJetsN))
+#                # Ak4 Jets #
+#                plots.extend(makeAk4JetsPlots(**{k:channelDict[k] for k in JetKeys},HLL=self.HLL))
+#                # MET #
+#                plots.extend(makeMETPlots(**{k:channelDict[k] for k in commonItems}, met=self.corrMET))
+#                # High level #
+#                plots.extend(makeHighLevelPlotsResolved(**{k:channelDict[k] for k in ResolvedKeys},HLL=self.HLL))
 
         # ========================== Boosted Categories ========================= #
         if any(item in boosted_args for item in jetsel_level):
@@ -248,37 +244,35 @@ class PlotterNanoHHtobbWWSL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                 self.yields.add(ElSelObjBoosted.sel)
                 self.yields.add(MuSelObjBoosted.sel)
 
-            #addPrintout(ElSelObjBoosted.sel, "bamboo_printEntry", op.extVar("ULong_t", "rdfentry_"), t.event)
-            #addPrintout(MuSelObjBoosted.sel, "bamboo_printEntry", op.extVar("ULong_t", "rdfentry_"), t.event)
-
-            if not self.args.OnlyYield:
-                ChannelDictListB.append({'channel':'El','selObj':ElSelObjBoosted, 'sel':ElSelObjBoosted.sel,
-                                         'lep':ElColl[0],'met':self.corrMET,'jets':self.ak4JetsCleanedFromAk8b,
-                                         'jet1':self.ak8BJets[0],'jet2':None,'jet3':self.ak4JetsCleanedFromAk8b[0],'jet4':self.ak4JetsCleanedFromAk8b[1],
-                                         'has1fat1slim':False,'has1fat2slim':True,'bothAreFat':False,
-                                         'suffix':ElSelObjBoosted.selName,
-                                         'is_MC':self.is_MC, 'jpaArg':'Hbb2Wj'})
-                ChannelDictListB.append({'channel':'Mu','selObj':MuSelObjBoosted,'sel':MuSelObjBoosted.sel,
-                                         'lep':MuColl[0],'met':self.corrMET,'jets':self.ak4JetsCleanedFromAk8b,
-                                         'jet1':self.ak8BJets[0],'jet2':None,'jet3':self.ak4JetsCleanedFromAk8b[0],'jet4':self.ak4JetsCleanedFromAk8b[1],
-                                         'has1fat1slim':False,'has1fat2slim':True,'bothAreFat':False,
-                                         'suffix':MuSelObjBoosted.selName,
-                                         'is_MC':self.is_MC, 'jpaArg':'Hbb2Wj'})
-                
-            '''
-            for channelDict in ChannelDictListB:
-                # Dilepton #
-                #plots.extend(makeSinleptonPlots(**{k:channelDict[k] for k in LeptonKeys}))
-                # Number of jets #
-                ##plots.append(objectsNumberPlot(**{k:channelDict[k] for k in commonItems},**FatJetsN))
-                ##plots.append(objectsNumberPlot(**{k:channelDict[k] for k in commonItems},**SlimJetsN))
-                # Ak8 Jets #
-                #plots.extend(makeSingleLeptonAk8JetsPlots(**{k:channelDict[k] for k in FatJetKeys},nMedBJets=self.nMediumBTaggedSubJets, HLL=self.HLL))
-                # MET #
-                #plots.extend(makeMETPlots(**{k:channelDict[k] for k in commonItems}, met=self.corrMET))
-                # HighLevel #
-                ##plots.extend(makeHighLevelPlotsBoosted(**{k:channelDict[k] for k in BoostedKeys}, HLL=self.HLL))
-            '''
+#            #addPrintout(ElSelObjBoosted.sel, "bamboo_printEntry", op.extVar("ULong_t", "rdfentry_"), t.event)
+#            #addPrintout(MuSelObjBoosted.sel, "bamboo_printEntry", op.extVar("ULong_t", "rdfentry_"), t.event)
+#
+#            if not self.args.OnlyYield:
+#                ChannelDictListB.append({'channel':'El','selObj':ElSelObjBoosted, 'sel':ElSelObjBoosted.sel,
+#                                         'lep':ElColl[0],'met':self.corrMET,'jets':self.ak4JetsCleanedFromAk8b,
+#                                         'jet1':self.ak8BJets[0],'jet2':None,'jet3':self.ak4JetsCleanedFromAk8b[0],'jet4':self.ak4JetsCleanedFromAk8b[1],
+#                                         'has1fat1slim':False,'has1fat2slim':True,'bothAreFat':False,
+#                                         'suffix':ElSelObjBoosted.selName,
+#                                         'is_MC':self.is_MC, 'jpaArg':'Hbb2Wj'})
+#                ChannelDictListB.append({'channel':'Mu','selObj':MuSelObjBoosted,'sel':MuSelObjBoosted.sel,
+#                                         'lep':MuColl[0],'met':self.corrMET,'jets':self.ak4JetsCleanedFromAk8b,
+#                                         'jet1':self.ak8BJets[0],'jet2':None,'jet3':self.ak4JetsCleanedFromAk8b[0],'jet4':self.ak4JetsCleanedFromAk8b[1],
+#                                         'has1fat1slim':False,'has1fat2slim':True,'bothAreFat':False,
+#                                         'suffix':MuSelObjBoosted.selName,
+#                                         'is_MC':self.is_MC, 'jpaArg':'Hbb2Wj'})
+#                
+#            for channelDict in ChannelDictListB:
+#                # Dilepton #
+#                plots.extend(makeSinleptonPlots(**{k:channelDict[k] for k in LeptonKeys}))
+#                # Number of jets #
+#                plots.append(objectsNumberPlot(**{k:channelDict[k] for k in commonItems},**FatJetsN))
+#                plots.append(objectsNumberPlot(**{k:channelDict[k] for k in commonItems},**SlimJetsN))
+#                # Ak8 Jets #
+#                plots.extend(makeSingleLeptonAk8JetsPlots(**{k:channelDict[k] for k in FatJetKeys},nMedBJets=self.nMediumBTaggedSubJets, HLL=self.HLL))
+#                # MET #
+#                plots.extend(makeMETPlots(**{k:channelDict[k] for k in commonItems}, met=self.corrMET))
+#                # HighLevel #
+#                plots.extend(makeHighLevelPlotsBoosted(**{k:channelDict[k] for k in BoostedKeys}, HLL=self.HLL))
 
         # ML
         self.nodes = ['GGF','VBF','TT','ST','WJets','H','Other']
@@ -305,20 +299,20 @@ class PlotterNanoHHtobbWWSL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
             inputsParam   = mvaEvaluatorSL_nonres_DNN01.returnParamMVAInputs    (self)
             inputsEventNr = mvaEvaluatorSL_nonres_DNN01.returnEventNrMVAInputs  (self,t)
             '''
-            inputsLeps   = mva02.returnLeptonsMVAInputs   (self  = self, lep  = lepton, conep4 = lepconep4)
-            inputsJets   = mva02.returnJetsMVAInputs      (self  = self, bjets = self.bJetsByScore, jets = self.probableWJets)
-            inputsMET    = mva02.returnMETMVAInputs       (self  = self, met  = self.corrMET)
-            inputsFatjet = mva02.returnFatjetMVAInputs    (self  = self, fatbjets = self.ak8BJets)
-            inputNeu     = mva02.returnNuMVAInputs        (self  = self)
-            inputsHL     = mva02.returnHighLevelMVAInputs (self  = self,
+            inputsLeps   = mva03.returnLeptonsMVAInputs   (self  = self, lep  = lepton, conep4 = lepconep4)
+            inputsJets   = mva03.returnJetsMVAInputs      (self  = self, bjets = self.bJetsByScore, jets = self.probableWJets)
+            inputsMET    = mva03.returnMETMVAInputs       (self  = self, met  = self.corrMET)
+            inputsFatjet = mva03.returnFatjetMVAInputs    (self  = self, fatbjets = self.ak8BJets)
+            inputNeu     = mva03.returnNuMVAInputs        (self  = self)
+            inputsHL     = mva03.returnHighLevelMVAInputs (self  = self,
                                                            lep   = lepton,
                                                            conep4 = lepconep4,
                                                            bjets = self.bJetsByScore,
                                                            wjets = self.wJetsByPt,
                                                            VBFJetPairs = vbf,
                                                            channel   = selObjectDict['channel'])
-            inputsParam   = mva02.returnParamMVAInputs    (self)
-            inputsEventNr = mva02.returnEventNrMVAInputs  (self,t)
+            inputsParam   = mva03.returnParamMVAInputs    (self)
+            inputsEventNr = mva03.returnEventNrMVAInputs  (self,t)
             print ("Lepton variables : %d"%len(inputsLeps))                                 
             print ("Jet variables    : %d"%len(inputsJets))
             print ("Fatjet variables : %d"%len(inputsFatjet))                       
@@ -328,23 +322,23 @@ class PlotterNanoHHtobbWWSL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
             print ("Param variables  : %d"%len(inputsParam)) 
             print ("Event variables  : %d"%len(inputsEventNr))
             
-            plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsLeps))
-            plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsJets)) 
-            plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsFatjet))
-            plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsMET)) 
-            plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputNeu)) 
-            plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsHL)) 
-            plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsParam)) 
-            plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsEventNr))
+            #plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsLeps))
+            #plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsJets)) 
+            #plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsFatjet))
+            #plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsMET)) 
+            #plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputNeu)) 
+            #plots.extend(makeSingleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsHL)) 
+            #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsParam)) 
+            #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsEventNr))
 
-            inputs = [op.array("double",*mva02.inputStaticCast(inputsLeps,"float")),
-                      op.array("double",*mva02.inputStaticCast(inputsJets,"float")),
-                      op.array("double",*mva02.inputStaticCast(inputsFatjet,"float")),
-                      op.array("double",*mva02.inputStaticCast(inputsMET,"float")),
-                      op.array("double",*mva02.inputStaticCast(inputNeu,"float")),
-                      op.array("double",*mva02.inputStaticCast(inputsHL,"float")),
-                      op.array("double",*mva02.inputStaticCast(inputsParam,"float")),
-                      op.array("long",*mva02.inputStaticCast(inputsEventNr,"long"))]
+            inputs = [op.array("double",*mva03.inputStaticCast(inputsLeps,"float")),
+                      op.array("double",*mva03.inputStaticCast(inputsJets,"float")),
+                      op.array("double",*mva03.inputStaticCast(inputsFatjet,"float")),
+                      op.array("double",*mva03.inputStaticCast(inputsMET,"float")),
+                      op.array("double",*mva03.inputStaticCast(inputNeu,"float")),
+                      op.array("double",*mva03.inputStaticCast(inputsHL,"float")),
+                      op.array("double",*mva03.inputStaticCast(inputsParam,"float")),
+                      op.array("long",*mva03.inputStaticCast(inputsEventNr,"long"))]
             
             output = DNN(*inputs)
             selObjNodesDict = makeDNNOutputNodesSelections(self,selObjectDict['selObject'],output,suffix=model_num)
