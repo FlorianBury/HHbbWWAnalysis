@@ -12,6 +12,7 @@ with open(input_json,"r") as handle:
 d = {}
 for cat,val in factors.items():
     u = min(0.99,max(0,abs(1-val)))
+    print (cat,val,u)
     era = None
     if '2016' in cat:
         era = '2016'
@@ -19,11 +20,11 @@ for cat,val in factors.items():
         era = '2017'
     if '2018' in cat:
         era = '2018'
-    entry = {'hist':cat,'proc':'DY','val':[round(1-u,3),round(1+u,3)]}
+    entry = {'cat':cat,'group':'DY','val':[round(1-u,3),round(1+u,3)]}
     if era is not None:
         entry['era'] = era
-        entry['hist'] = entry['hist'].replace('_'+era,'')
-    d[cat.replace('HH_','CMS_bbwwdl_DYEstimation_nonclosure_')] = entry
+        entry['cat'] = entry['cat'].replace('_'+era,'')
+    d[cat.replace('HH_','CMS_bbwwdl_DY_ncc_').replace('DL_','')] = entry
 with open(output_yaml,'w') as handle:
     yaml.dump(d,handle)
 
