@@ -1,0 +1,2903 @@
+#########################################################
+###                     LIMITS                        ###
+#########################################################
+  limits_DL:
+    mode: limits
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters kl=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  limits_SL:
+    mode: limits
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters kl=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125"
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+  limits_comb:
+    mode: limits
+    command: "combine -M AsymptoticLimits  --redefineSignalPOIs r --setParameters kl=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125"
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+#########################################################
+###                      VBF                          ###
+#########################################################
+  limits_VBF_DL:
+    mode: limits
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r_qqhh --setParameters kl=1.0,r=1.0,r_gghh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,kl,kt,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  limits_VBF_SL:
+    mode: limits
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r_qqhh --setParameters kl=1.0,r=1.0,r_gghh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,kl,kt,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+  limits_VBF_comb:
+    mode: limits
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r_qqhh --setParameters kl=1.0,r=1.0,r_gghh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,kl,kt,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+#########################################################
+###                       C2                          ###
+#########################################################
+  limits_C2_DL:
+    mode: limits
+    command: "combine -M AsymptoticLimits  --redefineSignalPOIs r --setParameters kl=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0,C2=0.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V,C2 --mass 125"
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model_C2.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  limits_C2_SL:
+    mode: limits
+    command: "combine -M AsymptoticLimits  --redefineSignalPOIs r --setParameters kl=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0,C2=0.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V,C2 --mass 125"
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model_C2.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+  limits_C2_comb:
+    mode: limits
+    command: "combine -M AsymptoticLimits  --redefineSignalPOIs r --setParameters kl=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0,C2=0.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V,C2 --mass 125"
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model_C2.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+
+#########################################################
+###                    LIMIT SCAN                     ###
+#########################################################
+
+###################### SCAN KL ######################
+  limits_scan_kl_DL:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kt,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'kl'
+          start:  -25.
+          stop:   25.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  limits_scan_kl_SL:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kt,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'kl'
+          start:  -25.
+          stop:   25.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  limits_scan_kl_comb:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kt,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'kl'
+          start:  -25.
+          stop:   25.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+###################### SCAN KT ######################
+  limits_scan_kt_DL:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters r_gghh=1.0,r_qqhh=1.0,kl=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'kt'
+          start:  -5.
+          stop:   5.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  limits_scan_kt_SL:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters r_gghh=1.0,r_qqhh=1.0,kl=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'kt'
+          start:  -5.
+          stop:   5.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  limits_scan_kt_comb:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters r_gghh=1.0,r_qqhh=1.0,kl=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'kt'
+          start:  -25.
+          stop:   25.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+###################### SCAN K2V ######################
+  limits_scan_k2V_DL:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r_qqhh --setParameters r=1.0,r_gghh=1.0,kt=1.0,kl=1.0,CV=1.0 --freezeParameters r,r_gghh,kl,kt,CV --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r_qqhh'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'C2V'
+          start:  -4.
+          stop:   6.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  limits_scan_k2V_SL:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r_qqhh --setParameters r=1.0,r_gghh=1.0,kt=1.0,kl=1.0,CV=1.0 --freezeParameters r,r_gghh,kl,kt,CV --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r_qqhh'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'C2V'
+          start:  -4.
+          stop:   6.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  limits_scan_k2V_comb:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r_qqhh --setParameters r=1.0,r_gghh=1.0,kt=1.0,kl=1.0,CV=1.0 --freezeParameters r,r_gghh,kl,kt,CV --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r_qqhh'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'C2V'
+          start:  -4.
+          stop:   6.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+###################### SCAN KV ######################
+  limits_scan_kV_DL:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r_qqhh --setParameters r=1.0,r_gghh=1.0,kt=1.0,kl=1.0,CV=1.0 --freezeParameters r,r_gghh,kl,kt,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r_qqhh'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'CV'
+          start:  -5.
+          stop:   5.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  limits_scan_kV_SL:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r_qqhh --setParameters r=1.0,r_gghh=1.0,kt=1.0,kl=1.0,CV=1.0 --freezeParameters r,r_gghh,kl,kt,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r_qqhh'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'CV'
+          start:  -5.
+          stop:   5.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  limits_scan_kV_comb:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r_qqhh --setParameters r=1.0,r_gghh=1.0,kt=1.0,kl=1.0,CV=1.0 --freezeParameters r,r_gghh,kl,kt,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      poi: 'r_qqhh'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'CV'
+          start:  -5.
+          stop:   5.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+
+###################### SCAN C2 ######################
+  limits_scan_C2_DL:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters r_gghh=1.0,r_qqhh=1.0,kl=1.0,CV=1.0,C2V=1.0,C2=0.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model_C2.yml
+    scan:
+      poi: 'r'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'C2'
+          start:  -5.
+          stop:   5.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  limits_scan_C2_SL:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters r_gghh=1.0,r_qqhh=1.0,kl=1.0,CV=1.0,C2V=1.0,C2=0.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model_C2.yml
+    scan:
+      poi: 'r'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'C2'
+          start:  -5.
+          stop:   5.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  limits_scan_C2_comb:
+    mode: limits_scan
+    command: "combine -M AsymptoticLimits --redefineSignalPOIs r --setParameters r_gghh=1.0,r_qqhh=1.0,kl=1.0,CV=1.0,C2V=1.0,C2=0.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125 "
+    unblind: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 9000
+    physics: !include physics_model_C2.yml
+    scan:
+      poi: 'r'
+      unit: 'fb'
+      show_theory: True
+      parameters: 
+        - name:   'C2'
+          start:  -5.
+          stop:   5.
+          points: 51
+    plotting:
+      y_log: True
+      show_points: False
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+
+
+#########################################################
+###                 LIKELIHOOD SCAN                   ###
+#########################################################
+
+################### SCAN KL ###################
+  likelihood_scan_kl_DL:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs kl --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kt,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'kl'
+          start:  -25.
+          stop:   25.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  likelihood_scan_kl_SL:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs kl --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kt,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'kl'
+          start:  -25.
+          stop:   25.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  likelihood_scan_kl_comb:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs kl --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kt,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'kl'
+          start:  -25.
+          stop:   25.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+################### SCAN KT ###################
+  likelihood_scan_kt_DL:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs kt --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'kl'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  likelihood_scan_kt_SL:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs kt --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'kt'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      shift_negative_values: True
+      y_max: 10
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  likelihood_scan_kt_comb:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs kt --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'kl'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      shift_negative_values: True
+      y_max: 10
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+################### SCAN K2V ###################
+  likelihood_scan_k2V_DL:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs C2V --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,kt,CV --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'C2V'
+          start:  -4.
+          stop:   6.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  likelihood_scan_k2V_SL:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs C2V --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,kt,CV --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'C2V'
+          start:  -4.
+          stop:   6.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  likelihood_scan_k2V_comb:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs C2V --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,kt,CV --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'C2V'
+          start:  -4.
+          stop:   6.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+################### SCAN KV ###################
+  likelihood_scan_kV_DL:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs CV --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,kt,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'CV'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  likelihood_scan_kV_SL:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs CV --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,kt,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'CV'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  likelihood_scan_kV_comb:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs CV --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,kt,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'CV'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 1.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+###################### SCAN C2 ######################
+  likelihood_scan_C2_DL:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs C2 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model_C2.yml
+    scan:
+      parameters: 
+        - name:   'C2'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 0.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      y_max: 10
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  likelihood_scan_C2_SL:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs C2 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model_C2.yml
+    scan:
+      parameters: 
+        - name:   'C2'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 0.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      show_points: False
+      shift_negative_values: True
+      y_max: 10
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  likelihood_scan_C2_comb:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs C2 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model_C2.yml
+    scan:
+      parameters: 
+        - name:   'C2'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 0.
+    plotting:
+      y_log: False
+      show_best_fit: True
+      show_best_fit_error: True
+      show_best_fit_line: False
+      show_best_fit_indicators: True
+      shift_negative_values: True
+      show_points: False
+      y_max: 10
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+
+
+################### SCAN KL-KT ###################
+  likelihood_scan_kl_kt_comb:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs kl,kt --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'kl'
+          start:  -25.
+          stop:   25.
+          points: 51
+          theory: 1
+        - name:   'kt'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 1
+    plotting:
+      show_best_fit: True
+      show_best_fit_error: True
+      show_significances: [1,2,3,5]
+      interpolate_nans: True
+      show_sm_point: True
+      show_box: False
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: False
+    split_bins: False
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+################### SCAN kV-K2V ###################
+  likelihood_scan_kV_k2V_comb:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs CV,C2V --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0 --freezeParameters r,r_gghh,r_qqhh,kl,kt --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'CV'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 1
+        - name:   'C2V'
+          start:  -4.
+          stop:   6.
+          points: 51
+          theory: 1
+    plotting:
+      show_best_fit: True
+      show_best_fit_error: True
+      show_significances: [1,2,3,5]
+      interpolate_nans: True
+      show_sm_point: True
+      show_box: True
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: False
+    split_bins: False
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+################### SCAN kV-K2V ###################
+  likelihood_scan_kl_k2V_comb:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs kl,C2V --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0 --freezeParameters r,r_gghh,r_qqhh,,kt,CV --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    scan:
+      parameters: 
+        - name:   'kt'
+          start:  -25.
+          stop:   25.
+          points: 51
+          theory: 1
+        - name:   'C2V'
+          start:  -4.
+          stop:   6.
+          points: 51
+          theory: 1
+    plotting:
+      show_best_fit: True
+      show_best_fit_error: True
+      show_significances: [1,2,3,5]
+      interpolate_nans: True
+      show_sm_point: True
+      show_box: True
+      shift_negative_values: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: False
+    split_bins: False
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+################### SCAN KL-C2 ###################
+  likelihood_scan_C2_kl_comb:
+    mode: likelihood_scan
+    command: "combine -M MultiDimFit --redefineSignalPOIs C2,kl --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,kt,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
+    unblind: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 9000
+    physics: !include physics_model_C2.yml
+    scan:
+      parameters: 
+        - name:   'C2'
+          start:  -5.
+          stop:   5.
+          points: 51
+          theory: 0.
+        - name:   'kl'
+          start:  -30.
+          stop:   30.
+          points: 61
+    plotting:
+      show_best_fit: True
+      show_best_fit_error: True
+      show_significances: [1,2,3,5]
+      interpolate_nans: True
+      show_sm_point: True
+      show_box: True
+      shift_negative_values: True
+
+    combine_bins: True
+    combine_eras: True
+    split_eras:  False
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+
+
+
+
+
+#########################################################
+###                      GOF                          ###
+#########################################################
+
+  gof_DL:
+    mode: gof
+    command: "combine -M GoodnessOfFit --algo=saturated --toysFrequentist --redefineSignalPOIs r --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125"
+    toys: 500
+    toys-per-job: 10
+    combine_bins: True
+    combine_eras: True
+    split_bins: False
+    split_eras: True
+    plotting:
+      n_bins        : 32
+    submit :  
+      time: '0-04:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  gof_SL:
+    mode: gof
+    command: "combine -M GoodnessOfFit --algo=saturated --toysFrequentist --redefineSignalPOIs r --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125"
+    toys: 500
+    toys-per-job: 10
+    combine_bins: True
+    combine_eras: True
+    split_bins: False
+    split_eras: True
+    plotting:
+      n_bins        : 32
+    submit :  
+      time: '0-04:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+  gof_comb:
+    mode: gof
+    command: "combine -M GoodnessOfFit --algo=saturated --toysFrequentist --redefineSignalPOIs r --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --mass 125"
+    toys: 500
+    toys-per-job: 5
+    combine_bins: True
+    combine_eras: True
+    split_bins: False
+    split_eras: True
+    plotting:
+      n_bins        : 32
+    submit :  
+      time: '0-08:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+#########################################################
+###                  UNCERTAINTIES                    ###
+#########################################################
+  uncertainty_expected_DL:
+    mode: uncertainty
+    command: "combine -M MultiDimFit --verbose 3 --mass 125 --redefineSignalPOIs r --setParameterRanges r=-40.0,40.0 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --points 200"
+    unblind: False
+    combine_bins: True
+    split_bins: False
+    combine_eras: True
+    split_eras: False
+    submit : 
+      time: '3-00:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    grouping-postfit: !include grouping_postfit_systematics.yml
+    plotting:
+      poi                   : 'r'
+      y-cut                 : 6
+      y-max                 : 10
+      range                 : [-60.,90.]
+      legend-columns        : 3
+      legend-position       : [0.15,0.65,0.78,0.92]
+      legend-textsize       : 0.03
+      bestfit-position      : [0.80,0.15,0.92,0.92]
+      bestfit-textsize      : 0.03
+      logo                  : CMS
+      sub-logo              : Work in progress
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  uncertainty_observed_DL:
+    mode: uncertainty
+    command: "combine -M MultiDimFit --verbose 3 --mass 125 --redefineSignalPOIs r --setParameterRanges r=-60.0,20.0 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --points 200"
+    unblind: True
+    combine_bins: True
+    split_bins: False
+    combine_eras: True
+    split_eras: False
+    submit : 
+      time: '3-00:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    grouping-postfit: !include grouping_postfit_systematics.yml
+    plotting:
+      poi                   : 'r'
+      y-cut                 : 6
+      y-max                 : 10
+      range                 : [-60.,40.]
+      legend-columns        : 3
+      legend-position       : [0.15,0.65,0.78,0.92]
+      legend-textsize       : 0.03
+      bestfit-position      : [0.80,0.15,0.92,0.92]
+      bestfit-textsize      : 0.03
+      logo                  : CMS
+      sub-logo              : Work in progress
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  uncertainty_expected_SL:
+    mode: uncertainty
+    command: "combine -M MultiDimFit --verbose 3 --mass 125 --redefineSignalPOIs r --setParameterRanges r=-40.0,40.0 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --points 200"
+    unblind: False
+    combine_bins: True
+    split_bins: False
+    combine_eras: True
+    split_eras: False
+    submit :
+      time: '3-00:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    grouping-postfit: !include grouping_postfit_systematics.yml
+    plotting:
+      poi                   : 'r'
+      y-cut                 : 6
+      y-max                 : 10
+      range                 : [-60.,90.]
+      legend-columns        : 3
+      legend-position       : [0.15,0.65,0.78,0.92]
+      legend-textsize       : 0.03
+      bestfit-position      : [0.80,0.15,0.92,0.92]
+      bestfit-textsize      : 0.03
+      logo                  : CMS
+      sub-logo              : Work in progress
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+  uncertainty_observed_SL:
+    mode: uncertainty
+    command: "combine -M MultiDimFit --verbose 3 --mass 125 --redefineSignalPOIs r --setParameterRanges r=-40.0,40.0 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --points 200"
+    unblind: True
+    combine_bins: True
+    split_bins: False
+    combine_eras: True
+    split_eras: False
+    submit : 
+      time: '3-00:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    grouping-postfit: !include grouping_postfit_systematics.yml
+    plotting:
+      poi                   : 'r'
+      y-cut                 : 6
+      y-max                 : 10
+      range                 : [-60.,90.]
+      legend-columns        : 3
+      legend-position       : [0.15,0.65,0.78,0.92]
+      legend-textsize       : 0.03
+      bestfit-position      : [0.80,0.15,0.92,0.92]
+      bestfit-textsize      : 0.03
+      logo                  : CMS
+      sub-logo              : Work in progress
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  uncertainty_expected_comb:
+    mode: uncertainty
+    command: "combine -M MultiDimFit --verbose 3 --mass 125 --redefineSignalPOIs r --setParameterRanges r=-30.0,30.0 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --points 200"
+    unblind: False
+    combine_bins: True
+    split_bins: False
+    combine_eras: True
+    split_eras: False
+    submit : 
+      time: '5-00:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    grouping-postfit: !include grouping_postfit_systematics.yml
+    #grouping-prefit:  !include grouping_prefit_systematics.yml
+    plotting:
+      poi                   : 'r'
+      y-cut                 : 6
+      y-max                 : 10
+      range                 : [-60.,90.]
+      legend-columns        : 3
+      legend-position       : [0.15,0.65,0.78,0.92]
+      legend-textsize       : 0.03
+      bestfit-position      : [0.80,0.15,0.92,0.92]
+      bestfit-textsize      : 0.03
+      logo                  : CMS
+      sub-logo              : Work in progress
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+  uncertainty_observed_comb:
+    mode: uncertainty
+    command: "combine -M MultiDimFit --verbose 3 --mass 125 --redefineSignalPOIs r --setParameterRanges r=-30.0,30.0 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V --points 200"
+    unblind: True
+    combine_bins: True
+    split_bins: False
+    combine_eras: True
+    split_eras: False
+    submit : 
+      time: '5-00:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    grouping-postfit: !include grouping_postfit_systematics.yml
+    plotting:
+      poi                   : 'r'
+      y-cut                 : 6
+      y-max                 : 10
+      range                 : [-60.,90.]
+      legend-columns        : 3
+      legend-position       : [0.15,0.65,0.78,0.92]
+      legend-textsize       : 0.03
+      bestfit-position      : [0.80,0.15,0.92,0.92]
+      bestfit-textsize      : 0.03
+      logo                  : CMS
+      sub-logo              : Work in progress
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+
+
+
+#########################################################
+###                  PULLS IMPACTS                    ###
+#########################################################
+
+  pulls_impacts_DL:
+    mode: pulls_impacts
+    command: "combine -M MultiDimFit --verbose 3 --mass 125.0 --redefineSignalPOIs r --setParameterRanges r=-100.0,100.0 --robustFit 1 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V"
+    unblind: True
+    mc_stats: True
+    use_snapshot: True
+    combine_bins: True
+    split_bins: False
+    combine_eras: True
+    split_eras: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    plotting:
+      left_margin           : 400
+      right_margin          : 20
+      label_size            : 18
+      parameters_per_page   : 35
+      order_by_impact       : True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+
+  pulls_impacts_SL:
+    mode: pulls_impacts
+    command: "combine -M MultiDimFit --verbose 3 --mass 125.0 --redefineSignalPOIs r --setParameterRanges r=-100.0,100.0 --robustFit 1 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V"
+    unblind: True
+    mc_stats: True
+    use_snapshot: True
+    combine_bins: True
+    split_bins: False
+    combine_eras: True
+    split_eras: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    plotting:
+      left_margin           : 400
+      right_margin          : 20
+      label_size            : 18
+      parameters_per_page   : 35
+      order_by_impact       : True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+  pulls_impacts_comb:
+    mode: pulls_impacts
+    command: "combine -M MultiDimFit --verbose 3 --mass 125.0 --redefineSignalPOIs r --setParameterRanges r=-100.0,100.0 --robustFit 1 --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kl=1.0,kt=1.0,CV=1.0,C2V=1.0 --freezeParameters r_gghh,r_qqhh,kl,kt,CV,C2V"
+    unblind: True
+    mc_stats: True
+    use_snapshot: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    submit :  
+      time: '0-08:00:00'
+      mem : 3000
+    physics: !include physics_model.yml
+    plotting:
+      left_margin           : 400
+      right_margin          : 20
+      label_size            : 18
+      parameters_per_page   : 35
+      order_by_impact       : True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+
+
+#########################################################
+###                      PREFIT                       ###
+#########################################################
+  prefit_DL:
+    mode: prefit 
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures  --skipSBFit --skipBOnlyFit --ignoreCovWarning --robustFit 1 --robustHesse 1  --numToysForShapes=50"
+    unblind: True
+    submit :  
+      time: '3-00:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+    plots: 
+      - bin_name: DL
+        header: DL categories
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_GGF,HH_DL_resolved2b_GGF,HH_DL_boosted_GGF,HH_DL_resolved1b_VBF,HH_DL_resolved2b_VBF,HH_DL_boosted_VBF,HH_DL_inclusive_DY_VVV,HH_DL_resolved_other,HH_DL_boosted_other]
+        labels: ['Resolved 1b GGF','Resolved 2b GGF','Boosted GGF','Resolved 1b VBF','Resolved 2b VBF','Boosted VBF','Inclusive DY+VV(V)','Resolved other','Boosted other']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+        yield_table: True
+      - bin_name: DL_GGF
+        header: GGF categories
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_GGF,HH_DL_resolved2b_GGF,HH_DL_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved1b
+        header: GGF (resolved 1b) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved2b
+        header: GGF (resolved 2b) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_boosted
+        header: GGF (boosted) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_boosted_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF
+        header: VBF categories
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_VBF,HH_DL_resolved2b_VBF,HH_DL_boosted_VBF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF_resolved1b
+        header: VBF (resolved 1b) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF_resolved2b
+        header: VBF (resolved 2b) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved2b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF_boosted
+        header: VBF (boosted) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_boosted_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_DY_VVV
+        header: DY + VV(V) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_inclusive_DY_VVV]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_TT_other_resolved
+        header: TT + Other resolved category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_resolved_other]
+        labels: ['Resolved','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_TT_other_boosted
+        header: TT + Other boosted category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_boosted_other]
+        labels: ['Resolved','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_background
+        header: Background categories
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_inclusive_DY_VVV,HH_DL_resolved_other,HH_DL_boosted_other]
+        labels: ['Inclusive DY+VV(V)','Resolved other','Boosted other']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+
+
+  prefit_SL:
+    mode: prefit 
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures  --skipSBFit --skipBOnlyFit --ignoreCovWarning --robustFit 1 --robustHesse 1 --numToysForShapes=50"
+    unblind: True
+    submit :  
+      time: '3-00:00:00'
+      mem : 9000
+    physics: !include physics_model.yml
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+    plots:
+      - bin_name: SL
+        header: SL categories
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_GGF,HH_SL_resolved2b_GGF,HH_SL_boosted_GGF,HH_SL_resolved1b_VBF,HH_SL_resolved2b_VBF,HH_SL_boosted_VBF,HH_SL_inclusive_wjets_other,HH_SL_resolved_TopH,HH_SL_boosted_TopH]
+        labels: ['Resolved 1b GGF','Resolved 2b GGF','Boosted GGF','Resolved 1b VBF','Resolved 2b VBF','Boosted VBF','Inclusive Wjets+other','Resolved TT+H','Boosted TT+H']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+        yield_table: True
+      - bin_name: SL_GGF
+        header: GGF categories
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_GGF,HH_SL_resolved2b_GGF,HH_SL_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved1b 
+        header: GGF (resolved 1b) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved2b
+        header: GGF (resolved 2b) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_boosted
+        header: GGF (boosted) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_boosted_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF
+        header: VBF categories
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_VBF,HH_SL_resolved2b_VBF,HH_SL_boosted_VBF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF_resolved1b
+        header: VBF (resolved 1b) category 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF_resolved2b
+        header: VBF (resolved 2b) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved2b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF_boosted
+        header: VBF (boosted) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_boosted_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_Wjets_other
+        header: Wjets + other category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_inclusive_wjets_other]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: Top + single H (resolved) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_resolved_TopH]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: Top + single H (boosted) category
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_boosted_TopH]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_background
+        header: Background categories
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_inclusive_wjets_other,HH_SL_resolved_TopH,HH_SL_boosted_TopH]
+        labels: ['Inclusive Wjets+other','Resolved Top+H','Boosted Top+H']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+
+
+
+#########################################################
+###                    POSTFIT_S                      ###
+#########################################################
+  postfit_s_comb:
+    mode: postfit_s
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures --skipBOnlyFit --ignoreCovWarning --robustFit 1 --robustHesse 1 --numToysForShapes=50"
+    submit :  
+      time: '10-00:00:00'
+      mem : 20000
+    physics: !include physics_model.yml
+    unblind: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    nuisance_likelihood_scan: False
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+    plots: 
+      - bin_name: DL
+        header: DL
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_GGF,HH_DL_resolved2b_GGF,HH_DL_boosted_GGF,HH_DL_resolved1b_VBF,HH_DL_resolved2b_VBF,HH_DL_boosted_VBF,HH_DL_inclusive_DY_VVV,HH_DL_resolved_other,HH_DL_boosted_other]
+        labels: ['Resolved 1b GGF','Resolved 2b GGF','Boosted GGF','Resolved 1b VBF','Resolved 2b VBF','Boosted VBF','Inclusive DY+VV(V)','Resolved other','Boosted other']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+        yield_table: True
+      - bin_name: DL_GGF
+        header: GGF
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_GGF,HH_DL_resolved2b_GGF,HH_DL_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved1b
+        header: GGF (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved2b
+        header: GGF (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_boosted
+        header: GGF (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_boosted_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF
+        header: VBF
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_VBF,HH_DL_resolved2b_VBF,HH_DL_boosted_VBF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF_resolved1b
+        header: VBF (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF_resolved2b
+        header: VBF (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved2b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF_boosted
+        header: VBF (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_boosted_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_DY_VVV
+        header: DY + VV(V) 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_inclusive_DY_VVV]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_TT_other_resolved
+        header: TT + Other resolved 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_resolved_other]
+        labels: ['Resolved','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_TT_other_boosted
+        header: TT + Other boosted
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_boosted_other]
+        labels: ['Resolved','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_background
+        header: Background
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_inclusive_DY_VVV,HH_DL_resolved_other,HH_DL_boosted_other]
+        labels: ['Inclusive DY+VV(V)','Resolved other','Boosted other']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL
+        header: SL
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_GGF,HH_SL_resolved2b_GGF,HH_SL_boosted_GGF,HH_SL_resolved1b_VBF,HH_SL_resolved2b_VBF,HH_SL_boosted_VBF,HH_SL_inclusive_wjets_other,HH_SL_resolved_TopH,HH_SL_boosted_TopH]
+        labels: ['Resolved 1b GGF','Resolved 2b GGF','Boosted GGF','Resolved 1b VBF','Resolved 2b VBF','Boosted VBF','Inclusive Wjets+other','Resolved TT+H','Boosted TT+H']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+        yield_table: True
+      - bin_name: SL_GGF
+        header: GGF 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_GGF,HH_SL_resolved2b_GGF,HH_SL_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved1b
+        header: GGF (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved2b
+        header: GGF (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_boosted
+        header: GGF (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_boosted_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF
+        header: VBF 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_VBF,HH_SL_resolved2b_VBF,HH_SL_boosted_VBF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF_resolved1b
+        header: VBF (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF_resolved2b
+        header: VBF (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved2b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF_boosted
+        header: VBF (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_boosted_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_Wjets_other
+        header: Wjets + other 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_inclusive_wjets_other]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: TT + single H (resolved)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_resolved_TopH]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: TT + single H (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_boosted_TopH]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_background
+        header: Background 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_inclusive_wjets_other,HH_SL_resolved_TopH,HH_SL_boosted_TopH]
+        labels: ['Inclusive Wjets+other','Resolved TT+H','Boosted TT+H']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+
+
+
+  postfit_s_DL:
+    mode: postfit_s
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures --skipBOnlyFit --ignoreCovWarning --robustFit 1 --robustHesse 1  --numToysForShapes=50"
+    submit :  
+      time: '10-00:00:00'
+      mem : 20000
+    physics: !include physics_model.yml
+    unblind: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    nuisance_likelihood_scan: False
+    bins:
+      - HH_DL_resolved1b_GGF
+      - HH_DL_resolved2b_GGF
+      - HH_DL_boosted_GGF
+      - HH_DL_resolved1b_VBF
+      - HH_DL_resolved2b_VBF
+      - HH_DL_boosted_VBF
+      - HH_DL_inclusive_DY_VVV
+      - HH_DL_resolved_other
+      - HH_DL_boosted_other
+    plots: 
+      - bin_name: DL
+        header: DL
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_GGF,HH_DL_resolved2b_GGF,HH_DL_boosted_GGF,HH_DL_resolved1b_VBF,HH_DL_resolved2b_VBF,HH_DL_boosted_VBF,HH_DL_inclusive_DY_VVV,HH_DL_resolved_other,HH_DL_boosted_other]
+        labels: ['Resolved 1b GGF','Resolved 2b GGF','Boosted GGF','Resolved 1b VBF','Resolved 2b VBF','Boosted VBF','Inclusive DY+VV(V)','Resolved other','Boosted other']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+        yield_table: True
+      - bin_name: DL_GGF
+        header: GGF
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_GGF,HH_DL_resolved2b_GGF,HH_DL_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved1b
+        header: GGF (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved2b
+        header: GGF (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_boosted
+        header: GGF (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_boosted_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF
+        header: VBF
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_VBF,HH_DL_resolved2b_VBF,HH_DL_boosted_VBF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF_resolved1b
+        header: VBF (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved1b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF_resolved2b
+        header: VBF (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_resolved2b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_VBF_boosted
+        header: VBF (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_boosted_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_DY_VVV
+        header: DY + VV(V) 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_inclusive_DY_VVV]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_TT_other_resolved
+        header: TT + Other resolved 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_resolved_other]
+        labels: ['Resolved','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_TT_other_boosted
+        header: TT + Other boosted
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_boosted_other]
+        labels: ['Resolved','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_background
+        header: Background
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_inclusive_DY_VVV,HH_DL_resolved_other,HH_DL_boosted_other]
+        labels: ['Inclusive DY+VV(V)','Resolved other','Boosted other']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+
+
+  postfit_s_SL:
+    mode: postfit_s
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures --skipBOnlyFit --ignoreCovWarning --robustFit 1 --robustHesse 1  --numToysForShapes=50"
+    submit :  
+      time: '10-00:00:00'
+      mem : 20000
+    physics: !include physics_model.yml
+    unblind: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    nuisance_likelihood_scan: False
+    bins:
+      - HH_SL_resolved1b_GGF
+      - HH_SL_resolved2b_GGF
+      - HH_SL_boosted_GGF
+      - HH_SL_resolved1b_VBF
+      - HH_SL_resolved2b_VBF
+      - HH_SL_boosted_VBF
+      - HH_SL_inclusive_wjets_other
+      - HH_SL_resolved_TopH
+      - HH_SL_boosted_TopH
+    plots:
+      - bin_name: SL
+        header: SL
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_GGF,HH_SL_resolved2b_GGF,HH_SL_boosted_GGF,HH_SL_resolved1b_VBF,HH_SL_resolved2b_VBF,HH_SL_boosted_VBF,HH_SL_inclusive_wjets_other,HH_SL_resolved_TopH,HH_SL_boosted_TopH]
+        labels: ['Resolved 1b GGF','Resolved 2b GGF','Boosted GGF','Resolved 1b VBF','Resolved 2b VBF','Boosted VBF','Inclusive Wjets+other','Resolved TT+H','Boosted TT+H']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+        yield_table: True
+      - bin_name: SL_GGF
+        header: GGF 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_GGF,HH_SL_resolved2b_GGF,HH_SL_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved1b
+        header: GGF (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved2b
+        header: GGF (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_boosted
+        header: GGF (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_boosted_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF
+        header: VBF 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_VBF,HH_SL_resolved2b_VBF,HH_SL_boosted_VBF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF_resolved1b
+        header: VBF (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved1b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF_resolved2b
+        header: VBF (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_resolved2b_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_VBF_boosted
+        header: VBF (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_boosted_VBF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_Wjets_other
+        header: Wjets + other 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_inclusive_wjets_other]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: TT + single H (resolved)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_resolved_TopH]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: TT + single H (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_boosted_TopH]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_background
+        header: Background 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_inclusive_wjets_other,HH_SL_resolved_TopH,HH_SL_boosted_TopH]
+        labels: ['Inclusive Wjets+other','Resolved TT+H','Boosted TT+H']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+
+
+
