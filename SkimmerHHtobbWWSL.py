@@ -474,9 +474,7 @@ class SkimmerNanoHHtobbWWSL(BaseNanoHHtobbWW,SkimmerModule):
            # Event Weight #
             if self.is_MC:
                 varsToKeep["MC_weight"] = t.genWeight
-                puWeightsFile = os.path.join(os.path.dirname(__file__), "data", "pileup",sample+'_%s.json'%era)
-                #puWeightsFile = os.path.join(os.path.dirname(__file__), "data" , "pileup", sampleCfg["pufile"])
-                varsToKeep["PU_weight"] = makePileupWeight(puWeightsFile, t.Pileup_nTrueInt, nameHint=f"puweightFromFile{sample}".replace('-','_'))
+                varsToKeep["PU_weight"] = self.PUWeight
                 varsToKeep["eventWeight"] = noSel.weight if self.inclusive_sel else selObj.sel.weight
 
             if self.inclusive_sel:

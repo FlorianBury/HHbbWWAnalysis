@@ -90,13 +90,13 @@ class SkimmerNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
             if self.args.Resolved0Btag:
                 makeExclusiveResolvedNoBtagSelection(self,selObj,use_dd=False)
             if self.args.Resolved1Btag:
-                makeExclusiveResolvedOneBtagSelection(self,selObj,use_dd=False)
+                makeExclusiveResolvedOneBtagSelection(self,selObj,use_dd=False,dy_selection=self.args.DYCR)
             if self.args.Resolved2Btag:
-                makeExclusiveResolvedTwoBtagsSelection(self,selObj,use_dd=False)
+                makeExclusiveResolvedTwoBtagsSelection(self,selObj,use_dd=False,dy_selection=self.args.DYCR)
             if self.args.Boosted0Btag:
                 makeInclusiveBoostedNoBtagSelection(self,selObj,use_dd=False)
             if self.args.Boosted1Btag:
-                makeInclusiveBoostedOneBtagSelection(self,selObj,use_dd=False)
+                makeInclusiveBoostedOneBtagSelection(self,selObj,use_dd=False,dy_selection=self.args.DYCR)
         else:
             noSel = self.beforeJetselection(noSel)
 
@@ -478,25 +478,25 @@ class SkimmerNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
 
                 # L1 Prefire #
                 if era in ["2016","2017"]:
-                    varsToKeep["L1prefire"] = self.L1Prefiring
+                    #varsToKeep["L1prefire"] = self.L1Prefiring
                     varsToKeep["weight_l1_ecal_prefiring"] = self.L1Prefiring
                 else:
-                    varsToKeep["L1prefire"] = op.c_float(-9999.)
+                    #varsToKeep["L1prefire"] = op.c_float(-9999.)
                     varsToKeep["weight_l1_ecal_prefiring"] = op.c_float(-9999.)
 
             # Fake rate #
             if self.args.Channel == "ElEl":
-                varsToKeep["fakeRate"] = self.ElElFakeFactor(self.ElElFakeSel[0])
+                varsToKeep["weight_fakeRate"] = self.ElElFakeFactor(self.ElElFakeSel[0]) if self.args.FakeCR else op.c_float(1.)
                 varsToKeep["weight_fake_electrons"] = op.abs(self.ElElFakeFactor(self.ElElFakeSel[0]))
                 varsToKeep["weight_fake_muons"]     = op.c_float(1.)
                 varsToKeep["weight_fake_two_non_tight"] = op.static_cast("Float_t",op.sign(self.ElElFakeFactor(self.ElElFakeSel[0])))
             if self.args.Channel == "MuMu":
-                varsToKeep["fakeRate"] = self.MuMuFakeFactor(self.MuMuFakeSel[0])
+                varsToKeep["weight_fakeRate"] = self.MuMuFakeFactor(self.MuMuFakeSel[0]) if self.args.FakeCR else op.c_float(1.)
                 varsToKeep["weight_fake_electrons"] = op.c_float(1.)
                 varsToKeep["weight_fake_muons"]     = op.abs(self.MuMuFakeFactor(self.MuMuFakeSel[0]))
                 varsToKeep["weight_fake_two_non_tight"] = op.static_cast("Float_t",op.sign(self.MuMuFakeFactor(self.MuMuFakeSel[0])))
             if self.args.Channel == "ElMu":
-                varsToKeep["fakeRate"] = self.ElMuFakeFactor(self.ElMuFakeSel[0])
+                varsToKeep["weight_fakeRate"] = self.ElMuFakeFactor(self.ElMuFakeSel[0]) if self.args.FakeCR else op.c_float(1.)
                 varsToKeep["weight_fake_electrons"] = op.switch(self.lambda_electronTightSel(self.ElMuFakeSel[0][0]),
                                                                 op.c_float(1.),
                                                                 self.lambda_FF_el(self.ElMuFakeSel[0][0]))
@@ -551,12 +551,59 @@ class SkimmerNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
 
            # Event Weight #
             if self.is_MC:
-                varsToKeep["MC_weight"] = t.genWeight
-                varsToKeep["PU_weight"] = self.PUWeight
-                currentSel = noSel if self.inclusive_sel else selObj.sel
-                varsToKeep["eventWeight"] = currentSel.weight
-                #for i in range(20):
-                #    varsToKeep[f"weight_{i}"] = op.static_cast('float',currentSel.weights[i]) if len(currentSel.weights)>i else op.c_float(-9999.)
+                #varsToKeep["MC_weight"] = t.genWeight
+                varsToKeep["weight_gen_weight"] = t.genWeight
+                #varsToKeep["PU_weight"] = self.PUWeight
+                varsToKeep["weight_pileup"] = self.PUWeight
+                varsToKeep["total_weight"] = noSel.weight if self.inclusive_sel else selObj.sel.weight
+
+            # Selection weights #
+            if self.is_MC and not self.inclusive_sel:
+                currentSel = selObj.sel
+                converter = {f'none'                                                                                                                 : 'initial',
+                             f'HHMCWeight'                                                                                                           : None,
+                             f'passMETFlags'                                                                                                         : 'MET_flags',
+                             f'genWeight'                                                                                                            : 'gen_weight',
+                             f'stitching'                                                                                                            : 'stitching',
+                             f'SystOff'                                                                                                              : None,
+                             f'PDFScaleWeights'                                                                                                      : 'scale_weights',
+                             f'PSweights'                                                                                                            : 'PSWeight',
+                             f'L1PreFiringRate'                                                                                                      : 'l1_ecal_prefiring',
+                             f'puWeight'                                                                                                             : 'pileup',
+                             f'Has2Fakeable{self.args.Channel}'                                                                                      : 'two_leptons',
+                             f'Has2Fakeable{self.args.Channel}OS'                                                                                    : 'opposite_sign',
+                             f'Has2Fakeable{self.args.Channel}OSWithTriggers'                                                                        : 'trigger_loose_lepton',
+                             f'Has2Fakeable{self.args.Channel}OSWithTriggersPtCuts'                                                                  : 'pt_cuts',
+                             f'Has2Fakeable{self.args.Channel}OSWithTriggersPtCutsPreMllCut'                                                         : 'mll_cut',
+                             f'Has2Fakeable{self.args.Channel}OSWithTriggersPtCutsPreMllCutOutZ'                                                     : 'Z_cut',
+                             f'Has2Fakeable{self.args.Channel}OSWithTriggersPtCutsPreMllCutOutZTightSelected'                                        : 'tight_lepton',
+                             f'jetPUIDReweighting{self.args.Channel}'                                                                                : 'jet_PUid',
+                             f'BtagAk4SF{self.args.Channel}'                                                                                         : 'btag_ak4',
+                             f'BtagAk8SF{self.args.Channel}'                                                                                         : 'btag_ak8',
+                             f'Has2Fakeable{self.args.Channel}OSWithTriggersPtCutsPreMllCutOutZTightSelectedTwoAk4Jets'                              : 'two_ak4',               
+                             f'Has2Fakeable{self.args.Channel}OSWithTriggersPtCutsPreMllCutOutZTightSelectedTwoAk4JetsExclusiveResolvedOneBtag'      : 'resolved_1b',               
+                             f'Has2Fakeable{self.args.Channel}OSWithTriggersPtCutsPreMllCutOutZTightSelectedTwoAk4JetsExclusiveResolvedTwoBtags'     : 'resolved_2b',               
+                             f'Has2Fakeable{self.args.Channel}OSWithTriggersPtCutsPreMllCutOutZTightSelectedOneAk8Jet'                               : 'one_ak8',               
+                             f'Has2Fakeable{self.args.Channel}OSWithTriggersPtCutsPreMllCutOutZTightSelectedOneAk8JetInclusiveBoostedOneBtag'        : 'boosted'}
+
+                while hasattr(currentSel,'parent'):
+                    parentSel = currentSel.parent
+                    if not currentSel.name in converter.keys():
+                        raise RuntimeError(f'Unknown {currentSel.name}, maybe add it to the list ?')
+                    if converter[currentSel.name] is not None:
+                        varsToKeep[f"weight_sel_acc_{converter[currentSel.name]}"] = op.static_cast('float',currentSel.weight)
+                        if parentSel is None:
+                            varsToKeep[f"weight_sel_{converter[currentSel.name]}"] = op.c_float(1.)
+                        else:
+                            varsToKeep[f"weight_sel_{converter[currentSel.name]}"] = op.static_cast('float',op.static_cast('float',currentSel.weight)/op.static_cast('float',parentSel.weight))
+                    currentSel = parentSel
+
+                for brName in converter.values():
+                    if brName is None:
+                        continue
+                    if f"weight_sel_{brName}" not in varsToKeep.keys():
+                        varsToKeep[f"weight_sel_{brName}"] = op.static_cast('float',op.c_float(0.))
+                        varsToKeep[f"weight_sel_acc_{brName}"] = op.static_cast('float',op.c_float(0.))
 
             if not self.inclusive_sel:
                 import mvaEvaluatorDL_nonres
@@ -572,8 +619,7 @@ class SkimmerNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
                                                 self      = self,
                                                 met       = self.corrMET)     
                 inputsFatjet = mvaEvaluatorDL_nonres.returnFatjetMVAInputs(
-                                                self      = self,
-                                                fatjets   = self.ak8BJets)
+                                                self      = self)
                 inputsHL = mvaEvaluatorDL_nonres.returnHighLevelMVAInputs(
                                                 self      = self,
                                                 l1        = dilepton[0],

@@ -1,11 +1,11 @@
 import os
 import sys
-from copy import copy
+from copy import copy, deepcopy
 
 from itertools import chain
 
 import logging
-logger = logging.getLogger(__name__) 
+logger = logging.getLogger(__name__)
 
 import bamboo
 from bamboo.analysismodules import HistogramsModule, DataDrivenBackgroundHistogramsModule
@@ -14,7 +14,7 @@ from bamboo import treefunctions as op
 from bamboo.plots import CutFlowReport, Plot, EquidistantBinning, SummedPlot
 from bamboo.analysisutils import forceDefine
 
-from bamboo.root import gbl 
+from bamboo.root import gbl
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__))) # Add scripts in this directory
 from BaseHHtobbWW import BaseNanoHHtobbWW
@@ -28,7 +28,7 @@ def switch_on_index(indexes, condition, contA, contB):
     if contA._base != contB._base:
         raise RuntimeError("The containers do not derive from the same base, this won't work")
     base = contA._base
-    return [base[op.switch(condition, contA[index].idx, contB[index].idx)] for index in indexes]       
+    return [base[op.switch(condition, contA[index].idx, contB[index].idx)] for index in indexes]
 #===============================================================================================#
 #                                       PlotterHHtobbWW                                         #
 #===============================================================================================#
@@ -38,16 +38,16 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
         super(PlotterNanoHHtobbWWDL, self).__init__(args)
 
     def initialize(self):
-        # Change the way the FakeExtrapolation is postProcessed (avoids overriding the `postProcess` method) 
+        # Change the way the FakeExtrapolation is postProcessed (avoids overriding the `postProcess` method)
         super(PlotterNanoHHtobbWWDL, self).initialize()
         if "FakeExtrapolation" in self.datadrivenContributions:
             contrib = self.datadrivenContributions["FakeExtrapolation"]
             self.datadrivenContributions["FakeExtrapolation"] = DataDrivenFake(contrib.name, contrib.config)
-        if "DYEstimation" in self.datadrivenContributions: 
+        if "DYEstimation" in self.datadrivenContributions:
             contrib = self.datadrivenContributions["DYEstimation"]
             self.datadrivenContributions["DYEstimation"] = DataDrivenDY(contrib.name, contrib.config,"PseudoData" in self.datadrivenContributions)
 
-    def definePlots(self, t, noSel, sample=None, sampleCfg=None): 
+    def definePlots(self, t, noSel, sample=None, sampleCfg=None):
         noSel = super(PlotterNanoHHtobbWWDL,self).prepareObjects(t, noSel, sample, sampleCfg, 'DL')
         #---- Parameters -----#
 
@@ -58,9 +58,9 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
 
         era = sampleCfg['era']
 
-        #----- Machine Learning Model -----#                
+        #----- Machine Learning Model -----#
         if self.args.analysis == 'nonres':
-            model_num = "12"
+            model_num = "13"
             path_model = os.path.join(os.path.abspath(os.path.dirname(__file__)),'MachineLearning','ml-models','models','multi-classification','dnn','DL',model_num,'model','model.pb')
             input_names = ["lep","jet","fat","met","hl","param","eventnr"]
             output_name = "Identity"
@@ -109,8 +109,6 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
         # Select the jets selections that will be done depending on user input #
         jet_level = ["Ak4","Ak8","Resolved0Btag","Resolved1Btag","Resolved2Btag","Boosted0Btag","Boosted1Btag"]
         jetplot_level = [arg for (arg,boolean) in self.args.__dict__.items() if arg in jet_level and boolean]
-        if len(jetplot_level) == 0:  
-            jetplot_level = jet_level # If nothing said, will do all
         jetsel_level = copy(jetplot_level)  # A plot level might need a previous selection that needs to be defined but not necessarily plotted
         if "Resolved0Btag" in jetsel_level or "Resolved1Btag" in jetsel_level or "Resolved2Btag" in jetsel_level:
             jetsel_level.append("Ak4") # Resolved needs the Ak4 selection
@@ -128,7 +126,7 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
 
         #----- Boolean to know what datadriven is applied -----#
         DYCR   = 'DYEstimation' in self.datadrivenContributions.keys() and self.datadrivenContributions['DYEstimation'].usesSample(self.sample,self.sampleCfg)
-        FakeCR = 'FakeExtrapolation'  in self.datadrivenContributions.keys() and self.datadrivenContributions['FakeExtrapolation'].usesSample(self.sample,self.sampleCfg) 
+        FakeCR = 'FakeExtrapolation'  in self.datadrivenContributions.keys() and self.datadrivenContributions['FakeExtrapolation'].usesSample(self.sample,self.sampleCfg)
 
         #----- HME -----#
         # Must be done to branching of the RDF for jets (weight or cut) to avoid systematics being recomputed in the HME
@@ -191,18 +189,18 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                         if 'related-sample' in sampleCfg.keys():
                             pathToSkim = treePath.format(era     = self.era,
                                                          cat     = cat,
-                                                         channel = channel, 
+                                                         channel = channel,
                                                          region  = region,
                                                          sample  = sampleCfg["related-sample"])
                         else:
                             pathToSkim = treePath.format(era     = self.era,
                                                          cat     = cat,
-                                                         channel = channel, 
+                                                         channel = channel,
                                                          region  = region,
                                                          sample  = self.sample)
                         if not os.path.exists(pathToSkim):
                             raise RuntimeError(f'Could not find skim {pathToSkim}')
-                        hmeReaders[region][cat][channel] = op.define("hme::HMEReader", 
+                        hmeReaders[region][cat][channel] = op.define("hme::HMEReader",
                                                                      f'hme::HMEReader <<name>>{{"{pathToSkim}"}}; // for {self.sample.replace("-","")}',
                                                                      nameHint=f'bamboo_hmeReader{region}{cat}{channel}{self.sample.replace("-","")}')
 
@@ -223,7 +221,7 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
 #        LeptonKeys = ['channel','sel','dilepton','suffix','is_MC']
 #        JetKeys    = ['channel','sel','leadjet','subleadjet','lead_is_b','sublead_is_b','suffix','is_MC']
 #        commonItems = ['channel','sel','suffix']
-            
+
         #----- Ak4 jets selection -----#
         if "Ak4" in jetsel_level:
             print ("...... Processing Ak4 jet selection")
@@ -249,7 +247,7 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
 #                    ChannelDictList.append({'channel':'ElMu','sel':ElMuSelObjAk4Jets.sel,'dilepton':OSElMuDilepton[0],'leadjet':self.ak4Jets[0],'subleadjet':self.ak4Jets[1],'lead_is_b':False,'sublead_is_b':False,'suffix':ElMuSelObjAk4Jets.selName,'is_MC':self.is_MC})
 #
 #            JetsN = {'objName':'Ak4Jets','objCont':self.ak4Jets,'Nmax':15,'xTitle':'N(Ak4 jets)'}
-#                                                        
+#
 #            for channelDict in ChannelDictList:
 #                # Dilepton #
 #                plots.extend(makeDileptonPlots(**{k:channelDict[k] for k in LeptonKeys}))
@@ -285,7 +283,7 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
 #
 #            FatJetKeys = ['channel','sel','fatjet','suffix']
 #            FatJetsN = {'objName':'Ak8Jets','objCont':self.ak8Jets,'Nmax':5,'xTitle':'N(Ak8 jets)'}
-#            
+#
 #            for channelDict in ChannelDictList:
 #                # Dilepton #
 #                plots.extend(makeDileptonPlots(**{k:channelDict[k] for k in LeptonKeys}))
@@ -295,8 +293,8 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
 #                plots.extend(makeDoubleLeptonAk8JetsPlots(**{k:channelDict[k] for k in FatJetKeys}))
 #                # MET #
 #                plots.extend(makeMETPlots(**{k:channelDict[k] for k in commonItems}, met=self.corrMET))
-                
-                     
+
+
         #----- Resolved selection -----#
         if any(item in ["Resolved0Btag","Resolved1Btag","Resolved2Btag"] for item in jetsel_level): # If any of resolved category is asked
             #----- select the jets -----#
@@ -351,7 +349,7 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
 #            # Lepton + jet Plots #
 #
 #            ResolvedJetsN = {'objName':'Ak4BJets','objCont':self.ak4BJets,'Nmax':5,'xTitle':'N(Ak4 Bjets)'}
-#    
+#
 #            for channelDict in ChannelDictList:
 #                # Dilepton #
 #                plots.extend(makeDileptonPlots(**{k:channelDict[k] for k in LeptonKeys}))
@@ -362,9 +360,9 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
 #                plots.extend(makeTwoAk4JetsPlots(**{k:channelDict[k] for k in JetKeys}))
 #                # MET #
 #                plots.extend(makeMETPlots(**{k:channelDict[k] for k in commonItems}, met=self.corrMET))
-        
+
         #----- Boosted selection -----#
-        if any(item in ["Boosted0Btag","Boosted1Btag"] for item in jetsel_level): # If any of the boosted category is asked 
+        if any(item in ["Boosted0Btag","Boosted1Btag"] for item in jetsel_level): # If any of the boosted category is asked
             container1fatb = [t.FatJet[op.switch(op.rng_len(self.ak8BJets) >= 1, self.ak8BJets[0].idx, self.ak8Jets[0].idx)]]
 
             ChannelDictList = []
@@ -394,7 +392,7 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
 #                        ChannelDictList.append({'channel':'ElMu','sel':ElMuSelObjAk8JetsInclusiveBoostedOneBtag.sel,'dilepton':OSElMuDilepton[0],'fatjet':container1fatb[0],'suffix':ElMuSelObjAk8JetsInclusiveBoostedOneBtag.selName,'is_MC':self.is_MC})
 #
 #            BoostedJetsN = {'objName':'Ak8BJets','objCont':self.ak8BJets,'Nmax':5,'xTitle':'N(Ak8 Bjets)'}
-#            
+#
 #            for channelDict in ChannelDictList:
 #                # Dilepton #
 #                plots.extend(makeDileptonPlots(**{k:channelDict[k] for k in LeptonKeys}))
@@ -405,9 +403,9 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
 #                plots.extend(makeDoubleLeptonAk8JetsPlots(**{k:channelDict[k] for k in FatJetKeys}))
 #                # MET #
 #                plots.extend(makeMETPlots(**{k:channelDict[k] for k in commonItems}, met=self.corrMET))
-#        
+#
 #        #----- High-level combinations -----#
-#        # NOTE : very time consuming 
+#        # NOTE : very time consuming
 #        ChannelDictList = []
 #        if not self.args.OnlyYield:
 #            # Resolved No Btag #
@@ -506,7 +504,6 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                 selObjectDictList.append({'channel':'ElMu','selObject':ElMuSelObjAk8JetsInclusiveBoostedOneBtag})
 
         dileptonsCont = {'ElEl':OSElElDilepton[0],'MuMu':OSMuMuDilepton[0],'ElMu':OSElMuDilepton[0]}
-        
 
         for selObjectDict in selObjectDictList:
             channel = selObjectDict['channel']
@@ -517,7 +514,8 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                 category = "Resolved2B"
             if 'BoostedOneBtag' in selObjectDict['selObject'].selName:
                 category = "Boosted1B"
-            assert category is not None
+            if category is None:
+                continue
             dilepton = dileptonsCont[channel]
 
             #-----------------  NON RESONANT  -------------------#
@@ -525,50 +523,49 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                 self.nodes = ['GGF','VBF','H', 'DY', 'ST', 'TT', 'TTVX', 'VVV', 'Rare']
 
                 inputsLeps = mvaEvaluatorDL_nonres.returnLeptonsMVAInputs(
-                                                self      = self,
-                                                l1        = dilepton[0],
-                                                l2        = dilepton[1],
-                                                channel   = selObjectDict['channel'])
+                        self      = self,
+                        l1        = dilepton[0],
+                        l2        = dilepton[1],
+                        channel   = selObjectDict['channel'])
                 inputsJets = mvaEvaluatorDL_nonres.returnJetsMVAInputs(
-                                                self      = self,
-                                                jets      = self.ak4Jets)
+                        self      = self,
+                        jets      = self.ak4Jets)
                 inputsMET = mvaEvaluatorDL_nonres.returnMETMVAInputs(
-                                                self      = self,
-                                                met       = self.corrMET)     
+                        self      = self,
+                        met       = self.corrMET)
                 inputsFatjet = mvaEvaluatorDL_nonres.returnFatjetMVAInputs(
-                                                self      = self,
-                                                fatjets   = self.ak8BJets)
+                        self      = self)
                 inputsHL = mvaEvaluatorDL_nonres.returnHighLevelMVAInputs(
-                                                self      = self,
-                                                l1        = dilepton[0],
-                                                l2        = dilepton[1],
-                                                met       = self.corrMET,
-                                                jets      = self.ak4Jets,
-                                                bjets     = self.ak4JetsByBtagScore[:op.min(op.rng_len(self.ak4JetsByBtagScore),op.static_cast("std::size_t",op.c_int(2)))],
-                                                electrons = self.electronsFakeSel,
-                                                muons     = self.muonsFakeSel,
-                                                channel   = selObjectDict['channel'])
+                        self      = self,
+                        l1        = dilepton[0],
+                        l2        = dilepton[1],
+                        met       = self.corrMET,
+                        jets      = self.ak4Jets,
+                        bjets     = self.ak4JetsByBtagScore[:op.min(op.rng_len(self.ak4JetsByBtagScore),op.static_cast("std::size_t",op.c_int(2)))],
+                        electrons = self.electronsFakeSel,
+                        muons     = self.muonsFakeSel,
+                        channel   = selObjectDict['channel'])
 
                 inputsParam = mvaEvaluatorDL_nonres.returnParamMVAInputs(self)
                 inputsEventNr = mvaEvaluatorDL_nonres.returnEventNrMVAInputs(self,t)
 
-               #print ("Lepton variables : %d"%len(inputsLeps))
-               #print ("Jet variables    : %d"%len(inputsJets))
-               #print ("Fatjet variables : %d"%len(inputsFatjet))
-               #print ("MET variables    : %d"%len(inputsMET))
-               #print ("HL variables     : %d"%len(inputsHL))
-               #print ("Param variables  : %d"%len(inputsParam))
-               #print ("Event variables  : %d"%len(inputsEventNr))
+                #print ("Lepton variables : %d"%len(inputsLeps))
+                #print ("Jet variables    : %d"%len(inputsJets))
+                #print ("Fatjet variables : %d"%len(inputsFatjet))
+                #print ("MET variables    : %d"%len(inputsMET))
+                #print ("HL variables     : %d"%len(inputsHL))
+                #print ("Param variables  : %d"%len(inputsParam))
+                #print ("Event variables  : %d"%len(inputsEventNr))
 
-               #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsLeps))
-               #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsJets))
-               #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsFatjet))
-               #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsMET))
-               #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsHL))
-               #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsParam))
-               #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsEventNr))
+                #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsLeps))
+                #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsJets))
+                #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsFatjet))
+                #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsMET))
+                #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsHL))
+                #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsParam))
+                #plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsEventNr))
                 from  mvaEvaluatorDL_nonres import inputStaticCast
-            
+
                 inputs = [op.array("double",*inputStaticCast(inputsLeps,"float")),
                           op.array("double",*inputStaticCast(inputsJets,"float")),
                           op.array("double",*inputStaticCast(inputsFatjet,"float")),
@@ -576,20 +573,31 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                           op.array("double",*inputStaticCast(inputsHL,"float")),
                           op.array("double",*inputStaticCast(inputsParam,"float")),
                           op.array("long",*inputStaticCast(inputsEventNr,"long"))]
-    
+
                 output = DNN(*inputs)
                 selObjNodesDict = makeDNNOutputNodesSelections(self,selObjectDict['selObject'],output,suffix=model_num)
-    
+
                 # Branch out the LO -> NLO reweighting #
                 for node in selObjNodesDict.values():
                     node.sel = self.addSignalReweighting(node.sel)
-    
+
                 if not self.args.OnlyYield:
                     plots.extend(makeDoubleLeptonMachineLearningExclusiveOutputPlots(selObjNodesDict,output,self.nodes,channel=selObjectDict['channel']))
                     #plots.extend(makeDoubleLeptonMachineLearningInclusiveOutputPlots(selObjNodesDict,output,self.nodes,channel=selObjectDict['channel']))
                 if self.args.PrintYield:
                     for selNode in selObjNodesDict.values():
                         self.yields.add(selNode.sel)
+
+                # Save in a Skim #
+                #from bamboo.plots import Skim
+                #varDict = {f'out_{node}':output[i] for i,node in enumerate(self.nodes)}
+                #for syst in op.getSystematicVariations(output):
+                #    for i,node in enumerate(self.nodes):
+                #        varDict[f'out_{node}_{syst}'] = op.forSystematicVariation(output,syst)[i]
+
+                #plots.append(Skim(f"DNN_{selObjectDict['selObject'].selName}",
+                #             varDict,
+                #             selObjectDict['selObject'].sel))
 
             #-----------------  RESONANT  -------------------#
             if self.args.analysis == 'res':
@@ -660,8 +668,8 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                 HME = op.defineOnFirstUse(op.multiSwitch(*switchCond))
 
                 # Add HME plots #
-                #if not self.args.OnlyYield:
-                #    plots.extend(makeDoubleLeptonHMEPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],HME))
+                if not self.args.OnlyYield:
+                    plots.extend(makeDoubleLeptonHMEPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],HME))
 
                 # Inputs of MVA #
                 inputsAll = mvaEvaluatorDL_res.returnResonantMVAInputs(
@@ -682,7 +690,7 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                 #    plots.extend(makeDoubleLeptonMachineLearningInputPlots(selObjectDict['selObject'].sel,selObjectDict['selObject'].selName,selObjectDict['channel'],inputsAll))
 
                 inputs = {inpName:val  for (inpName,_,_),val in inputsAll.items()}
-                
+
                 # Mass for resonance in parametric DNN #
                 print ('Using parametric DNN with')
                 if self.args.mass is not None:
@@ -703,14 +711,14 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                         input_names = input_names_LowMass
 
                     # Define the inputs #
-                    inputs['param'] = op.c_float(mass) 
+                    inputs['param'] = op.c_float(mass)
                     inputsArr = []
                     for inpName in input_names:
                         if inpName not in inputs.keys():
                             for key in inputs.keys():
                                 if inpName == key.replace('$','').replace(' ','').replace('_',''):
                                     inpName = key
-                        
+
                         if inpName not in inputs.keys():
                             raise RuntimeError(f"Input node {inpName} not found in the inputs in bamboo")
                         inpVal = inputs[inpName]
@@ -720,7 +728,7 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                         else:
                             inpType = "float"
                         if isinstance(inpVal,list):
-                            inpVal = [op.static_cast(inpType,inp) for inp in inpVal] 
+                            inpVal = [op.static_cast(inpType,inp) for inp in inpVal]
                             inputsArr.append(op.array(inpType,*inpVal))
                         else:
                             inpVal = op.static_cast(inpType,inpVal)
@@ -734,16 +742,16 @@ class PlotterNanoHHtobbWWDL(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModul
                     if self.args.PrintYield:
                         for selNode in selObjNodesDict.values():
                             self.yields.add(selNode.sel)
-                            
-                            
 
-                            
-    
+
+
+
+
         #----- Add the Yield plots -----#
         if self.args.PrintYield or self.args.OnlyYield:
             plots.append(self.yields)
 
-            
+
         #----- Return -----#
         return plots
 

@@ -6,6 +6,9 @@ from functools import reduce
 from bamboo.analysismodules import SkimmerModule
 from bamboo import treefunctions as op
 from bamboo.analysisutils import makePileupWeight
+from bamboo.plots import Plot, Skim
+
+from IPython import embed
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)))) # Add scripts in this directory
 from BaseHHtobbWW import BaseNanoHHtobbWW
@@ -15,7 +18,7 @@ from highlevelLambdas import *
 #===============================================================================================#
 #                                 SkimmerHHtobbWW                                               #
 #===============================================================================================#
-class SkimmerMEMNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
+class SkimmerMEMNanoHHtobbWWDL(BaseNanoHHtobbWW):
     """ Plotter module: HH->bbW(->e/µ nu)W(->e/µ nu) histograms from NanoAOD """
     def __init__(self, args):
         super(SkimmerMEMNanoHHtobbWWDL, self).__init__(args)
@@ -24,19 +27,19 @@ class SkimmerMEMNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
         super(SkimmerMEMNanoHHtobbWWDL, self).initialize(True) # avoids doing the pseudo-data for skimmer
 
 
-    def defineSkimSelection(self, t, noSel, sample=None, sampleCfg=None): 
+    def defineSkimSelection(self, t, noSel, sample=None, sampleCfg=None):
         noSel = super(SkimmerMEMNanoHHtobbWWDL,self).prepareObjects(t, noSel, sample, sampleCfg, "DL", forSkimmer=True)
             # For the Skimmer, SF must not use defineOnFirstUse -> segmentation fault
 
-        era = sampleCfg['era'] 
+        era = sampleCfg['era']
 
         # Initialize varsToKeep dict #
-        varsToKeep = dict()  
+        varsToKeep = dict()
 
         if self.inclusive_sel:
             raise RuntimeError("Inclusive analysis not possible")
 
-        #---------------------------------------------------------------------------------------# 
+        #---------------------------------------------------------------------------------------#
         #                                     Selections                                        #
         #---------------------------------------------------------------------------------------#
         #----- Check arguments -----#
@@ -60,25 +63,32 @@ class SkimmerMEMNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
             selObj = ElMuSelObj
             dilepton = self.ElMuFakeSel[0]
 
+
+        #----- Apply jet corrections -----#
+        ElElSelObj.sel = self.beforeJetselection(ElElSelObj.sel,'ElEl')
+        MuMuSelObj.sel = self.beforeJetselection(MuMuSelObj.sel,'MuMu')
+        ElMuSelObj.sel = self.beforeJetselection(ElMuSelObj.sel,'ElMu')
+
+
         #----- Jet selection -----#
         # Since the selections in one line, we can use the non copy option of the selection to modify the selection object internally
         if any([self.args.__dict__[item] for item in ["Ak4","Resolved0Btag","Resolved1Btag","Resolved2Btag"]]):
-            makeAtLeastTwoAk4JetSelection(self,selObj,use_dd=False) 
+            makeAtLeastTwoAk4JetSelection(self,selObj,use_dd=False)
         if any([self.args.__dict__[item] for item in ["Ak8","Boosted0Btag","Boosted1Btag"]]):
-           makeAtLeastOneAk8JetSelection(self,selObj,use_dd=False) 
+           makeAtLeastOneAk8JetSelection(self,selObj,use_dd=False)
         if self.args.Resolved0Btag:
             makeExclusiveResolvedNoBtagSelection(self,selObj,use_dd=False)
         if self.args.Resolved1Btag:
-            makeExclusiveResolvedOneBtagSelection(self,selObj,use_dd=False)
+            makeExclusiveResolvedOneBtagSelection(self,selObj,use_dd=False,dy_selection=self.args.DYCR)
         if self.args.Resolved2Btag:
-            makeExclusiveResolvedTwoBtagsSelection(self,selObj,use_dd=False)
+            makeExclusiveResolvedTwoBtagsSelection(self,selObj,use_dd=False,dy_selection=self.args.DYCR)
         if self.args.Boosted0Btag:
             makeInclusiveBoostedNoBtagSelection(self,selObj,use_dd=False)
         if self.args.Boosted1Btag:
-            makeInclusiveBoostedOneBtagSelection(self,selObj,use_dd=False)
+            makeInclusiveBoostedOneBtagSelection(self,selObj,use_dd=False,dy_selection=self.args.DYCR)
 
 
-        #---------------------------------------------------------------------------------------# 
+        #---------------------------------------------------------------------------------------#
         #                                    Selection tree                                     #
         #---------------------------------------------------------------------------------------#
 
@@ -186,12 +196,49 @@ class SkimmerMEMNanoHHtobbWWDL(BaseNanoHHtobbWW,SkimmerModule):
         varsToKeep['n_ak8'] = op.static_cast("UInt_t",op.rng_len(self.ak8Jets))
         varsToKeep['n_ak8_btag'] = op.static_cast("UInt_t",op.rng_len(self.ak8BJets))
 
+        embed()
+
         #----- Additional variables -----#
         if self.is_MC:
             varsToKeep["MC_weight"]         = t.genWeight
         varsToKeep['total_weight']      = selObj.sel.weight
         varsToKeep["event"]             = None # Already in tree
-        varsToKeep["run"]               = None # Already in tree 
+        varsToKeep["run"]               = None # Already in tree
         varsToKeep["ls"]                = t.luminosityBlock
 
+
+        # Make
+
         return selObj.sel, varsToKeep
+
+    def postProcess(self, taskList, config=None, workdir=None, resultsdir=None):
+        super(SkimmerMEMNanoHHtobbWWDL, self).postProcess(taskList, config, workdir, resultsdir, forSkimmer=True)
+        import pandas as pd
+        from bamboo.root import gbl
+        from bamboo.plots import Skim
+        from bamboo.analysisutils import loadPlotIt
+        plotItConfig, samples, plots, systematics, legend = loadPlotIt(config, [], eras=None, workdir=workdir, resultsdir=resultsdir, readCounters=self.readCounters)
+
+        skims = [ap for ap in self.plotList if isinstance(ap, Skim)]
+        for skim in skims:
+            print (f'Starting parquet file production on skim {skim.name}')
+            for smp in samples:
+                print (f'\tLooking at sample {smp.name}')
+                frames = []
+                for cb in (smp.files if hasattr(smp, "files") else [smp]):
+                    tree = cb.tFile.Get(skim.treeName)
+                    print (f'\t\tLooking at file {cb.name}')
+                    if not tree:
+                        print( f"\t\t... KEY TTree {skim.treeName} does not exist, skipping this files")
+                    else:
+                        cols = gbl.ROOT.RDataFrame(cb.tFile.Get(skim.treeName)).AsNumpy()
+                        cols["scale"] = cb.scale
+                        cols["process"] = smp.name
+                        cols["file"] = cb.name
+                        frames.append(pd.DataFrame(cols))
+                if len(frames) > 0:
+                    df = pd.concat(frames)
+                    pqoutname = os.path.join(resultsdir, f"{smp.name}.parquet")
+                    df.to_parquet(pqoutname)
+                    print(f"\t-> Dataframe for sample {smp.name} saved to {pqoutname}")
+
