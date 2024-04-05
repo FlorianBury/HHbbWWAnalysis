@@ -11,6 +11,49 @@ import  NonResonantModelNLO
 ROOT.gStyle.SetOptStat(0)
 ROOT.gStyle.SetPalette(ROOT.kRainBow)
 
+
+COUPLINGS = {
+    # Basic BM #
+    'SM'  : 0,
+    '1'   : 1,
+    '2'   : 2,
+    '3'   : 3,
+    '4'   : 4,
+    '5'   : 5,
+    '6'   : 6,
+    '7'   : 7,
+    '8'   : 8,
+    '9'   : 9,
+    '10'  : 10,
+    '11'  : 11,
+    '12'  : 12,
+    # Additional node for "classic" BM 
+    # -> https://link.springer.com/article/10.1007/JHEP09(2018)057
+    '8a'  : [1.,1.,0.5,0.8/3,0.],
+    # NLO samples
+    'cHHH0'    : [0.,1.,0.,0.,0.],
+    'cHHH1'    : [1.,1.,0.,0.,0.],
+    'cHHH2p45' : [2.45,1.,0.,0.,0.],
+    'cHHH5'    : [5.,1.,0.,0.,0.],
+    # https://arxiv.org/pdf/1908.08923.pdf
+    # -> to be reparameterized !!!
+    # https://gitlab.cern.ch/hh/eft-benchmarks
+    'cluster1' : [3.94,0.94,-1./3,0.5*1.5,1./3.*(-3.)],
+    'cluster2' : [6.84,0.61,1./3,0.*1.5,-1./3*(-3.)],
+    'cluster3' : [2.21,1.05,-1./3,0.5*1.5,0.5*(-3.)],
+    'cluster4' : [2.79,0.61,1./3,-0.5*1.5,1/6*(-3.)],
+    'cluster5' : [3.95,1.17,-1./3,1./6*1.5,-0.5*(-3.)],
+    'cluster6' : [5.68,0.83,1./3,-0.5*1.5,1./3*(-3.)],
+    'cluster7' : [-0.10,0.94,1.,1./6*1.5,-1./6*(-3.)],
+    # Needed points for C2 scan #
+    'cHHH0_C2_1'    : [0.,1.,1.,0.,0.],
+    'cHHH1_C2_0p1'  : [1.,1.,0.1,0.,0.],
+    'cHHH1_C2_0p35' : [1.,1.,0.35,0.,0.],
+    'cHHH1_C2_3'    : [1.,1.,3.,0.,0.],
+    'cHHH1_C2_m2'   : [1.,1.,-2.,0.,0.],
+}
+
+
 class ReweightingNLO:
     def __init__(self,filePath,histName):
         self.filePath = filePath
@@ -23,6 +66,13 @@ class ReweightingNLO:
         self.model = NonResonantModelNLO.NonResonantModelNLO()
         self.model.ReadCoefficients("pm_pw_NLO_Ais_13TeV_V2.txt")
         self.couplings = None
+
+        self.sample = os.path.basename(self.filePath).replace('.root','')
+        BM_name = self.sample.split('_')[-1]
+        assert BM_name in COUPLINGS.keys()
+        self.initial = COUPLINGS[BM_name]
+        if isinstance(self.initial,int):
+            self.initial = self.model.getBenchmark(self.initial)
 
         self.mHHEdges,self.cosThetaEdges = self._getBinEdges(self.hist)
 
@@ -112,31 +162,52 @@ class ReweightingNLO:
                 yb = self.hist.GetYaxis().FindBin((yl+yu)/2)
                 val = content[(xl,xu)][(yl,yu)]
                 h.SetBinContent(xb,yb,val)
-        title = f'{os.path.basename(self.filePath)} -> Couplings {[round(c,2) for c in self.couplings]};M_{{HH}};cos(#theta_{{HH}}^{{*}})'
-        h.SetTitle(title)
+
+        #title =  f'{self.sample} : couplings {[round(c,2) for c in self.initial]} -> {[round(c,2) for c in self.couplings]}'
+        title =  f'Couplings {[round(c,2) for c in self.initial]} -> {[round(c,2) for c in self.couplings]}'
 
         # Produce PDF #
         C = ROOT.TCanvas('c','c',800,600)
+        C.SetTopMargin(0.1)
+        C.SetLeftMargin(0.12)
+        C.SetRightMargin(0.15)
+        C.SetBottomMargin(0.15)
         pdfName = name+".pdf"
         C.Print(pdfName+'[')
 
         C.Clear()
         C.SetLogz(True)
+        C.SetLogx(True)
+
+        h.SetTitle(f'{title}')
+        h.GetXaxis().SetTitle('M_{HH} [GeV]')
+        h.GetYaxis().SetTitle('cos(#theta_{HH}^{*})')
+        h.GetZaxis().SetTitle('weight')
+        h.GetXaxis().SetTitleSize(0.05)
+        h.GetYaxis().SetTitleSize(0.05)
+        h.GetZaxis().SetTitleSize(0.05)
+        h.GetXaxis().SetMoreLogLabels(True)
         h.Draw("colz")
+
         C.Print(pdfName)
 
         C.Clear()
         C.SetLogy(True)
-        leg = ROOT.TLegend(0.75,0.3,0.88,0.88)
+        C.SetLogx(False)
+        C.SetRightMargin(0.05)
+        leg = ROOT.TLegend(0.70,0.15,0.88,0.88)
         leg.SetBorderSize(0)
         leg.SetFillStyle(4000)
         opt = "PLC"
         for x in range(1,h.GetNbinsX()+1):
             hy = h.ProjectionY(h.GetName()+f'_py{x}',x,x)
             hy.SetMaximum(h.GetMaximum()*1.1)
+            #hy.SetMaximum(5)
             hy.SetTitle(f'{title}')
             hy.GetXaxis().SetTitle('cos(#theta_{HH}^{*})')
             hy.GetYaxis().SetTitle('weight')
+            hy.GetXaxis().SetTitleSize(0.05)
+            hy.GetYaxis().SetTitleSize(0.05)
             hy.Draw(opt)
             leg.AddEntry(hy,f'M_{{HH}} #in [{self.mHHEdges[x-1][0]:6.0f},{self.mHHEdges[x-1][1]:6.0f}]')
             if 'same' not in opt:
@@ -146,18 +217,22 @@ class ReweightingNLO:
 
         C.Clear()
         C.SetLogy(True)
-        leg = ROOT.TLegend(0.6,0.6,0.85,0.85)
+        C.SetLogx(True)
+        leg = ROOT.TLegend(0.2,0.6,0.45,0.85)
         leg.SetBorderSize(0)
         leg.SetFillStyle(4000)
         opt = "PLC"
         for y in range(1,h.GetNbinsY()+1):
             hx = h.ProjectionX(h.GetName()+f'_px{y}',y,y)
             hx.SetMaximum(h.GetMaximum()*1.1)
-            hy.SetTitle(f'{title}')
-            hy.GetXaxis().SetTitle('M_{HH}')
-            hy.GetYaxis().SetTitle('weight')
+            #hx.SetMaximum(5)
+            hx.SetTitle(f'{title}')
+            hx.GetXaxis().SetTitle('M_{HH} [GeV]')
+            hx.GetYaxis().SetTitle('weight')
+            hx.GetXaxis().SetTitleSize(0.05)
+            hx.GetYaxis().SetTitleSize(0.05)
             hx.Draw(opt)
-            leg.AddEntry(hx,f'cos(#theta_{{HH}}^{{*}} #in [{self.cosThetaEdges[y-1][0]:3.2f},{self.cosThetaEdges[y-1][1]:3.2f}]')
+            leg.AddEntry(hx,f'cos(#theta_{{HH}}^{{*}}) #in [{self.cosThetaEdges[y-1][0]:3.2f},{self.cosThetaEdges[y-1][1]:3.2f}]')
             if 'same' not in opt:
                 opt += ' same' 
         leg.Draw()
@@ -179,47 +254,6 @@ class ReweightingNLO:
         self.couplings = couplings
 
 
-couplings = {
-    # Basic BM #
-    'SM'  : 0,
-    '1'   : 1,
-    '2'   : 2,
-    '3'   : 3,
-    '4'   : 4,
-    '5'   : 5,
-    '6'   : 6,
-    '7'   : 7,
-    '8'   : 8,
-    '9'   : 9,
-    '10'  : 10,
-    '11'  : 11,
-    '12'  : 12,
-    # Additional node for "classic" BM 
-    # -> https://link.springer.com/article/10.1007/JHEP09(2018)057
-    '8a'  : [1.,1.,0.5,0.8/3,0.],
-    # NLO samples
-    'cHHH0'    : [0.,1.,0.,0.,0.],
-    'cHHH1'    : [1.,1.,0.,0.,0.],
-    'cHHH2p45' : [2.45,1.,0.,0.,0.],
-    'cHHH5'    : [5.,1.,0.,0.,0.],
-    # https://arxiv.org/pdf/1908.08923.pdf
-    # -> to be reparameterized !!!
-    # https://gitlab.cern.ch/hh/eft-benchmarks
-    'cluster1' : [3.94,0.94,-1./3,0.5*1.5,1./3.*(-3.)],
-    'cluster2' : [6.84,0.61,1./3,0.*1.5,-1./3*(-3.)],
-    'cluster3' : [2.21,1.05,-1./3,0.5*1.5,0.5*(-3.)],
-    'cluster4' : [2.79,0.61,1./3,-0.5*1.5,1/6*(-3.)],
-    'cluster5' : [3.95,1.17,-1./3,1./6*1.5,-0.5*(-3.)],
-    'cluster6' : [5.68,0.83,1./3,-0.5*1.5,1./3*(-3.)],
-    'cluster7' : [-0.10,0.94,1.,1./6*1.5,-1./6*(-3.)],
-    # Needed points for C2 scan #
-    'cHHH0_C2_1'    : [0.,1.,1.,0.,0.],
-    'cHHH1_C2_0p1'  : [1.,1.,0.1,0.,0.],
-    'cHHH1_C2_0p35' : [1.,1.,0.35,0.,0.],
-    'cHHH1_C2_3'    : [1.,1.,3.,0.,0.],
-    'cHHH1_C2_m2'   : [1.,1.,-2.,0.,0.],
-}
-
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Produce HH weights')
@@ -236,7 +270,7 @@ if __name__=="__main__":
         print ('Sample',sample)
         reweight = ReweightingNLO(f,"mHHvsCosThetaStar")
 
-        for BM,coupl in couplings.items():
+        for BM,coupl in COUPLINGS.items():
             if isinstance(coupl,int):
                 reweight.SetBenchmark(coupl)
             elif isinstance(coupl,list):
@@ -244,5 +278,5 @@ if __name__=="__main__":
                 reweight.SetCouplings(coupl)
             else:
                 raise RuntimeError('Not understood couplings')
-            reweight.SaveToJson("weights/{}_to_Benchmark{}_{}".format(sample.replace('.root',''),BM,args.era))
-            reweight.SaveToPdf("weights/{}_to_Benchmark{}_{}".format(sample.replace('.root',''),BM,args.era))
+            reweight.SaveToJson("weights/json/{}_to_Benchmark{}_{}".format(sample.replace('.root',''),BM,args.era))
+            reweight.SaveToPdf("weights/pdf/{}_to_Benchmark{}_{}".format(sample.replace('.root',''),BM,args.era))

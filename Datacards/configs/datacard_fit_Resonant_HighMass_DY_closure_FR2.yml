@@ -26,7 +26,7 @@ legend:
   - 0.99
 
 
-histConverter: !include resonant_cat_allmass.yml
+histConverter: !include resonant_DL_cat_allmass_DY.yml
 
 groups:
   2016: 

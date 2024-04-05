@@ -76,8 +76,14 @@ for fargs,fName in zip([args.eff,args.sf],['EFF','SF']):
                 value = h.GetBinContent(bin)
                 if value == 0:
                     print ('value 0',mean_eta,mean_pt)
-
-                pt_data = {'bin': [pt_binning[x], pt_binning[x + 1]], 'value': value, 'error_low': error, 'error_high': error}
+                # Clipping SF variations between [0,5]
+                error_up = error
+                error_down = error
+                if value - error_down < 0.:
+                    error_down = value
+                if value + error_up > 5.:
+                    error_up = 5. - value
+                pt_data = {'bin': [pt_binning[x], pt_binning[x + 1]], 'value': value, 'error_low': error_down, 'error_high': error_up}
 
                 eta_data['values'].append(pt_data)
 

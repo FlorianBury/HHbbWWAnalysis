@@ -15,10 +15,6 @@ pdf_Higgs_gg:
 pdf_Higgs_ggHH:
   group:
   # Non-resonant #
-  - ggHH_kl_1_kt_1_hbbhwwsl
-  - ggHH_kl_0_kt_1_hbbhwwsl
-  - ggHH_kl_5_kt_1_hbbhwwsl
-  - ggHH_kl_2p45_kt_1_hbbhwwsl
   - ggHH_kl_1_kt_1_hbbhww
   - ggHH_kl_0_kt_1_hbbhww
   - ggHH_kl_5_kt_1_hbbhww
@@ -27,6 +23,25 @@ pdf_Higgs_ggHH:
   - ggHH_kl_0_kt_1_hbbhtt
   - ggHH_kl_5_kt_1_hbbhtt
   - ggHH_kl_2p45_kt_1_hbbhtt
+  # Non-resonant C2 #
+  - ggHH_kl_0p00_kt_1p00_c2_0p00_hbbhww
+  - ggHH_kl_1p00_kt_1p00_c2_0p00_hbbhww 
+  - ggHH_kl_2p45_kt_1p00_c2_0p00_hbbhww
+  - ggHH_kl_5p00_kt_1p00_c2_0p00_hbbhww
+  - ggHH_kl_0p00_kt_1p00_c2_1p00_hbbhww
+  - ggHH_kl_1p00_kt_1p00_c2_0p10_hbbhww
+  - ggHH_kl_1p00_kt_1p00_c2_0p35_hbbhww
+  - ggHH_kl_1p00_kt_1p00_c2_3p00_hbbhww
+  - ggHH_kl_1p00_kt_1p00_c2_m2p00_hbbhww
+  - ggHH_kl_0p00_kt_1p00_c2_0p00_hbbhtt
+  - ggHH_kl_1p00_kt_1p00_c2_0p00_hbbhtt 
+  - ggHH_kl_2p45_kt_1p00_c2_0p00_hbbhtt
+  - ggHH_kl_5p00_kt_1p00_c2_0p00_hbbhtt
+  - ggHH_kl_0p00_kt_1p00_c2_1p00_hbbhtt
+  - ggHH_kl_1p00_kt_1p00_c2_0p10_hbbhtt
+  - ggHH_kl_1p00_kt_1p00_c2_0p35_hbbhtt
+  - ggHH_kl_1p00_kt_1p00_c2_3p00_hbbhtt
+  - ggHH_kl_1p00_kt_1p00_c2_m2p00_hbbhtt
   # Resonant #
   - signal_ggf_{spin}_250_hbbhww
   - signal_ggf_{spin}_260_hbbhww
@@ -64,25 +79,7 @@ pdf_Higgs_ggHH:
   - signal_ggf_{spin}_800_hbbhtt
   - signal_ggf_{spin}_850_hbbhtt
   - signal_ggf_{spin}_900_hbbhtt
-  - signal_ggf_{spin}_250_hbbhwwsl
-  - signal_ggf_{spin}_260_hbbhwwsl
-  - signal_ggf_{spin}_270_hbbhwwsl
-  - signal_ggf_{spin}_280_hbbhwwsl
-  - signal_ggf_{spin}_300_hbbhwwsl
-  - signal_ggf_{spin}_320_hbbhwwsl
-  - signal_ggf_{spin}_350_hbbhwwsl
-  - signal_ggf_{spin}_400_hbbhwwsl
-  - signal_ggf_{spin}_450_hbbhwwsl
-  - signal_ggf_{spin}_500_hbbhwwsl
-  - signal_ggf_{spin}_550_hbbhwwsl
-  - signal_ggf_{spin}_600_hbbhwwsl
-  - signal_ggf_{spin}_650_hbbhwwsl
-  - signal_ggf_{spin}_700_hbbhwwsl
-  - signal_ggf_{spin}_750_hbbhwwsl
-  - signal_ggf_{spin}_800_hbbhwwsl
-  - signal_ggf_{spin}_850_hbbhwwsl
-  - signal_ggf_{spin}_900_hbbhwwsl
-  val: 1.021
+  val: 1.03
 
 pdf_Higgs_qqHH:
   group:
@@ -93,13 +90,6 @@ pdf_Higgs_qqHH:
   - qqHH_CV_1_C2V_1_kl_1_hbbhww
   - qqHH_CV_1_C2V_1_kl_2_hbbhww
   - qqHH_CV_1_C2V_2_kl_1_hbbhww
-  - qqHH_CV_0p5_C2V_1_kl_1_hbbhwwsl
-  - qqHH_CV_1p5_C2V_1_kl_1_hbbhwwsl
-  - qqHH_CV_1_C2V_0_kl_1_hbbhwwsl
-  - qqHH_CV_1_C2V_1_kl_0_hbbhwwsl
-  - qqHH_CV_1_C2V_1_kl_1_hbbhwwsl
-  - qqHH_CV_1_C2V_1_kl_2_hbbhwwsl
-  - qqHH_CV_1_C2V_2_kl_1_hbbhwwsl
   - qqHH_CV_0p5_C2V_1_kl_1_hbbhtt
   - qqHH_CV_1p5_C2V_1_kl_1_hbbhtt
   - qqHH_CV_1_C2V_0_kl_1_hbbhtt

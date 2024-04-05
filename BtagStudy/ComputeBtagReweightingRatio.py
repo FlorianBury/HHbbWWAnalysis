@@ -62,8 +62,8 @@ class BtagReweightingRatio:
                     hist = h.Clone()
                 else:
                     hist.Add(h)
-            for i in range(1,hist.GetNbinsX()+1):
-                hist.SetBinError(i,1e-8)
+            #for i in range(1,hist.GetNbinsX()+1):
+                #hist.SetBinError(i,1e-8)
 
             hist_dict[os.path.basename(f).replace('.root','')] = hist
         return hist_dict
@@ -113,8 +113,8 @@ class BtagReweightingRatio:
         leg.AddEntry(hist_on,'After btag weight')
         leg.AddEntry(hist_off,'Before btag weight')
 
-        hist_on.Draw("H")
-        hist_off.Draw("H same")
+        hist_on.Draw("")
+        hist_off.Draw("same")
     
         leg.Draw()
     
@@ -192,23 +192,46 @@ class BtagReweightingRatio:
         
 if __name__ == "__main__":
     #---- 2016 ----#
-    instance = BtagReweightingRatio(path_on     = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/full2016_BtagReweightingOn/',
-                                    path_off    = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/full2016_BtagReweightingOff/',
+#    instance = BtagReweightingRatio(path_on     = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/utils/Btag2016_BtagReweightingOn_v2/',
+#                                    path_off    = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/utils/Btag2016_BtagReweightingOff_v2/',
+#                                    list_hists  = ['NoChannel_NoSelection_Ak4Jets_N'],
+#                                    outputname  = 'BtagReweightingRatio_jetN',
+#                                    pdfname     = 'BtagReweightingRatio_2016.pdf',
+#                                    era         = '2016')
+#    #---- 2017 ----#
+#    instance = BtagReweightingRatio(path_on     = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/utils/Btag2017_BtagReweightingOn_v2/',
+#                                    path_off    = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/utils/Btag2017_BtagReweightingOff_v2/',
+#                                    list_hists  = ['NoChannel_NoSelection_Ak4Jets_N'],
+#                                    outputname  = 'BtagReweightingRatio_jetN',
+#                                    pdfname     = 'BtagReweightingRatio_2017.pdf',
+#                                    era         = '2017')
+#    #---- 2018 ----#
+#    instance = BtagReweightingRatio(path_on     = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/utils/Btag2018_BtagReweightingOn_v2/',
+#                                    path_off    = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/utils/Btag2018_BtagReweightingOff_v2/',
+#                                    list_hists  = ['NoChannel_NoSelection_Ak4Jets_N'],
+#                                    outputname  = 'BtagReweightingRatio_jetN',
+#                                    pdfname     = 'BtagReweightingRatio_2018.pdf',
+#                                    era         = '2018')
+#
+    #---- 2016 ----#
+    instance = BtagReweightingRatio(path_on     = '/home/ucl/cp3/fbury/scratch/BambooOutputHHtobbWW/utils/Btag2016_BtagReweightingOn_wjets',
+                                    path_off    = '/home/ucl/cp3/fbury/scratch/BambooOutputHHtobbWW/utils/Btag2016_BtagReweightingOff_wjets',
                                     list_hists  = ['NoChannel_NoSelection_Ak4Jets_N'],
                                     outputname  = 'BtagReweightingRatio_jetN',
-                                    pdfname     = 'BtagReweightingRatio_2016.pdf',
+                                    pdfname     = 'BtagReweightingRatio_wjets_2016.pdf',
                                     era         = '2016')
     #---- 2017 ----#
-    instance = BtagReweightingRatio(path_on     = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/full2017_BtagReweightingOn/',
-                                    path_off    = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/full2017_BtagReweightingOff/',
+    instance = BtagReweightingRatio(path_on     = '/home/ucl/cp3/fbury/scratch/BambooOutputHHtobbWW/utils/Btag2017_BtagReweightingOn_wjets',
+                                    path_off    = '/home/ucl/cp3/fbury/scratch/BambooOutputHHtobbWW/utils/Btag2017_BtagReweightingOff_wjets',
                                     list_hists  = ['NoChannel_NoSelection_Ak4Jets_N'],
                                     outputname  = 'BtagReweightingRatio_jetN',
-                                    pdfname     = 'BtagReweightingRatio_2017.pdf',
+                                    pdfname     = 'BtagReweightingRatio_wjets_2017.pdf',
                                     era         = '2017')
     #---- 2018 ----#
-    instance = BtagReweightingRatio(path_on     = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/full2018_BtagReweightingOn/',
-                                    path_off    = '/nfs/scratch/fynu/fbury/BambooOutputHHtobbWW/full2018_BtagReweightingOff/',
+    instance = BtagReweightingRatio(path_on     = '/home/ucl/cp3/fbury/scratch/BambooOutputHHtobbWW/utils/Btag2018_BtagReweightingOn_wjets',
+                                    path_off    = '/home/ucl/cp3/fbury/scratch/BambooOutputHHtobbWW/utils/Btag2018_BtagReweightingOff_wjets',
                                     list_hists  = ['NoChannel_NoSelection_Ak4Jets_N'],
                                     outputname  = 'BtagReweightingRatio_jetN',
-                                    pdfname     = 'BtagReweightingRatio_2018.pdf',
+                                    pdfname     = 'BtagReweightingRatio_wjets_2018.pdf',
                                     era         = '2018')
+

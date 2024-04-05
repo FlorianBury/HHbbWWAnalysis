@@ -1,31 +1,34 @@
 
-ggHH_kl_0_kt_1_hbbhww:
-  type: signal
-  legend: HH bbWW GGF (cHHH0) 
-  order: 14
-  hide: True
-  line-color: '#288a24'
-  fill-color: '#288a24'
-  line-type: 1
-  line-width: 2
-  fill-type: 3345
-  files:
-    - cat: [".*SL.*"]
-      files:
-        - GluGluToHHTo2B2VTo2L2Nu_node_cHHH0.root
-        - GluGluToHHTo2B2VLNu2J_node_cHHH0.root
-    - cat: [".*DL.*"]
-      files:
-        - GluGluToHHTo2B2VTo2L2Nu_node_cHHH0.root
+#ggHH_kl_0_kt_1_hbbhww:
+#  type: signal
+#  legend: HH bbWW GGF (cHHH0) 
+#  order: 14
+#  hide: True
+#  line-color: '#288a24'
+#  fill-color: '#288a24'
+#  line-type: 1
+#  line-width: 2
+#  fill-type: 3345
+#  files:
+#    - cat: [".*SL.*"]
+#      files:
+#        - GluGluToHHTo2B2VTo2L2Nu_node_cHHH0.root
+#        - GluGluToHHTo2B2VLNu2J_node_cHHH0.root
+#    - cat: [".*DL.*"]
+#      files:
+#        - GluGluToHHTo2B2VTo2L2Nu_node_cHHH0.root
 ggHH_kl_1_kt_1_hbbhww:
   type: signal
-  legend: HH bbWW GGF (cHHH1) 
+  legend: HH#rightarrow bbWW (GGF)
+  #legend: HH#rightarrow bbWW (GGF) (x 10^{5})
   order: 14
   line-color: '#288a24'
   fill-color: '#288a24'
   line-type: 1
   line-width: 2
   fill-type: 3345
+  #scale: 100000
+  #scale: 100
   files:
     - cat: [".*SL.*"]
       files:
@@ -72,21 +75,22 @@ ggHH_kl_5_kt_1_hbbhww:
         - GluGluToHHTo2B2VTo2L2Nu_node_cHHH5.root
 
 
-ggHH_kl_0_kt_1_hbbhtt:
-  type: signal
-  legend: HH bb#tau#tau GGF (cHHH0) 
-  order: 14
-  hide: True
-  line-color: '#c4082e'
-  fill-color: '#c4082e'
-  line-type: 1
-  line-width: 2
-  fill-type: 3345
-  files:
-    - GluGluToHHTo2B2Tau_node_cHHH0.root
+#ggHH_kl_0_kt_1_hbbhtt:
+#  type: signal
+#  legend: HH bb#tau#tau GGF (cHHH0) 
+#  order: 14
+#  hide: True
+#  line-color: '#c4082e'
+#  fill-color: '#c4082e'
+#  line-type: 1
+#  line-width: 2
+#  fill-type: 3345
+#  files:
+#    - GluGluToHHTo2B2Tau_node_cHHH0.root
 ggHH_kl_1_kt_1_hbbhtt:
   type: signal
   legend: HH bb#tau#tau GGF (cHHH1) 
+  hide: True
   order: 14
   line-color: '#c4082e'
   fill-color: '#c4082e'
@@ -122,24 +126,24 @@ ggHH_kl_5_kt_1_hbbhtt:
 
 
 
-qqHH_CV_0p5_C2V_1_kl_1_hbbhww:
-  type: signal
-  legend: HH bbWW VBF (CV 0.5 - C2V 1 - C3 1) 
-  order: 14
-  hide: True
-  line-color: '#cf8d13'
-  fill-color: '#cf8d13'
-  line-type: 1
-  line-width: 2
-  fill-type: 3354
-  files:
-    - cat: [".*SL.*"]
-      files:
-        - VBFHHTo2B2VTo2L2Nu_CV_0_5_C2V_1_C3_1_dipoleRecoilOff.root
-        - VBFHHTo2B2WToLNu2J_CV_0_5_C2V_1_C3_1_dipoleRecoilOff.root
-    - cat: [".*DL.*"]
-      files:
-        - VBFHHTo2B2VTo2L2Nu_CV_0_5_C2V_1_C3_1_dipoleRecoilOff.root
+#qqHH_CV_0p5_C2V_1_kl_1_hbbhww:
+#  type: signal
+#  legend: HH bbWW VBF (CV 0.5 - C2V 1 - C3 1) 
+#  order: 14
+#  hide: True
+#  line-color: '#cf8d13'
+#  fill-color: '#cf8d13'
+#  line-type: 1
+#  line-width: 2
+#  fill-type: 3354
+#  files:
+#    - cat: [".*SL.*"]
+#      files:
+#        - VBFHHTo2B2VTo2L2Nu_CV_0_5_C2V_1_C3_1_dipoleRecoilOff.root
+#        - VBFHHTo2B2WToLNu2J_CV_0_5_C2V_1_C3_1_dipoleRecoilOff.root
+#    - cat: [".*DL.*"]
+#      files:
+#        - VBFHHTo2B2VTo2L2Nu_CV_0_5_C2V_1_C3_1_dipoleRecoilOff.root
 qqHH_CV_1p5_C2V_1_kl_1_hbbhww:
   type: signal
   legend: HH bbWW VBF (CV 1.5 - C2V 1 - C3 1) 
@@ -161,8 +165,8 @@ qqHH_CV_1p5_C2V_1_kl_1_hbbhww:
 qqHH_CV_1_C2V_0_kl_1_hbbhww:
   type: signal
   legend: HH bbWW VBF (CV 1 - C2V 0 - C3 1) 
-  order: 14
   hide: True
+  order: 14
   line-color: '#cf8d13'
   fill-color: '#cf8d13'
   line-type: 1
@@ -196,10 +200,14 @@ qqHH_CV_1_C2V_1_kl_0_hbbhww:
         - VBFHHTo2B2VTo2L2Nu_CV_1_C2V_1_C3_0_dipoleRecoilOff.root
 qqHH_CV_1_C2V_1_kl_1_hbbhww:
   type: signal
-  legend: HH bbWW VBF (CV 1 - C2V 1 - C3 1) 
+  #legend: HH bbWW VBF (CV 1 - C2V 1 - C3 1) 
+  legend: HH#rightarrow bbWW (VBF)
+  #legend: HH#rightarrow bbWW (VBF) (x 2 10^{6})
+  #scale: 2000000
+  #scale: 1000
   order: 14
-  line-color: '#cf8d13'
-  fill-color: '#cf8d13'
+  fill-color: '#c70505'
+  line-color: '#c70505'
   line-type: 1
   line-width: 2
   fill-type: 3354
@@ -249,18 +257,18 @@ qqHH_CV_1_C2V_2_kl_1_hbbhww:
         - VBFHHTo2B2VTo2L2Nu_CV_1_C2V_2_C3_1_dipoleRecoilOff.root
 
 
-qqHH_CV_0p5_C2V_1_kl_1_hbbhtt:
-  type: signal
-  legend: HH bb#tau#tau VBF (CV 0.5 - C2V 1 - C3 1) 
-  order: 14
-  hide: True
-  line-color: '#b3b307'
-  fill-color: '#b3b307'
-  line-type: 1
-  line-width: 2
-  fill-type: 3354
-  files:
-    - VBFHHTo2B2Tau_CV_0_5_C2V_1_C3_1_dipoleRecoilOff.root
+#qqHH_CV_0p5_C2V_1_kl_1_hbbhtt:
+#  type: signal
+#  legend: HH bb#tau#tau VBF (CV 0.5 - C2V 1 - C3 1) 
+#  order: 14
+#  hide: True
+#  line-color: '#b3b307'
+#  fill-color: '#b3b307'
+#  line-type: 1
+#  line-width: 2
+#  fill-type: 3354
+#  files:
+#    - VBFHHTo2B2Tau_CV_0_5_C2V_1_C3_1_dipoleRecoilOff.root
 qqHH_CV_1p5_C2V_1_kl_1_hbbhtt:
   type: signal
   legend: HH bb#tau#tau VBF (CV 1.5 - C2V 1 - C3 1) 
@@ -301,6 +309,7 @@ qqHH_CV_1_C2V_1_kl_1_hbbhtt:
   type: signal
   legend: HH bb#tau#tau VBF (CV 1 - C2V 1 - C3 1) 
   order: 14
+  hide: True
   line-color: '#b3b307'
   fill-color: '#b3b307'
   line-type: 1

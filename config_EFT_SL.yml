@@ -38,4 +38,4 @@ args:
     - cluster6: "--HHReweighting Benchmarkcluster6"
     - cluster7: "--HHReweighting Benchmarkcluster7"
   
-output: /nfs/scratch/fynu/gsaha/SL_EFT_Syst/full{era}NanoV7_TTHIDLoose_Fake_SL_DNN01_GGFNLO_Benchmark{BM}
+output: /nfs/scratch/fynu/fbury/SL_EFT_Syst/full{era}NanoV7_TTHIDLoose_Fake_SL_DNN01_GGFNLO_Benchmark{BM}

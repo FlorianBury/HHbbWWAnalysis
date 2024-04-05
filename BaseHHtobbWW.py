@@ -139,6 +139,10 @@ One lepton and and one jet argument must be specified in addition to the require
                             action      = "store_true",
                             default     = False,
                             help="Print yield to screen (for debugging)")
+        parser.add_argument("--Inclusive",
+                            action      = "store_true",
+                            default     = False,
+                            help="Do not apply any selection in the Base class")
 
 
 
@@ -289,6 +293,12 @@ One lepton and and one jet argument must be specified in addition to the require
                             action      = "store",
                             type        = str,
                             help        = "Specify the channel for the tuple : ElEl, MuMu, ElMu")
+        parser.add_argument("--Systematic",
+                            action      = "store",
+                            type        = str,
+                            help        = "Which systematic to use to fill skim (default='nominal')",
+                            default     = "nominal")
+
         parser.add_argument("--FakeCR",
                             action      = "store_true",
                             default     = False,
@@ -453,7 +463,7 @@ One lepton and and one jet argument must be specified in addition to the require
 
         #----- Safeguards for signals -----#
         if "HH" in sample:
-            noSel = noSel.refine('HHMCWeight',cut=[op.abs(tree.genWeight)<100]) # TODO : put back
+            noSel = noSel.refine('HHMCWeight',cut=[op.abs(tree.genWeight)<100])
             if self.args.PrintYield:
                 self.yields.add(noSel)
             # Correct the gen event weight sum #
@@ -466,7 +476,7 @@ One lepton and and one jet argument must be specified in addition to the require
 
         #----- Genweight -----#
         if self.is_MC:
-            noSel = noSel.refine("genWeight", weight=tree.genWeight) # TODO : put back
+            noSel = noSel.refine("genWeight", weight=tree.genWeight)
             if self.args.PrintYield:
                 self.yields.add(noSel)
 
@@ -510,7 +520,8 @@ One lepton and and one jet argument must be specified in addition to the require
                               or self.args.BtagReweightingOn
                               or self.args.BtagReweightingOff
                               or self.args.DYStitchingPlots
-                              or self.args.WJetsStitchingPlots)
+                              or self.args.WJetsStitchingPlots
+                              or self.args.Inclusive)
         # Inclusive plots
         # If no lepton, jet and channel selection : basic object selection (no trigger nor corrections)
         if self.inclusive_sel:

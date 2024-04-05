@@ -52,6 +52,9 @@ samples:
     # Theory #
   - config: analysis2016_v7_theory.yml
     keys: theory
+    # TF #
+  - config: analysis2016_v7_TF.yml
+    keys: TF
   
 datadriven: !include datadriven.yml
 benchmarks: !include benchmarks.yml

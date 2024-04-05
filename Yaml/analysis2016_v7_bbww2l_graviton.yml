@@ -6,7 +6,7 @@
 ##### Double Lepton 
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-250:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   files: /nfs/user/fbury/CustomResonantHHProduction/RunIISummer16NanoAODv7_102X_mcRun2_asymptotic_v8_v1/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-250_narrow_13TeV-madgraph-pythia8.txt
   era: '2016'
   generated-events: genEventSumw
@@ -20,7 +20,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-250:
   mass: 250
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-260:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-260_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -34,7 +34,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-260:
   mass: 260
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-270:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-270_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -48,7 +48,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-270:
   mass: 270
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-280:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   files: /nfs/user/fbury/CustomResonantHHProduction/RunIISummer16NanoAODv7_102X_mcRun2_asymptotic_v8_v2/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-280_narrow_13TeV-madgraph-pythia8.txt
   era: '2016'
   generated-events: genEventSumw
@@ -62,7 +62,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-280:
   mass: 280
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-300:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-300_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v2/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -76,7 +76,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-300:
   mass: 300
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-320:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   files: /nfs/user/fbury/CustomResonantHHProduction/RunIISummer16NanoAODv7_102X_mcRun2_asymptotic_v8_v1/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-320_narrow_13TeV-madgraph-pythia8.txt
   era: '2016'
   generated-events: genEventSumw
@@ -90,7 +90,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-320:
   mass: 320
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-350:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-350_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -104,7 +104,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-350:
   mass: 350
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-400:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-400_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -118,7 +118,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-400:
   mass: 400
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-450:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-450_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -132,7 +132,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-450:
   mass: 450
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-500:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-500_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -146,7 +146,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-500:
   mass: 500
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-550:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-550_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -160,7 +160,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-550:
   mass: 550
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-600:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-600_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -174,7 +174,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-600:
   mass: 600
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-650:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-650_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -188,7 +188,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-650:
   mass: 650
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-700:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-700_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -202,7 +202,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-700:
   mass: 700
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-750:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   files: /nfs/user/fbury/CustomResonantHHProduction/RunIISummer16NanoAODv7_102X_mcRun2_asymptotic_v8_v2/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-750_narrow_13TeV-madgraph-pythia8.txt
   era: '2016'
   generated-events: genEventSumw
@@ -216,7 +216,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-750:
   mass: 750
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-800:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-800_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -230,7 +230,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-800:
   mass: 800
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-850:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   files: /nfs/user/fbury/CustomResonantHHProduction/RunIISummer16NanoAODv7_102X_mcRun2_asymptotic_v8_v1/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-850_narrow_13TeV-madgraph-pythia8.txt
   era: '2016'
   generated-events: genEventSumw
@@ -244,7 +244,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-850:
   mass: 850
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-900:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-900_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw
@@ -258,7 +258,7 @@ GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-900:
   mass: 900
 GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-1000:
   cross-section: 1.
-  branching-ratio: 0.017217669930468738
+  branching-ratio: 0.027669886574221
   db: das:/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-1000_narrow_13TeV-madgraph-v2/RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1/NANOAODSIM
   era: '2016'
   generated-events: genEventSumw

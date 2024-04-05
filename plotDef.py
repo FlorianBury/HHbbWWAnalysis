@@ -2581,7 +2581,7 @@ def makeDoubleLeptonHMEPlots(sel,suffix,channel,HME):
     plots.append(Plot.make1D("%s_%s_HME"%(channel,suffix),
                              HME,
                              sel,
-                             EquidistantBinning(200,0.,2000.),
+                             EquidistantBinning(300,0.,3000.),
                              xTitle = "HME [GeV]",
                              plotopts = channelLabel))
 

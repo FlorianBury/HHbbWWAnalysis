@@ -1,12 +1,13 @@
 import os
 import sys
+import copy
 from operator import mul
 from functools import reduce
 
 from bamboo.analysismodules import HistogramsModule, DataDrivenBackgroundHistogramsModule
 from bamboo import treefunctions as op
 from bamboo.analysisutils import makePileupWeight
-from bamboo.plots import Plot, Skim
+from bamboo.plots import Plot, Skim, EquidistantBinning
 
 from IPython import embed
 
@@ -15,20 +16,17 @@ from BaseHHtobbWW import BaseNanoHHtobbWW
 from selectionDef import *
 from highlevelLambdas import *
 
-#===============================================================================================#
-#                                 SkimmerHHtobbWW                                               #
-#===============================================================================================#
-class SkimmerMEMHH(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
+class SkimmerMEMHHDL(BaseNanoHHtobbWW,HistogramsModule):
     """ Plotter module: HH->bbW(->e/µ nu)W(->e/µ nu) histograms from NanoAOD """
     def __init__(self, args):
-        super(SkimmerMEMHH, self).__init__(args)
+        super(SkimmerMEMHHDL, self).__init__(args)
 
     def initialize(self):
-        super(SkimmerMEMHH, self).initialize(True) # avoids doing the pseudo-data for skimmer
+        super(SkimmerMEMHHDL, self).initialize(True) # avoids doing the pseudo-data for skimmer
 
 
     def definePlots(self, t, noSel, sample=None, sampleCfg=None):
-        noSel = super(SkimmerMEMHH,self).prepareObjects(t, noSel, sample, sampleCfg, "DL")
+        noSel = super(SkimmerMEMHHDL,self).prepareObjects(t, noSel, sample, sampleCfg, "DL", forSkimmer=True)
             # For the Skimmer, SF must not use defineOnFirstUse -> segmentation fault
 
         # Initialize #
@@ -144,6 +142,8 @@ class SkimmerMEMHH(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
                 varsToKeep['l2_pdgId']  = l2.pdgId
                 varsToKeep['l2_charge'] = l2.charge
 
+                varsToKeep['m_ll'] = op.invariant_mass(l1.p4,l2.p4)
+
                 ##----- Jet variables -----#
                 jets = self.ak4JetsByBtagScore
                 for idx in range(1,5):
@@ -155,11 +155,16 @@ class SkimmerMEMHH(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
                     varsToKeep[f'j{idx}_eta'] = op.switch(op.rng_len(jets)>=idx, jets[idx-1].eta, op.c_float(-9999))
                     varsToKeep[f'j{idx}_phi'] = op.switch(op.rng_len(jets)>=idx, jets[idx-1].phi, op.c_float(-9999))
                     varsToKeep[f'j{idx}_btag']= op.switch(op.rng_len(jets)>=idx, jets[idx-1].btagDeepFlavB, op.c_float(-9999))
-
+                    varsToKeep[f'j{idx}_btagged']= op.switch(op.rng_len(jets)>=idx, op.switch(self.lambda_ak4Btag(jets[idx-1]),1,0), op.c_float(-9999))
 
                 varsToKeep['n_ak4'] = op.static_cast("UInt_t",op.rng_len(self.ak4Jets))
                 varsToKeep['n_ak4_btag'] = op.static_cast("UInt_t",op.rng_len(self.ak4BJets))
-
+                if era == "2016":
+                    varsToKeep['btag_threshold'] = op.c_float(0.3093)
+                if era == "2017":
+                    varsToKeep['btag_threshold'] = op.c_float(0.3033)
+                if era == "2018":
+                    varsToKeep['btag_threshold'] = op.c_float(0.2770)
 
                 #----- Fatjet variables -----#
                 fatjets = self.ak8BJets
@@ -198,44 +203,81 @@ class SkimmerMEMHH(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
                 varsToKeep['n_ak8'] = op.static_cast("UInt_t",op.rng_len(self.ak8Jets))
                 varsToKeep['n_ak8_btag'] = op.static_cast("UInt_t",op.rng_len(self.ak8BJets))
 
+                #----- VBF variables -----#
+                if "Resolved" in jet_selection:
+                    VBFpairs = self.VBFJetPairsResolved
+                if "Boosted" in jet_selection:
+                    VBFpairs = self.VBFJetPairsBoosted
+
+                varsToKeep['has_VBF']     = op.static_cast("UInt_t",op.rng_len(VBFpairs)>0)
+
+                varsToKeep['VBF_j1_Px']   = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][0].p4.Px(), op.c_float(-9999))
+                varsToKeep['VBF_j1_Py']   = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][0].p4.Py(), op.c_float(-9999))
+                varsToKeep['VBF_j1_Pz']   = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][0].p4.Pz(), op.c_float(-9999))
+                varsToKeep['VBF_j1_E']    = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][0].p4.E(), op.c_float(-9999))
+                varsToKeep['VBF_j1_pt']   = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][0].pt, op.c_float(-9999))
+                varsToKeep['VBF_j1_eta']  = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][0].eta, op.c_float(-9999))
+                varsToKeep['VBF_j1_phi']  = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][0].phi, op.c_float(-9999))
+
+                varsToKeep['VBF_j2_Px']   = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][1].p4.Px(), op.c_float(-9999))
+                varsToKeep['VBF_j2_Py']   = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][1].p4.Py(), op.c_float(-9999))
+                varsToKeep['VBF_j2_Pz']   = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][1].p4.Pz(), op.c_float(-9999))
+                varsToKeep['VBF_j2_E']    = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][1].p4.E(), op.c_float(-9999))
+                varsToKeep['VBF_j2_pt']   = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][1].pt, op.c_float(-9999))
+                varsToKeep['VBF_j2_eta']  = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][1].eta, op.c_float(-9999))
+                varsToKeep['VBF_j2_phi']  = op.switch(op.rng_len(VBFpairs)>0, VBFpairs[0][1].phi, op.c_float(-9999))
+
+
                 #----- Additional variables -----#
                 if self.is_MC:
-                    varsToKeep["MC_weight"]         = t.genWeight
+                    varsToKeep["MC_weight"]     = t.genWeight
                 varsToKeep['total_weight']      = selObj.sel.weight
                 varsToKeep["event"]             = None # Already in tree
                 varsToKeep["run"]               = None # Already in tree
                 varsToKeep["ls"]                = t.luminosityBlock
 
 
-                #----- Add nominal skim into plot list -----#
-                plots.append(Skim(f"{channel}_{jet_selection}_nominal", varsToKeep, selObj.sel))
+                #----- Add to plots -----#
+                if self.args.NoSystematics or self.args.Systematic == 'nominal':
+                    plots.append(Skim(f"{channel}_{jet_selection}_nominal", varsToKeep, selObj.sel))
+                else:
+                    # Get all possible variations #
+                    systematics = []
+                    for name,var in varsToKeep.items():
+                        if var is None:
+                            continue
+                        if name == 'total_weight':
+                            continue # otherwise we catch also pure-weight systematics
+                        for syst in op.getSystematicVariations(var):
+                            if syst not in systematics:
+                                systematics.append(syst)
+                    # Check if valid systematic #
+                    if self.args.Systematic not in systematics:
+                        raise RuntimeError(f'Systematic {self.args.Systematic} not in list {systematics}')
+                    # Produce up and down variations #
+                    for name, var in varsToKeep.items():
+                        if var is not None:
+                            varsToKeep[name] = op.forSystematicVariation(var,self.args.Systematic)
+                    plots.append(Skim(f"{channel}_{jet_selection}_{self.args.Systematic}", varsToKeep, selObj.sel))
 
                 #----- Systematic variatons -----#
-                # Get all possible variations #
-                systematics = []
-                for name,var in varsToKeep.items():
-                    if var is None:
-                        continue
-                    if name == 'total_weight':
-                        continue # otherwise we catch also pure-weight systematics
-                    for syst in op.getSystematicVariations(var):
-                        if syst not in systematics:
-                            systematics.append(syst)
-
-                # Produce new skim for each systematic #
-                if not self.args.NoSystematics:
-                    for systematic in systematics:
-                        varsToKeepSyst = {}
-                        for name, var in varsToKeep.items():
-                            if var is None:
-                                varsToKeepSyst[name] = var
-                            else:
-                                varsToKeepSyst[name] = op.forSystematicVariation(var,systematic)
-                        plots.append(Skim(f"{channel}_{jet_selection}_{systematic}", varsToKeepSyst, selObj.sel))
+                #if not self.args.NoSystematics:
+                #    #systDicts = []
+                #    # Produce new skim for each systematic #
+                #    for systematic in systematics:
+                #        varsToKeepSyst = {}
+                #        for name, var in varsToKeep.items():
+                #            if var is None:
+                #                varsToKeepSyst[name] = var
+                #            else:
+                #                name += '_'+systematic
+                #                varsToKeepSyst[name] = op.forSystematicVariation(var,systematic)
+                #        plots.append(Skim(f"{channel}_{jet_selection}_{systematic}", varsToKeepSyst, selObj.sel))
+                #        break
         return plots
 
     def postProcess(self, taskList, config=None, workdir=None, resultsdir=None):
-        super(SkimmerMEMHH, self).postProcess(taskList, config, workdir, resultsdir, forSkimmer=True)
+        super(SkimmerMEMHHDL, self).postProcess(taskList, config, workdir, resultsdir, forSkimmer=True)
         import pandas as pd
         from bamboo.root import gbl
         from bamboo.plots import Skim

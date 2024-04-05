@@ -24,7 +24,7 @@ matchingGroup:
 plotIt:
   signal_ggf_{spin}_{paramInt}_hbbhww: 
     type: signal
-    legend: "{paramInt} GeV #rightarrowHH#rightarrowbbWW [1 pb]"
+    legend: "{paramInt} GeV #rightarrowHH#rightarrow bbWW [1 pb]"
     order: 14
     line-color: '#288a24'
     fill-color: '#288a24'
@@ -33,7 +33,7 @@ plotIt:
     fill-type: 3345
   signal_ggf_{spin}_{paramInt}_hbbhtt:
     type: signal
-    legend: "{paramInt} GeV #rightarrowHH#rightarrowbb#tau#tau [1 pb]"
+    legend: "{paramInt} GeV #rightarrowHH#rightarrow bb#tau#tau [1 pb]"
     order: 14
     line-color: '#c91a26'
     fill-color: '#c91a26'

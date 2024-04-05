@@ -1,32 +1,32 @@
 #################################
 #           NOMINAL             #
 #################################
-TTTo2L2Nu_nom:
-  cross-section: 88.4
-  db: das:/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIIFall17NanoAODv7-PU2017_12Apr2018_Nano02Apr2020_new_pmx_102X_mc2017_realistic_v8-v1/NANOAODSIM
-  related-sample: TTTo2L2Nu
-  era: '2017'
-  generated-events: 'genEventSumw'
-  group: ttbar
-  split: 1000
-
-TTToSemiLeptonic_nom:
-  cross-section: 365.52
-  db: das:/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIIFall17NanoAODv7-PU2017_12Apr2018_Nano02Apr2020_new_pmx_102X_mc2017_realistic_v8-v1/NANOAODSIM
-  related-sample: TTToSemiLeptonic
-  era: '2017'
-  generated-events: 'genEventSumw'
-  group: ttbar
-  split: 1000
-
-TTToHadronic_nom:
-  cross-section: 377.85
-  db: das:/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8/RunIIFall17NanoAODv7-PU2017_12Apr2018_Nano02Apr2020_new_pmx_102X_mc2017_realistic_v8-v1/NANOAODSIM
-  related-sample: TTToHadronic
-  era: '2017'
-  generated-events: 'genEventSumw'
-  group: ttbar
-  split: 1000
+#TTTo2L2Nu_nom:
+#  cross-section: 88.4
+#  db: das:/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIIFall17NanoAODv7-PU2017_12Apr2018_Nano02Apr2020_new_pmx_102X_mc2017_realistic_v8-v1/NANOAODSIM
+#  related-sample: TTTo2L2Nu
+#  era: '2017'
+#  generated-events: 'genEventSumw'
+#  group: ttbar
+#  split: 1000
+#
+#TTToSemiLeptonic_nom:
+#  cross-section: 365.52
+#  db: das:/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIIFall17NanoAODv7-PU2017_12Apr2018_Nano02Apr2020_new_pmx_102X_mc2017_realistic_v8-v1/NANOAODSIM
+#  related-sample: TTToSemiLeptonic
+#  era: '2017'
+#  generated-events: 'genEventSumw'
+#  group: ttbar
+#  split: 1000
+#
+#TTToHadronic_nom:
+#  cross-section: 377.85
+#  db: das:/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8/RunIIFall17NanoAODv7-PU2017_12Apr2018_Nano02Apr2020_new_pmx_102X_mc2017_realistic_v8-v1/NANOAODSIM
+#  related-sample: TTToHadronic
+#  era: '2017'
+#  generated-events: 'genEventSumw'
+#  group: ttbar
+#  split: 1000
 
 #################################
 #      UNDERLYING EVENT         #

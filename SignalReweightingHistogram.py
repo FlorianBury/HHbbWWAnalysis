@@ -107,6 +107,11 @@ class SignalReweightingHistogramNano(NanoAODHistoModule,DataDrivenBackgroundHist
             'Benchmarkcluster5',  
             'Benchmarkcluster6',  
             'Benchmarkcluster7',  
+            "BenchmarkcHHH0_C2_1",
+            "BenchmarkcHHH1_C2_0p1",
+            "BenchmarkcHHH1_C2_0p35",
+            "BenchmarkcHHH1_C2_3",
+            "BenchmarkcHHH1_C2_m2",
         ]
         selections = {'':noSel}
         reweights = {}
@@ -169,7 +174,19 @@ class SignalReweightingHistogramNano(NanoAODHistoModule,DataDrivenBackgroundHist
                                      sel,
                                      VariableBinning([ 0.0, 0.4, 0.6, 0.8, 1.0 ]),
                                      xTitle = 'cos(#theta^{*})'))
-                    
+
+            plots.append(Plot.make1D(f"mHH{selName}_eq",
+                                     mHH,
+                                     sel,
+                                     EquidistantBinning(500,0,5000),
+                                     xTitle = 'm_{HH}'))
+            plots.append(Plot.make1D(f"cosThetaStar{selName}_eq",
+                                     cosHH,
+                                     sel,
+                                     EquidistantBinning(100,0,1),
+                                     xTitle = 'cos(#theta^{*})'))
+
+
         return plots
 
 

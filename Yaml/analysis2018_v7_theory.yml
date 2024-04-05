@@ -1,32 +1,32 @@
 #################################
 #           NOMINAL             #
 #################################
-TTTo2L2Nu_nom:
-  cross-section: 88.4
-  db: das:/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM
-  related-sample: TTTo2L2Nu
-  era: '2018'
-  generated-events: 'genEventSumw'
-  group: ttbar
-  split: 1000
-
-TTToSemiLeptonic_nom:
-  cross-section: 365.52
-  db: das:/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM
-  related-sample: TTToSemiLeptonic
-  era: '2018'
-  generated-events: 'genEventSumw'
-  group: ttbar
-  split: 1000
-
-TTToHadronic_nom:
-  cross-section: 377.85
-  db: das:/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM
-  related-sample: TTToHadronic
-  era: '2018'
-  generated-events: 'genEventSumw'
-  group: ttbar
-  split: 1000
+#TTTo2L2Nu_nom:
+#  cross-section: 88.4
+#  db: das:/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM
+#  related-sample: TTTo2L2Nu
+#  era: '2018'
+#  generated-events: 'genEventSumw'
+#  group: ttbar
+#  split: 1000
+#
+#TTToSemiLeptonic_nom:
+#  cross-section: 365.52
+#  db: das:/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM
+#  related-sample: TTToSemiLeptonic
+#  era: '2018'
+#  generated-events: 'genEventSumw'
+#  group: ttbar
+#  split: 1000
+#
+#TTToHadronic_nom:
+#  cross-section: 377.85
+#  db: das:/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM
+#  related-sample: TTToHadronic
+#  era: '2018'
+#  generated-events: 'genEventSumw'
+#  group: ttbar
+#  split: 1000
 
 #################################
 #      UNDERLYING EVENT         #

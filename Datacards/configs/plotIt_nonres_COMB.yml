@@ -10,62 +10,77 @@ plots:
   # Double Lepton #
   HH_DL_resolved1b_GGF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_DL_resolved2b_GGF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_DL_boosted_GGF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_DL_resolved1b_VBF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_DL_resolved2b_VBF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_DL_boosted_VBF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_DL_inclusive_DY_VVV: 
     x-axis: 'DNN output'
     blinded-range: discard
+    ratio-y-axis-range: [0.8,1.2]
   HH_DL_resolved_other: 
     x-axis: 'DNN output'
     blinded-range: discard
+    ratio-y-axis-range: [0.8,1.2]
   HH_DL_boosted_other: 
     x-axis: 'DNN output'
     blinded-range: discard
+    ratio-y-axis-range: [0.8,1.2]
 
   # Single Lepton #
   HH_SL_resolved1b_GGF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_SL_resolved2b_GGF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_SL_boosted_GGF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_SL_resolved1b_VBF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_SL_resolved2b_VBF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_SL_boosted_VBF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
-  HH_SL_inclusive_WJets:
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
+  HH_SL_inclusive_wjets_other:
     x-axis: 'DNN output'
     blinded-range: discard
-  HH_SL_inclusive_other:
-    x-axis: 'DNN output'
-    blinded-range: discard
+    ratio-y-axis-range: [0.8,1.2]
   HH_SL_resolved_TopH:
     x-axis: 'DNN output'
     blinded-range: discard
+    ratio-y-axis-range: [0.8,1.2]
   HH_SL_boosted_TopH:
     x-axis: 'DNN output'
     blinded-range: discard
+    ratio-y-axis-range: [0.8,1.2]
 
  

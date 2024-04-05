@@ -4,6 +4,7 @@ import json
 
 from bamboo.analysismodules import HistogramsModule
 from bamboo import treefunctions as op
+from bamboo import treeoperations as to
 from bamboo.plots import Plot, EquidistantBinning, VariableBinning, SummedPlot
 from bamboo.analysisutils import forceDefine
 
@@ -24,19 +25,21 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
     def initialize(self):
         super(BtagEffAndMistagNano, self).initialize(forSkimmer=True)
 
-    def definePlots(self, t, noSel, sample=None, sampleCfg=None): 
+    def definePlots(self, t, noSel, sample=None, sampleCfg=None):
         noSel = super(BtagEffAndMistagNano,self).prepareObjects(t, noSel, sample, sampleCfg, channel='DL', forSkimmer=True)
-
+        noSel = self.beforeJetselection(noSel)
         era = sampleCfg['era']
         plots = []
 
-        forceDefine(self.tree._Jet.calcProd, noSel)  # Jets for configureJets
-        forceDefine(self.tree._FatJet.calcProd, noSel)  # FatJets for configureJets
-        forceDefine(getattr(self.tree, "_{0}".format("MET" if self.era != "2017" else "METFixEE2017")).calcProd,noSel) # MET for configureMET
-
         # protection against data #
         if not self.is_MC:
-            return []
+            return plots
+
+        # Hack the selections DF to make all weights at 1 #
+        for selName,sel in noSel._fbe.selDFs.items():
+            if 'nominal' in sel.weight.keys():
+                noSel._fbe.selDFs[selName].weight['nominal'] = to.Const('float',1.)
+
 
         #############################################################################
         #                                   AK4                                     #
@@ -51,7 +54,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                          op.map(ak4_truth_lightjets, lambda j : j.btagDeepFlavB)],
                                         noSel,
                                         [EquidistantBinning(100,0.,2.5),
-                                         EquidistantBinning(100,0.,1000),
+                                         EquidistantBinning(300,0.,3000),
                                          EquidistantBinning(100,0.,1.)],
                                         xTitle = 'lightjet #eta',
                                         yTitle = 'lightjet P_{T}',
@@ -63,7 +66,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                          op.map(ak4_truth_cjets, lambda j : j.btagDeepFlavB)],
                                         noSel,
                                         [EquidistantBinning(100,0.,2.5),
-                                         EquidistantBinning(100,0.,1000),
+                                         EquidistantBinning(300,0.,3000),
                                          EquidistantBinning(100,0.,1.)],
                                         xTitle = 'cjet #eta',
                                         yTitle = 'cjet P_{T}',
@@ -75,7 +78,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                          op.map(ak4_truth_bjets, lambda j : j.btagDeepFlavB)],
                                         noSel,
                                         [EquidistantBinning(100,0.,2.5),
-                                         EquidistantBinning(100,0.,1000),
+                                         EquidistantBinning(300,0.,3000),
                                          EquidistantBinning(100,0.,1.)],
                                         xTitle = 'bjet #eta',
                                         yTitle = 'bjet P_{T}',
@@ -93,7 +96,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                          op.map(ak4_btagged_lightjets, lambda j : j.btagDeepFlavB)],
                                         noSel,
                                         [EquidistantBinning(100,0.,2.5),
-                                         EquidistantBinning(100,0.,1000),
+                                         EquidistantBinning(300,0.,3000),
                                          EquidistantBinning(100,0.,1.)],
                                         xTitle = 'lightjet #eta',
                                         yTitle = 'lightjet P_{T}',
@@ -105,7 +108,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                          op.map(ak4_btagged_cjets, lambda j : j.btagDeepFlavB)],
                                         noSel,
                                         [EquidistantBinning(100,0.,2.5),
-                                         EquidistantBinning(100,0.,1000),
+                                         EquidistantBinning(300,0.,3000),
                                          EquidistantBinning(100,0.,1.)],
                                         xTitle = 'cjet #eta',
                                         yTitle = 'cjet P_{T}',
@@ -117,7 +120,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                          op.map(ak4_btagged_bjets, lambda j : j.btagDeepFlavB)],
                                         noSel,
                                         [EquidistantBinning(100,0.,2.5),
-                                         EquidistantBinning(100,0.,1000),
+                                         EquidistantBinning(300,0.,3000),
                                          EquidistantBinning(100,0.,1.)],
                                         xTitle = 'bjet #eta',
                                         yTitle = 'bjet P_{T}',
@@ -147,7 +150,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet1_truth_lightjets, lambda j : j.subJet1.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'lightjet subJet1 #eta',
                                                 yTitle = 'lightjet subJet1 P_{T}',
@@ -158,7 +161,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet2_truth_lightjets, lambda j : j.subJet2.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'lightjet subJet2 #eta',
                                                 yTitle = 'lightjet subJet2 P_{T}',
@@ -169,7 +172,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet1_truth_cjets, lambda j : j.subJet1.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'cjet subJet1 #eta',
                                                 yTitle = 'cjet subJet1 P_{T}',
@@ -180,7 +183,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet2_truth_cjets, lambda j : j.subJet2.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'cjet subJet2 #eta',
                                                 yTitle = 'cjet subJet2 P_{T}',
@@ -191,7 +194,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet1_truth_bjets, lambda j : j.subJet1.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'bjet subJet1 #eta',
                                                 yTitle = 'bjet subJet1 P_{T}',
@@ -202,7 +205,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet2_truth_bjets, lambda j : j.subJet2.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'bjet subJet2 #eta',
                                                 yTitle = 'bjet subJet2 P_{T}',
@@ -225,7 +228,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                 yTitle = 'bjet P_{T}',
                                 zTitle = 'bjet Btagging score'))
 
-                                    
+
         # Btagged objects per flavour #
         ak8subJet1_btagged_lightjets = op.select(ak8subJet1_truth_lightjets, lambda j: self.lambda_subjetBtag(j.subJet1))
         ak8subJet2_btagged_lightjets = op.select(ak8subJet2_truth_lightjets, lambda j: self.lambda_subjetBtag(j.subJet2))
@@ -240,7 +243,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet1_btagged_lightjets, lambda j : j.subJet1.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'lightjet subJet1 #eta',
                                                 yTitle = 'lightjet subJet1 P_{T}',
@@ -251,7 +254,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet2_btagged_lightjets, lambda j : j.subJet2.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'lightjet subJet2 #eta',
                                                 yTitle = 'lightjet subJet2 P_{T}',
@@ -262,7 +265,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet1_btagged_cjets, lambda j : j.subJet1.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'cjet subJet1 #eta',
                                                 yTitle = 'cjet subJet1 P_{T}',
@@ -273,7 +276,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet2_btagged_cjets, lambda j : j.subJet2.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'cjet subJet2 #eta',
                                                 yTitle = 'cjet subJet2 P_{T}',
@@ -284,7 +287,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet1_btagged_bjets, lambda j : j.subJet1.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'bjet subJet1 #eta',
                                                 yTitle = 'bjet subJet1 P_{T}',
@@ -295,7 +298,7 @@ class BtagEffAndMistagNano(BaseNanoHHtobbWW,HistogramsModule):
                                                  op.map(ak8subJet2_btagged_bjets, lambda j : j.subJet2.btagDeepB)],
                                                 noSel,
                                                 [EquidistantBinning(100,0.,2.5),
-                                                 EquidistantBinning(100,0.,1000),
+                                                 EquidistantBinning(300,0.,3000),
                                                  EquidistantBinning(100,0.,1.)],
                                                 xTitle = 'bjet subJet2 #eta',
                                                 yTitle = 'bjet subJet2 P_{T}',

@@ -109,20 +109,8 @@ DY:
         - VBFHToWWToLNuQQDYEstimation.root
         - VBFHToZZTo4LDYEstimation.root
         - VHToNonbbDYEstimation.root
-        - W1JetsToLNuDYEstimation.root
-        - W2JetsToLNuDYEstimation.root
-        - W3JetsToLNuDYEstimation.root
-        - W4JetsToLNuDYEstimation.root
         - WGToLNuGDYEstimation.root
-        - WJetsToLNuDYEstimation.root
-        - WJetsToLNu_HT-100To200DYEstimation.root
-        - WJetsToLNu_HT-1200To2500DYEstimation.root
-        - WJetsToLNu_HT-200To400DYEstimation.root
-        - WJetsToLNu_HT-2500ToInfDYEstimation.root
-        - WJetsToLNu_HT-400To600DYEstimation.root
-        - WJetsToLNu_HT-600To800DYEstimation.root
-        - WJetsToLNu_HT-70To100DYEstimation.root
-        - WJetsToLNu_HT-800To1200DYEstimation.root
+        - WJetsToLNu_NLODYEstimation.root
         - WminusH_HToBB_WToLNuDYEstimation.root
         - WplusH_HToBB_WToLNuDYEstimation.root
         - WpWpJJDYEstimation.root
@@ -162,19 +150,7 @@ WJets:
   type: mc
   group: WJets
   files:
-    - WJetsToLNu_HT-100To200.root
-    - WJetsToLNu_HT-1200To2500.root
-    - WJetsToLNu_HT-200To400.root
-    - WJetsToLNu_HT-2500ToInf.root
-    - WJetsToLNu_HT-400To600.root
-    - WJetsToLNu_HT-600To800.root
-    - WJetsToLNu_HT-70To100.root
-    - WJetsToLNu_HT-800To1200.root
-    - WJetsToLNu.root
-    - W1JetsToLNu.root
-    - W2JetsToLNu.root
-    - W3JetsToLNu.root
-    - W4JetsToLNu.root
+    - WJetsToLNu_NLO.root
 VV:  
   fill-color: '#ccbf45'
   legend: VV(V)

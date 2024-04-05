@@ -14,4 +14,4 @@ args:
   - --analysis=nonres
   - --NoSystematics
 
-output: /home/ucl/cp3/fbury/scratch/BambooOutputHHtobbWW/FakeNC_SL_{era}_{type}
+output: /home/ucl/cp3/fbury/scratch/BambooOutputHHtobbWW/utils/full{era}NanoV7_SL_NonResonant_DNN03_FakeNC_{type}

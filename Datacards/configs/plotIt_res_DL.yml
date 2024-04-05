@@ -9,20 +9,29 @@ unitary_bin_width: True
 plots: 
   HH_DL_{mass}_resolved1b_GGF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
+    #blinded-range: [0,100]
   HH_DL_{mass}_resolved2b_GGF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
+    #blinded-range: [0,100]
   HH_DL_{mass}_boosted_GGF: 
     x-axis: 'DNN output'
-    blinded-range: [0,100]
+    blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
+    #blinded-range: [0,100]
   HH_DL_{mass}_inclusive_DY_VVV: 
     x-axis: 'DNN output'
     blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_DL_{mass}_resolved_other: 
     x-axis: 'DNN output'
     blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   HH_DL_{mass}_boosted_other: 
     x-axis: 'DNN output'
     blinded-range: discard
+    ratio-y-axis-range: [0.5,1.5]
   

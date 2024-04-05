@@ -1,22 +1,17 @@
-  limits_combined:
+#########################################################
+###                     LIMITS                        ###
+#########################################################
+  limits_comb:
     mode: limits
-    command: "combine -M AsymptoticLimits -t -1"
+    command: "combine -M AsymptoticLimits"
     submit :  
-      time: '1-00:00:00'
+      time: '0-08:00:00'
       mem : 9000
+    unblind: True
     combine_bins: True
     combine_eras: True
     split_eras: True
-    extern: 
-      txtFiles: 
-        2016: 
-          - /nfs/scratch/fynu/fbury/hig-21-005/resonant/sl/2016/{spin}/datacard_hh_bbww_sl_all_{mass}_{spin}_2016.txt
-        2017: 
-          - /nfs/scratch/fynu/fbury/hig-21-005/resonant/sl/2017/{spin}/datacard_hh_bbww_sl_all_{mass}_{spin}_2017.txt
-        2018: 
-          - /nfs/scratch/fynu/fbury/hig-21-005/resonant/sl/2018/{spin}/datacard_hh_bbww_sl_all_{mass}_{spin}_2018.txt
-      rootFiles:
-        - /home/ucl/cp3/fbury/scratch/hig-21-005/resonant/sl/*/{spin}/*{mass}*root
+    extern: !include cards_SL_Tallinn.yml
     bins:
       - HH_DL_{mass}_resolved1b_GGF
       - HH_DL_{mass}_resolved2b_GGF
@@ -24,32 +19,39 @@
       - HH_DL_{mass}_inclusive_DY_VVV
       - HH_DL_{mass}_resolved_other
       - HH_DL_{mass}_boosted_other
+      - HH_SL_{mass}_boosted_GGF
+      - HH_SL_{mass}_resolved1b_GGF
+      - HH_SL_{mass}_resolved2b_GGF
+      - HH_SL_{mass}_inclusive_wjets_other
+      - HH_SL_{mass}_resolved_TopH
+      - HH_SL_{mass}_boosted_TopH
+
   limits_SL:
     mode: limits
-    command: "combine -M AsymptoticLimits -t -1"
+    command: "combine -M AsymptoticLimits"
     submit :  
-      time: '1-00:00:00'
+      time: '0-08:00:00'
       mem : 9000
+    unblind: True
     combine_eras: True
     combine_bins: True
     split_eras: True
-    extern: 
-      txtFiles: 
-        2016: 
-          - /nfs/scratch/fynu/fbury/hig-21-005/resonant/sl/2016/{spin}/datacard_hh_bbww_sl_all_{mass}_{spin}_2016.txt
-        2017: 
-          - /nfs/scratch/fynu/fbury/hig-21-005/resonant/sl/2017/{spin}/datacard_hh_bbww_sl_all_{mass}_{spin}_2017.txt
-        2018: 
-          - /nfs/scratch/fynu/fbury/hig-21-005/resonant/sl/2018/{spin}/datacard_hh_bbww_sl_all_{mass}_{spin}_2018.txt
-      rootFiles:
-        - /home/ucl/cp3/fbury/scratch/hig-21-005/resonant/sl/*/{spin}/*{mass}*root
-    bins: []
+    extern: !include cards_SL_Tallinn.yml
+    bins: 
+      - HH_SL_{mass}_boosted_GGF
+      - HH_SL_{mass}_resolved1b_GGF
+      - HH_SL_{mass}_resolved2b_GGF
+      - HH_SL_{mass}_inclusive_wjets_other
+      - HH_SL_{mass}_resolved_TopH
+      - HH_SL_{mass}_boosted_TopH
+
   limits_DL:
     mode: limits
-    command: "combine -M AsymptoticLimits -t -1"
+    command: "combine -M AsymptoticLimits"
     submit :  
-      time: '1-00:00:00'
+      time: '0-08:00:00'
       mem : 9000
+    unblind: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -61,65 +63,25 @@
       - HH_DL_{mass}_resolved_other
       - HH_DL_{mass}_boosted_other
 
-  gof:
+
+#########################################################
+###                      GOF                          ###
+#########################################################
+  gof_comb:
     mode: gof
     command: "combine -M GoodnessOfFit --algo=saturated --toysFrequentist"
     toys: 500
     toys-per-job: 10
     combine_bins: True
     combine_eras: True
-    split_bins: True
+    split_bins: False
     split_eras: True
     plotting:
       n_bins        : 32
-      #left_margin   : 200
-      #right_margin  : 20
     submit :  
-      time: '0-02:00:00'
+      time: '0-08:00:00'
       mem : 3000
-    bins:
-      - HH_DL_{mass}_inclusive_DY_VVV
-      - HH_DL_{mass}_resolved_other
-      - HH_DL_{mass}_boosted_other
-  pulls:
-    mode: pulls_impacts
-    command: "combine -M MultiDimFit --verbose 3 --mass 125.0 --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-6000.0,6000.0 --robustFit 1"
-    mc_stats: False
-    use_snapshot: True
-    unblind: True
-    combine_bins: True
-    combine_eras: True
-    submit :  
-      time: '0-02:00:00'
-      mem : 3000
-    plotting:
-      left_margin           : 400
-      right_margin          : 20
-      label_size            : 18
-      parameters_per_page   : 35
-      order_by_impact       : True
-    bins:
-      - HH_DL_{mass}_inclusive_DY_VVV
-      - HH_DL_{mass}_resolved_other
-      - HH_DL_{mass}_boosted_other
-
-
-  impacts:
-    mode: pulls_impacts
-    command: "combine -M MultiDimFit --verbose 3 --mass 125.0 --redefineSignalPOIs r --setParameters r=1.0 --robustFit 1"
-    mc_stats: False
-    use_snapshot: True
-    combine_bins: True
-    combine_eras: True
-    submit :  
-      time: '0-06:00:00'
-      mem : 3000
-    plotting:
-      left_margin           : 400
-      right_margin          : 20
-      label_size            : 18
-      parameters_per_page   : 35
-      order_by_impact       : True
+    extern: !include cards_SL_Tallinn.yml
     bins:
       - HH_DL_{mass}_resolved1b_GGF
       - HH_DL_{mass}_resolved2b_GGF
@@ -127,23 +89,29 @@
       - HH_DL_{mass}_inclusive_DY_VVV
       - HH_DL_{mass}_resolved_other
       - HH_DL_{mass}_boosted_other
-  impacts_unblinded:
-    mode: pulls_impacts
-    command: "combine -M MultiDimFit --verbose 3 --mass 125.0 --redefineSignalPOIs r --setParameters r=1.0  --robustFit 1"
-    mc_stats: False
-    unblind: True
-    use_snapshot: True
+      - HH_SL_{mass}_boosted_GGF
+      - HH_SL_{mass}_resolved1b_GGF
+      - HH_SL_{mass}_resolved2b_GGF
+      - HH_SL_{mass}_inclusive_wjets_other
+      - HH_SL_{mass}_resolved_TopH
+      - HH_SL_{mass}_boosted_TopH
+
+
+
+  gof_DL:
+    mode: gof
+    command: "combine -M GoodnessOfFit --algo=saturated --toysFrequentist"
+    toys: 500
+    toys-per-job: 10
     combine_bins: True
     combine_eras: True
-    submit :  
-      time: '0-06:00:00'
-      mem : 3000
+    split_bins: False
+    split_eras: True
     plotting:
-      left_margin           : 400
-      right_margin          : 20
-      label_size            : 18
-      parameters_per_page   : 35
-      order_by_impact       : True
+      n_bins        : 32
+    submit :  
+      time: '0-04:00:00'
+      mem : 3000
     bins:
       - HH_DL_{mass}_resolved1b_GGF
       - HH_DL_{mass}_resolved2b_GGF
@@ -152,13 +120,322 @@
       - HH_DL_{mass}_resolved_other
       - HH_DL_{mass}_boosted_other
 
-  prefit:
+  gof_SL:
+    mode: gof
+    command: "combine -M GoodnessOfFit --algo=saturated --toysFrequentist"
+    toys: 500
+    toys-per-job: 10
+    combine_bins: True
+    combine_eras: True
+    split_bins: False
+    split_eras: True
+    plotting:
+      n_bins        : 32
+    submit :  
+      time: '0-04:00:00'
+      mem : 3000
+    extern: !include cards_SL_Tallinn.yml
+    bins: 
+      - HH_SL_{mass}_boosted_GGF
+      - HH_SL_{mass}_resolved1b_GGF
+      - HH_SL_{mass}_resolved2b_GGF
+      - HH_SL_{mass}_inclusive_wjets_other
+      - HH_SL_{mass}_resolved_TopH
+      - HH_SL_{mass}_boosted_TopH
+
+
+
+
+#########################################################
+###                  PULLS IMPACTS                    ###
+#########################################################
+
+  pulls_impacts_comb:
+    mode: pulls_impacts
+    command: "combine -M MultiDimFit --verbose 3 --mass 125.0 --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100.0,100.0  --robustFit 1"
+        # --X-rtd MINIMIZER_no_analytic
+    mc_stats: True
+    unblind: True
+    use_snapshot: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: False
+    split_bins: False
+    submit :  
+      time: '0-08:00:00'
+      mem : 3000
+    plotting:
+      left_margin           : 400
+      right_margin          : 20
+      label_size            : 18
+      parameters_per_page   : 35
+      order_by_impact       : True
+      best_fit_value        : True
+    extern: !include cards_SL_Tallinn.yml
+    bins:
+      - HH_DL_{mass}_resolved1b_GGF
+      - HH_DL_{mass}_resolved2b_GGF
+      - HH_DL_{mass}_boosted_GGF
+      - HH_DL_{mass}_inclusive_DY_VVV
+      - HH_DL_{mass}_resolved_other
+      - HH_DL_{mass}_boosted_other
+      - HH_SL_{mass}_boosted_GGF
+      - HH_SL_{mass}_resolved1b_GGF
+      - HH_SL_{mass}_resolved2b_GGF
+      - HH_SL_{mass}_inclusive_wjets_other
+      - HH_SL_{mass}_resolved_TopH
+      - HH_SL_{mass}_boosted_TopH
+
+  pulls_impacts_DL:
+    mode: pulls_impacts
+    command: "combine -M MultiDimFit --verbose 3 --mass 125.0 --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100.0,100.0  --robustFit 1"
+    mc_stats: True
+    unblind: True
+    use_snapshot: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 3000
+    plotting:
+      left_margin           : 400
+      right_margin          : 20
+      label_size            : 18
+      parameters_per_page   : 35
+      order_by_impact       : True
+      best_fit_value        : True
+    bins:
+      - HH_DL_{mass}_resolved1b_GGF
+      - HH_DL_{mass}_resolved2b_GGF
+      - HH_DL_{mass}_boosted_GGF
+      - HH_DL_{mass}_inclusive_DY_VVV
+      - HH_DL_{mass}_resolved_other
+      - HH_DL_{mass}_boosted_other
+
+  pulls_impacts_SL:
+    mode: pulls_impacts
+    command: "combine -M MultiDimFit --verbose 3 --mass 125.0 --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100.0,100.0  --robustFit 1"
+    mc_stats: True
+    unblind: True
+    use_snapshot: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    submit :  
+      time: '0-04:00:00'
+      mem : 3000
+    plotting:
+      left_margin           : 400
+      right_margin          : 20
+      label_size            : 18
+      parameters_per_page   : 35
+      order_by_impact       : True
+      best_fit_value        : True
+    extern: !include cards_SL_Tallinn.yml
+    bins: 
+      - HH_SL_{mass}_boosted_GGF
+      - HH_SL_{mass}_resolved1b_GGF
+      - HH_SL_{mass}_resolved2b_GGF
+      - HH_SL_{mass}_inclusive_wjets_other
+      - HH_SL_{mass}_resolved_TopH
+      - HH_SL_{mass}_boosted_TopH
+
+
+#########################################################
+###                      PREFIT                       ###
+#########################################################
+  prefit_SL:
     mode: prefit 
-    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-1000,1000 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures  --skipSBFit --skipBOnlyFit --ignoreCovWarning -n HHbbWW"
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures  --skipSBFit --skipBOnlyFit --ignoreCovWarning --robustFit 1 --robustHesse 1  --numToysForShapes=50"
+    unblind: True
     submit :  
-      time: '1-00:00:00'
-      mem : 20000
+      time: '5-00:00:00'
+      mem : 9000
     combine_bins: True
+    combine_eras: False # TODO : turn back on
+    split_eras: True
+    extern: !include cards_SL_Tallinn.yml
+    bins: 
+      - HH_SL_{mass}_boosted_GGF
+      - HH_SL_{mass}_resolved1b_GGF
+      - HH_SL_{mass}_resolved2b_GGF
+      - HH_SL_{mass}_inclusive_wjets_other
+      - HH_SL_{mass}_resolved_TopH
+      - HH_SL_{mass}_boosted_TopH
+
+    plots: 
+      - bin_name: SL_GGF
+        header: GGF categories ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved1b_GGF,HH_SL_{mass}_resolved2b_GGF,HH_SL_{mass}_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved1b
+        header: GGF (resolved 1b) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved2b
+        header: GGF (resolved 2b) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_boosted
+        header: GGF (boosted) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_boosted_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_Wjets_other
+        header: Wjets + other category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_inclusive_wjets_other]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: TT + single H (resolved) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_{mass}_resolved_TopH]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: TT + single H (boosted) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_{mass}_boosted_TopH]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_background
+        header: Background categories ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_{mass}_inclusive_wjets_other,HH_SL_{mass}_resolved_TopH,HH_SL_{mass}_boosted_TopH]
+        labels: ['Inclusive Wjets+other','Resolved TT+H','Boosted TT+H']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+
+
+  prefit_DL:
+    mode: prefit 
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures  --skipSBFit --skipBOnlyFit --ignoreCovWarning --robustFit 1 --robustHesse 1  --numToysForShapes=50"
+    unblind: True
+    submit :  
+      time: '5-00:00:00'
+      mem : 9000
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    bins:
+      - HH_DL_{mass}_resolved1b_GGF
+      - HH_DL_{mass}_resolved2b_GGF
+      - HH_DL_{mass}_boosted_GGF
+      - HH_DL_{mass}_inclusive_DY_VVV
+      - HH_DL_{mass}_resolved_other
+      - HH_DL_{mass}_boosted_other
+    plots: 
+      - bin_name: DL_GGF
+        header: GGF categories ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved1b_GGF,HH_DL_{mass}_resolved2b_GGF,HH_DL_{mass}_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved1b
+        header: GGF (resolved 1b) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved2b
+        header: GGF (resolved 2b) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_boosted
+        header: GGF (boosted) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_boosted_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_DY_VVV
+        header: DY + VV(V) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_inclusive_DY_VVV]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_TT_other_resolved
+        header: TT + Other (resolved) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_{mass}_resolved_other]
+        labels: ['Resolved','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_TT_other_boosted
+        header: TT + Other (boosted) category ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_{mass}_boosted_other]
+        labels: ['Resolved','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_background
+        header: Background categories ({mass} GeV)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_{mass}_inclusive_DY_VVV,HH_DL_{mass}_resolved_other,HH_DL_{mass}_boosted_other]
+        labels: ['Inclusive DY+VV(V)','Resolved other','Boosted other']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+
+
+#########################################################
+###                    POSTFIT_S                      ###
+#########################################################
+
+  postfit_b_DL:
+    mode: postfit_b
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures  --skipSBFit --ignoreCovWarning --robustFit 1 --robustHesse 1  --numToysForShapes=50"
+    submit :  
+      time: '3-00:00:00'
+      mem : 20000
+    unblind: True
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    nuisance_likelihood_scan: False
     bins:
       - HH_DL_{mass}_resolved1b_GGF
       - HH_DL_{mass}_resolved2b_GGF
@@ -169,16 +446,40 @@
     plots: 
       - bin_name: GGFnode
         header: GGF node
-        plot_options: !include prefit_DL_res_main.yml
+        plot_options: !include prefit_main.yml
         analysis: 'HH'
         categories : [HH_DL_{mass}_resolved1b_GGF,HH_DL_{mass}_resolved2b_GGF,HH_DL_{mass}_boosted_GGF]
         labels: ['Resolved 1b','Resolved 2b','Boosted']
-        unblind: False
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: GGFnode_res1b
+        header: GGF node (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: GGFnode_res2b
+        header: GGF node (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: GGFnode_boosted
+        header: GGF node (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_boosted_GGF]
+        unblind: True
         show_ratio: True
         sort_by_yield: True
       - bin_name: DYnode
         header: DY + VV(V) node
-        plot_options: !include prefit_DL_res_main.yml
+        plot_options: !include prefit_main.yml
         analysis: 'HH'
         categories : [HH_DL_{mass}_inclusive_DY_VVV]
         unblind: True
@@ -186,76 +487,418 @@
         sort_by_yield: True
       - bin_name: Othernode
         header: TT + Other Background node
-        plot_options: !include prefit_DL_res_main.yml
+        plot_options: !include prefit_main.yml
         analysis: 'HH'
         categories: [HH_DL_{mass}_resolved_other,HH_DL_{mass}_boosted_other]
         labels: ['Resolved','Boosted']
         unblind: True
         show_ratio: True
         sort_by_yield: True
-  postfit_b:
-    mode: postfit_b
-    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-1000,1000 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures  --skipSBFit --ignoreCovWarning -n HHbbWW"
+      - bin_name: BackgroundNode
+        header: Background nodes
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_{mass}_inclusive_DY_VVV,HH_DL_{mass}_resolved_other,HH_DL_{mass}_boosted_other]
+        labels: ['Inclusive DY+VV(V)','Resolved other','Boosted other']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+
+
+  postfit_s_comb:
+    mode: postfit_s
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures --skipBOnlyFit --ignoreCovWarning --robustFit 1 --robustHesse 1  --numToysForShapes=50"
+    unblind: True
     submit :  
-      time: '3-00:00:00'
-      mem : 20000
+      time: '10-00:00:00'
+      mem : 10000
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    nuisance_likelihood_scan: False
+    extern: !include cards_SL_Tallinn.yml
     bins:
+      - HH_DL_{mass}_resolved1b_GGF
+      - HH_DL_{mass}_resolved2b_GGF
+      - HH_DL_{mass}_boosted_GGF
+      - HH_DL_{mass}_inclusive_DY_VVV
+      - HH_DL_{mass}_resolved_other
+      - HH_DL_{mass}_boosted_other
+      - HH_SL_{mass}_boosted_GGF
+      - HH_SL_{mass}_resolved1b_GGF
+      - HH_SL_{mass}_resolved2b_GGF
+      - HH_SL_{mass}_inclusive_wjets_other
+      - HH_SL_{mass}_resolved_TopH
+      - HH_SL_{mass}_boosted_TopH
+    plots:
+      - bin_name: DL
+        header: DL
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved1b_GGF,HH_DL_{mass}_resolved2b_GGF,HH_DL_{mass}_boosted_GGF,HH_DL_{mass}_inclusive_DY_VVV,HH_DL_{mass}_resolved_other,HH_DL_{mass}_boosted_other]
+        labels: ['Resolved 1b GGF','Resolved 2b GGF','Boosted GGF','Inclusive DY+VV(V)','Resolved other','Boosted other']
+        overwrite_processes: !include postfit_Aachen_style_DL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+        yield_table: True
+      - bin_name: DL_GGF
+        header: GGF
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved1b_GGF,HH_DL_{mass}_resolved2b_GGF,HH_DL_{mass}_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        overwrite_processes: !include postfit_Aachen_style_DL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved1b
+        header: GGF (resolved 1b)
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved1b_GGF]
+        overwrite_processes: !include postfit_Aachen_style_DL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved2b
+        header: GGF (resolved 2b)
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved2b_GGF]
+        overwrite_processes: !include postfit_Aachen_style_DL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_boosted
+        header: GGF (boosted)
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_boosted_GGF]
+        overwrite_processes: !include postfit_Aachen_style_DL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_DY_VVV
+        header: DY + VV(V) 
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_inclusive_DY_VVV]
+        overwrite_processes: !include postfit_Aachen_style_DL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_TT_other_resolved
+        header: TT + Other resolved 
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_{mass}_resolved_other]
+        labels: ['Resolved','Boosted']
+        overwrite_processes: !include postfit_Aachen_style_DL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_TT_other_boosted
+        header: TT + Other boosted
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_{mass}_boosted_other]
+        labels: ['Resolved','Boosted']
+        overwrite_processes: !include postfit_Aachen_style_DL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_background
+        header: Background
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_{mass}_inclusive_DY_VVV,HH_DL_{mass}_resolved_other,HH_DL_{mass}_boosted_other]
+        labels: ['Inclusive DY+VV(V)','Resolved other','Boosted other']
+        overwrite_processes: !include postfit_Aachen_style_DL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL
+        header: SL
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved1b_GGF,HH_SL_{mass}_resolved2b_GGF,HH_SL_{mass}_boosted_GGF,HH_SL_{mass}_inclusive_wjets_other,HH_SL_{mass}_resolved_TopH,HH_SL_{mass}_boosted_TopH]
+        labels: ['Resolved 1b GGF','Resolved 2b GGF','Boosted GGF','Inclusive Wjets+other','Resolved TT+H','Boosted TT+H']
+        overwrite_processes: !include postfit_Aachen_style_SL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+        yield_table: True
+      - bin_name: SL_GGF
+        header: GGF 
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved1b_GGF,HH_SL_{mass}_resolved2b_GGF,HH_SL_{mass}_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        overwrite_processes: !include postfit_Aachen_style_SL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved1b
+        header: GGF (resolved 1b)
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved1b_GGF]
+        overwrite_processes: !include postfit_Aachen_style_SL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved2b
+        header: GGF (resolved 2b)
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved2b_GGF]
+        overwrite_processes: !include postfit_Aachen_style_SL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_boosted
+        header: GGF (boosted)
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_boosted_GGF]
+        overwrite_processes: !include postfit_Aachen_style_SL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_Wjets_other
+        header: Wjets + other 
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_inclusive_wjets_other]
+        overwrite_processes: !include postfit_Aachen_style_SL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: TT + single H (resolved)
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_{mass}_resolved_TopH]
+        overwrite_processes: !include postfit_Aachen_style_SL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: TT + single H (boosted)
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_{mass}_boosted_TopH]
+        overwrite_processes: !include postfit_Aachen_style_SL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_background
+        header: Background 
+        plot_options: !include postfit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_{mass}_inclusive_wjets_other,HH_SL_{mass}_resolved_TopH,HH_SL_{mass}_boosted_TopH]
+        labels: ['Inclusive Wjets+other','Resolved TT+H','Boosted TT+H']
+        overwrite_processes: !include postfit_Aachen_style_SL.yml
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+
+
+  postfit_s_SL:
+    mode: postfit_s
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures --skipBOnlyFit --ignoreCovWarning  --robustFit 1 --robustHesse 1  --numToysForShapes=50"
+    unblind: True
+    submit :  
+      time: '10-00:00:00'
+      mem : 10000
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    nuisance_likelihood_scan: False
+    extern: !include cards_SL_Tallinn.yml
+    bins: 
+      - HH_SL_{mass}_boosted_GGF
+      - HH_SL_{mass}_resolved1b_GGF
+      - HH_SL_{mass}_resolved2b_GGF
+      - HH_SL_{mass}_inclusive_wjets_other
+      - HH_SL_{mass}_resolved_TopH
+      - HH_SL_{mass}_boosted_TopH
+    plots:
+      - bin_name: SL
+        header: SL
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved1b_GGF,HH_SL_{mass}_resolved2b_GGF,HH_SL_{mass}_boosted_GGF,HH_SL_{mass}_inclusive_wjets_other,HH_SL_{mass}_resolved_TopH,HH_SL_{mass}_boosted_TopH]
+        labels: ['Resolved 1b GGF','Resolved 2b GGF','Boosted GGF','Inclusive Wjets+other','Resolved TT+H','Boosted TT+H']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+        yield_table: True
+      - bin_name: SL_GGF
+        header: GGF 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved1b_GGF,HH_SL_{mass}_resolved2b_GGF,HH_SL_{mass}_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved1b
+        header: GGF (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_resolved2b
+        header: GGF (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_GGF_boosted
+        header: GGF (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_boosted_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_Wjets_other
+        header: Wjets + other 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_SL_{mass}_inclusive_wjets_other]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: TT + single H (resolved)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_{mass}_resolved_TopH]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_TT_H_resolved
+        header: TT + single H (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_{mass}_boosted_TopH]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: SL_background
+        header: Background 
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_SL_{mass}_inclusive_wjets_other,HH_SL_{mass}_resolved_TopH,HH_SL_{mass}_boosted_TopH]
+        labels: ['Inclusive Wjets+other','Resolved TT+H','Boosted TT+H']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+
+
+
+  postfit_s_DL:
+    mode: postfit_s
+    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-100,100 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes  --keepFailures --skipBOnlyFit --ignoreCovWarning  --robustFit 1 --robustHesse 1  --numToysForShapes=50"
+    unblind: True
+    submit :  
+      time: '10-00:00:00'
+      mem : 10000
+    combine_bins: True
+    combine_eras: True
+    split_eras: True
+    nuisance_likelihood_scan: False
+    bins:
+      - HH_DL_{mass}_resolved1b_GGF
+      - HH_DL_{mass}_resolved2b_GGF
+      - HH_DL_{mass}_boosted_GGF
       - HH_DL_{mass}_inclusive_DY_VVV
       - HH_DL_{mass}_resolved_other
       - HH_DL_{mass}_boosted_other
     plots: 
-      - bin_name: DYnode
-        header: DY + VV(V) node
-        plot_options: !include prefit_DL_res_main.yml
+      - bin_name: DL
+        header: DL
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved1b_GGF,HH_DL_{mass}_resolved2b_GGF,HH_DL_{mass}_boosted_GGF,HH_DL_{mass}_inclusive_DY_VVV,HH_DL_{mass}_resolved_other,HH_DL_{mass}_boosted_other]
+        labels: ['Resolved 1b GGF','Resolved 2b GGF','Boosted GGF','Inclusive DY+VV(V)','Resolved other','Boosted other']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+        yield_table: True
+      - bin_name: DL_GGF
+        header: GGF
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved1b_GGF,HH_DL_{mass}_resolved2b_GGF,HH_DL_{mass}_boosted_GGF]
+        labels: ['Resolved 1b','Resolved 2b','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved1b
+        header: GGF (resolved 1b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved1b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_resolved2b
+        header: GGF (resolved 2b)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_resolved2b_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_GGF_boosted
+        header: GGF (boosted)
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories : [HH_DL_{mass}_boosted_GGF]
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_DY_VVV
+        header: DY + VV(V) 
+        plot_options: !include prefit_main.yml
         analysis: 'HH'
         categories : [HH_DL_{mass}_inclusive_DY_VVV]
         unblind: True
         show_ratio: True
         sort_by_yield: True
-      - bin_name: Othernode
-        header: TT + Other Background node
-        plot_options: !include prefit_DL_res_main.yml
+      - bin_name: DL_TT_other_resolved
+        header: TT + Other resolved 
+        plot_options: !include prefit_main.yml
         analysis: 'HH'
-        categories: [HH_DL_{mass}_resolved_other,HH_DL_{mass}_boosted_other]
+        categories: [HH_DL_{mass}_resolved_other]
         labels: ['Resolved','Boosted']
         unblind: True
         show_ratio: True
         sort_by_yield: True
-
-#  postfit_s:
-#    mode: postfit_s
-#    command: "combine -M FitDiagnostics --verbose 3 --mass 125  --redefineSignalPOIs r --setParameters r=1.0 --setParameterRanges r=-1000,1000 --saveShapes --saveWithUncertainties --saveNormalizations --saveWorkspace --saveToys --saveNLL --saveOverallShapes --cminDefaultMinimizerType Minuit2 --cminDefaultMinimizerStrategy 0 --cminFallbackAlgo Minuit2,0:1.0 --X-rtd MINIMIZER_no_analytic --keepFailures  --skipBOnlyFit --ignoreCovWarning -n HHbbWW"
-#    submit :  
-#      time: '1-00:00:00'
-#      mem : 15000
-#    bins:
-#      - HH_DL_resolved1b_GGF
-#      - HH_DL_{mass}_resolved2b_GGF
-#      - HH_DL_{mass}_boosted_GGF
-#      - HH_DL_{mass}_resolved_DY_VVV
-#      - HH_DL_{mass}_boosted_DY_VVV
-#      - HH_DL_{mass}_resolved_other
-#      - HH_DL_{mass}_boosted_other
-#    plotting:
-#        main: !include postfit_main.yml
-#        plots: 
-#          - name: GGFnode
-#            header: GGF node
-#            bins : [HH_DL_resolved1b_GGF,HH_DL_resolved2b_GGF,HH_DL_boosted_GGF]
-#            labels: ['Resolved 1b','Resolved 2b','Boosted']
-#            labelpos: [0.5, 8.5, 17]
-#            unblind: False
-#          - name: DYnode
-#            header: DY + VV(V) node
-#            bins : [HH_DL_resolved_DY_VVV,HH_DL_boosted_DY_VVV]
-#            labels: ['Resolved','Boosted']
-#            labelpos: [2, 10]
-#            unblind: True
-#          - name: Othernode
-#            header: TT + Other BKG node
-#            bins : [HH_DL_resolved_other,HH_DL_boosted_other]
-#            labels: ['Resolved','Boosted']
-#            labelpos: [2, 8]
-#            unblind: True
-
+      - bin_name: DL_TT_other_boosted
+        header: TT + Other boosted
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_{mass}_boosted_other]
+        labels: ['Resolved','Boosted']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
+      - bin_name: DL_background
+        header: Background
+        plot_options: !include prefit_main.yml
+        analysis: 'HH'
+        categories: [HH_DL_{mass}_inclusive_DY_VVV,HH_DL_{mass}_resolved_other,HH_DL_{mass}_boosted_other]
+        labels: ['Inclusive DY+VV(V)','Resolved other','Boosted other']
+        unblind: True
+        show_ratio: True
+        sort_by_yield: True
 

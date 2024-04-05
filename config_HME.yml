@@ -2,8 +2,8 @@ module: SkimmerHHtobbWWHME.py:SkimmerHME
 
 config: 
   era:
-#    - 2016: Yaml/analysis2016_v7.yml
-#    - 2017: Yaml/analysis2017_v7.yml
+    - 2016: Yaml/analysis2016_v7.yml
+    - 2017: Yaml/analysis2017_v7.yml
     - 2018: Yaml/analysis2018_v7.yml
 
 args:
@@ -23,4 +23,4 @@ args:
   - --NoSystematics
   - --analysis=res
 
-output: /nfs/scratch/fynu/gsaha/SkimsHME/Skim{era}_{cat}_{channel}_{type}
+output: /nfs/scratch/fynu/fbury/SkimsHME_v2/Skim{era}_{cat}_{channel}_{type}

@@ -1,4 +1,4 @@
-module: TransferFunctionNanoAOD.py:TransferFunction
+module: TransferFunction.py:TransferFunction
 config: 
   era:
     - 2016: Yaml/analysis2016_v7.yml
@@ -6,9 +6,10 @@ config:
     - 2018: Yaml/analysis2018_v7.yml
 
 args:
-  - analysis=nonres
+  - --analysis=nonres
   - "--subset=mc,GGFLO,GGFNLO,VBFLO,graviton,radion,bbww2l,bbww1l,bbtautau"
   - --NoSystematics
+  - --Inclusive
  
-output: /home/ucl/cp3/fbury/scratch/BambooOutputHHtobbWW/TF{era}_leptons_ak4_ak8
+output: /home/ucl/cp3/fbury/scratch/MEM_data/TF{era}_leptons_jets_fatjets_v2
 

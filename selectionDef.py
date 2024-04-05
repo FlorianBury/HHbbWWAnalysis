@@ -21,10 +21,10 @@ class SelectionObject:
         self.yieldTitle    = yieldTitle
         self.yieldObj      = yieldObj
         self.record_yields = record_yields
-    
+
     def refine(self,cut=None,weight=None,autoSyst=True):
         """
-        Overload the refine function to avoid repeating the selName arg 
+        Overload the refine function to avoid repeating the selName arg
         """
         self.sel = self.sel.refine(name    = self.selName,
                                    cut     = cut,
@@ -35,7 +35,7 @@ class SelectionObject:
 
     def create(self, ddSuffix, cut=None, weight=None, ddCut=None, ddWeight=None, autoSyst=True, enable=True):
         """
-        Overload the create function for data-driven estimation to avoid repeating the sel and selName arg 
+        Overload the create function for data-driven estimation to avoid repeating the sel and selName arg
         """
         self.sel = SelectionWithDataDriven.create(parent   = self.sel,
                                                   name     = self.selName,
@@ -51,25 +51,25 @@ class SelectionObject:
 
     def _makeYield(self):
         """
-        Record an entry in the yield table 
+        Record an entry in the yield table
         """
         self.yieldObj.add(self.sel,title=self.yieldTitle)
 
 #===============================================================================================#
 #                                        Selections                                             #
 #===============================================================================================#
-def makeSingleLeptonSelection(self,baseSel,plot_yield=False,use_dd=True,fake_selection=False): 
+def makeSingleLeptonSelection(self,baseSel,plot_yield=False,use_dd=True,fake_selection=False):
     """
     Produces the requested lepton selection (encapsulated in SelectionObject class objects)
     Will produce a dict :
         - key = level required (Preselected, Fakeable, Tight and/or FakeExtrapolation)
-        - value = list of SelectionObject class objects per channel [El,Mu] 
+        - value = list of SelectionObject class objects per channel [El,Mu]
     We start by leptons so no need to pass selObject
     Code organized such that selections are not repeated and hopefully optimzed the RooDataFrame
     """
     #--- Lambdas ---#
     # Fakeable lambdas #
-    #lambdaElPtCut = lambda lepColl: lepColl[0].pt > 32 
+    #lambdaElPtCut = lambda lepColl: lepColl[0].pt > 32
     #lambdaMuPtCut = lambda lepColl: lepColl[0].pt > 25
     lambdaElPtCut = lambda lepColl: self.electron_conept[lepColl[0].idx] > 32.0
     lambdaMuPtCut = lambda lepColl: self.muon_conept[lepColl[0].idx] > 25.0
@@ -77,7 +77,7 @@ def makeSingleLeptonSelection(self,baseSel,plot_yield=False,use_dd=True,fake_sel
     # Tight #
     lambda_tight_ele = lambda ele : op.AND(self.lambda_is_matched(ele) , self.lambda_electronTightSel(ele))
     lambda_tight_mu  = lambda mu  : op.AND(self.lambda_is_matched(mu)  , self.lambda_muonTightSel(mu))
-    
+
     if self.args.FakeRateNonClosureMCFakes:
         # MC fakes are events in the SR (tight) but non-prompt (the actual MC fakes, very unreliable, hence our datadriven estimate) #
         lambda_fake_ele = lambda ele : op.AND(op.NOT(self.lambda_is_matched(ele)) , self.lambda_electronTightSel(ele))
@@ -156,9 +156,9 @@ def makeSingleLeptonSelection(self,baseSel,plot_yield=False,use_dd=True,fake_sel
     ElSelObject.yieldTitle += " + SE triggers"
     MuSelObject.yieldTitle += " + SM triggers"
     ElSelObject.refine(cut    = self.returnTriggers(["SingleElectron"]),
-                       weight = ElLooseSF(self.electronsFakeSel[0]))    
+                       weight = ElLooseSF(self.electronsFakeSel[0]))
     MuSelObject.refine(cut    = self.returnTriggers(["SingleMuon"]),
-                       weight = MuLooseSF(self.muonsFakeSel[0]))    
+                       weight = MuLooseSF(self.muonsFakeSel[0]))
 
     #---- PT cuts ----#
     ElSelObject.selName += "PtCuts"
@@ -173,13 +173,13 @@ def makeSingleLeptonSelection(self,baseSel,plot_yield=False,use_dd=True,fake_sel
     MuSelObject.selName += "PreMllCut"
     ElSelObject.yieldTitle += " + $M_{ll}>12$"
     MuSelObject.yieldTitle += " + $M_{ll}>12$"
-            
+
     mllCut = [lambda_lowMllCut(self.ElElDileptonPreSel),lambda_lowMllCut(self.MuMuDileptonPreSel),lambda_lowMllCut(self.ElMuDileptonPreSel)]
     ElSelObject.refine(cut = mllCut)
     MuSelObject.refine(cut = mllCut)
 
 
-    if not self.args.NoZVeto: 
+    if not self.args.NoZVeto:
         ElSelObject.selName += "OutZ"
         MuSelObject.selName += "OutZ"
         ElSelObject.yieldTitle += " + Z Veto $|M_{ll}^{Preselected OS SF}-M_Z|>10$"
@@ -187,7 +187,7 @@ def makeSingleLeptonSelection(self,baseSel,plot_yield=False,use_dd=True,fake_sel
         outZCut = [lambda_outZ(self.OSElElDileptonPreSel),lambda_outZ(self.OSMuMuDileptonPreSel)]
         ElSelObject.refine(cut = outZCut)
         MuSelObject.refine(cut = outZCut)
-  
+
     #---- Tau veto ----#
     if not self.args.NoTauVeto: # nTau (isolated from fakeable leptons) = 0
         # All the preselected leptons outside Z peak region within 10 GeV
@@ -230,9 +230,9 @@ def makeSingleLeptonSelection(self,baseSel,plot_yield=False,use_dd=True,fake_sel
     elif fake_selection:
         # Only return the datadriven CR selection (eg, skimmer or non closure) #
         ElSelObject.refine(cut    = [lambda_fake_ele(self.electronsFakeSel[0]), op.rng_len(self.electronsTightSel)+op.rng_len(self.muonsTightSel)<=1],
-                           weight = lambda_FF_ele(self.electronsFakeSel[0]))
+                           weight = lambda_FF_ele(self.electronsFakeSel[0])+ElTightSF(self.electronsFakeSel[0]))
         MuSelObject.refine(cut    = [lambda_fake_mu(self.muonsFakeSel[0]), op.rng_len(self.electronsTightSel)+op.rng_len(self.muonsTightSel)<=1],
-                           weight = lambda_FF_mu(self.muonsFakeSel[0]))
+                           weight = lambda_FF_mu(self.muonsFakeSel[0])+MuTightSF(self.muonsFakeSel[0]))
         # -> in SR : lead lepton is self.electronsTightSel[0] or self.muonsTightSel[0]
         # -> in Fake CR : lead lepton is self.electronsFakeSel[0] or self.muonsFakeSel[0]
     else:
@@ -248,7 +248,7 @@ def makeSingleLeptonSelection(self,baseSel,plot_yield=False,use_dd=True,fake_sel
                                      self.muonsTightSel[0].idx == self.muonsFakeSel[0].idx],
                            weight = MuTightSF(self.muonsTightSel[0]))
 
-    # Return # 
+    # Return #
     return [ElSelObject,MuSelObject]
 
 def makeResolvedSelection(self,selObject,copy_sel=False):
@@ -274,7 +274,7 @@ def makeResolvedSelection(self,selObject,copy_sel=False):
     #if plot_yield:
     #    selObject.makeYield(self.yieldPlots)
     if copy_sel :
-        return selObject 
+        return selObject
 
 def makeBoostedSelection(self,selObject,copy_sel=False):
     """
@@ -311,10 +311,10 @@ def makeCoarseResolvedSelection(self,selObject,nJet,copy_sel=False):
 
     if copy_sel:
         selObject = copy(selObject)
-    if nJet == 3: 
+    if nJet == 3:
         selObject.selName += "Ak4JetsLoose"
         selObject.yieldTitle += " + Ak4 Jets Loose = 3"
-        selObject.refine(cut  = [op.rng_len(self.ak4Jets) == nJet, 
+        selObject.refine(cut  = [op.rng_len(self.ak4Jets) == nJet,
                                  op.rng_len(self.ak8BJets) == 0])
     elif nJet == 4:
         selObject.selName += "Ak4JetsTight"
@@ -322,7 +322,7 @@ def makeCoarseResolvedSelection(self,selObject,nJet,copy_sel=False):
         selObject.refine(cut  = [op.rng_len(self.ak4Jets) >= nJet,
                                  op.rng_len(self.ak8BJets) == 0])
     if copy_sel :
-        return selObject 
+        return selObject
 
 
 def makeCoarseBoostedSelection(self,selObject,copy_sel=False):
@@ -352,7 +352,7 @@ def makeExclusiveLooseResolvedJetComboSelection(self,selObject,nbJet,copy_sel=Fa
         selObject.yieldTitle += " + Exclusive Resolved (nbJet = 0)"
         selObject.refine(cut    = [op.rng_len(self.ak4BJets) == 0],
                          weight = AppliedSF)
-        
+
     elif nbJet == 1:
         AppliedSF = None
         #selObject.selName += "ExclusiveResolved1b2j"
@@ -369,7 +369,7 @@ def makeExclusiveLooseResolvedJetComboSelection(self,selObject,nbJet,copy_sel=Fa
         selObject.refine(cut    = [op.rng_len(self.ak4BJets) >= 2],
                          weight = None)
     else: raise RuntimeError ("Error in Jet Selection!!!")
-    
+
     if copy_sel:
         return selObject
 
@@ -410,21 +410,21 @@ def makeExclusiveResolvedJetComboSelection(self,selObject,nbJet,nJet,copy_sel=Fa
     if copy_sel:
         selObject = copy(selObject)
 
-    if nJet == 4 : 
+    if nJet == 4 :
         if nbJet == 0:
             AppliedSF = None
             selObject.selName += "ExclusiveResolved0b4j"
             selObject.yieldTitle += " + Exclusive Resolved (nbJet = 0, nAk4LightJets $\geq 4$)"
             selObject.refine(cut    = [op.rng_len(self.ak4BJets) == 0, op.rng_len(self.ak4LightJetsByPt) >= 4],
                              weight = AppliedSF)
-            
+
         elif nbJet == 1:
             AppliedSF = None
             selObject.selName += "ExclusiveResolved1b3j"
             selObject.yieldTitle += " + Exclusive Resolved (nbjet = 1, nAk4LightJets $\geq 3$)"
             selObject.refine(cut    = [op.rng_len(self.ak4BJets) == 1, op.rng_len(self.ak4LightJetsByPt) >= 3],
                              weight = AppliedSF)
-            
+
         elif nbJet == 2:
             AppliedSF = None
             selObject.selName += "ExclusiveResolved2b2j"
@@ -434,21 +434,21 @@ def makeExclusiveResolvedJetComboSelection(self,selObject,nbJet,nJet,copy_sel=Fa
 
         else: raise RuntimeError ("Error in Jet Selection!!!")
 
-    if nJet == 3 : 
+    if nJet == 3 :
         if nbJet == 0:
             AppliedSF = None
             selObject.selName += "ExclusiveResolved0b3j"
             selObject.yieldTitle += " + Exclusive Resolved (nbJet = 0, nAk4LightJet = 3)"
             selObject.refine(cut    = [op.rng_len(self.ak4BJets) == 0, op.rng_len(self.ak4LightJetsByPt) == 3],
                              weight = AppliedSF)
-        
+
         elif nbJet == 1:
             AppliedSF = None
             selObject.selName += "ExclusiveResolved1b2j"
             selObject.yieldTitle += " + Exclusive Resolved (nbJet = 1, nAk4LightJet = 2)"
             selObject.refine(cut    = [op.rng_len(self.ak4BJets) == 1, op.rng_len(self.ak4LightJetsByPt) == 2],
                              weight = AppliedSF)
-            
+
         elif nbJet == 2:
             AppliedSF = None
             selObject.selName += "ExclusiveResolved2b1j"
@@ -461,23 +461,23 @@ def makeExclusiveResolvedJetComboSelection(self,selObject,nbJet,nJet,copy_sel=Fa
 def makeExclusiveResolvedSelection(self,selObject,nbJet,copy_sel=False):
     if copy_sel:
         selObject = copy(selObject)
-        
-    if nbJet == 1:    
+
+    if nbJet == 1:
         AppliedSF = None
         selObject.selName += "ExclusiveResolved1b"
         selObject.yieldTitle += " + Exclusive Resolved (nbjet = 1)"
         selObject.refine(cut    = [op.rng_len(self.ak4BJets) == 1],
                          weight = AppliedSF)
-        
+
     elif nbJet == 2:
         AppliedSF = None
         selObject.selName += "ExclusiveResolved2b"
         selObject.yieldTitle += " + Exclusive Resolved (nbjet $\geq 2$)"
         selObject.refine(cut   = [op.rng_len(self.ak4BJets) >= 2],
                          weight = AppliedSF)
-        
+
     else: raise RuntimeError ("Error in Jet Selection!!!")
-    
+
     if copy_sel:
         return selObject
 
@@ -528,12 +528,12 @@ def makeNoVBFSelection(self,selObject,vbfJetPairs,copy_sel=False):
         return selObject
 
 
-def makeDoubleLeptonSelection(self,baseSel,use_dd=True,fake_selection=False): 
+def makeDoubleLeptonSelection(self,baseSel,use_dd=True,fake_selection=False):
     """
     Produces the requested lepton selection (encapsulated in SelectionObject class objects)
     Will produce a dict :
         - key = level required (Preselected, Fakeable, Tight and/or FakeExtrapolation)
-        - value = list of SelectionObject class objects per channel [ElEl,MuMu,ElMu] 
+        - value = list of SelectionObject class objects per channel [ElEl,MuMu,ElMu]
     We start by leptons so no need to pass selObject
     Code organized such that selections are not repeated and hopefully optimized the RooDataFrame
     """
@@ -565,7 +565,7 @@ def makeDoubleLeptonSelection(self,baseSel,use_dd=True,fake_selection=False):
             # lepton SF are defined with get_scalefactors so by default op.defineOnFirstUse is used
             # DL trigger SF are using op.systematics so op.defineOnFirstUse must be expicitly used
 
-        ElElTightSF = lambda dilep : self.lambda_ElectronTightSF(dilep[0]) + self.lambda_ElectronTightSF(dilep[1]) 
+        ElElTightSF = lambda dilep : self.lambda_ElectronTightSF(dilep[0]) + self.lambda_ElectronTightSF(dilep[1])
         MuMuTightSF = lambda dilep : self.lambda_MuonTightSF(dilep[0]) + self.lambda_MuonTightSF(dilep[1])
         ElMuTightSF = lambda dilep : self.lambda_ElectronTightSF(dilep[0]) + self.lambda_MuonTightSF(dilep[1])
     else:
@@ -573,12 +573,12 @@ def makeDoubleLeptonSelection(self,baseSel,use_dd=True,fake_selection=False):
         MuMuLooseSF = lambda dilep : []
         ElMuLooseSF = lambda dilep : []
 
-        ElElTightSF = lambda dilep : [] 
+        ElElTightSF = lambda dilep : []
         MuMuTightSF = lambda dilep : []
         ElMuTightSF = lambda dilep : []
 
 
-    #---- Select fakeables -----# 
+    #---- Select fakeables -----#
     ElElSelObj = SelectionObject(sel           = baseSel,
                                  selName       = "Has2FakeableElEl",
                                  yieldTitle    = "Fakeable dilepton (channel $e^+e^-$)          ",
@@ -699,12 +699,12 @@ def makeDoubleLeptonSelection(self,baseSel,use_dd=True,fake_selection=False):
     if self.args.ZPeak:
         ElElSelObj.selName += "ZPeak"
         MuMuSelObj.selName += "ZPeak"
-        ElElSelObj.yieldTitle+= " + Z peak $|M_{ll}-M_Z| < 10 GeV$" 
+        ElElSelObj.yieldTitle+= " + Z peak $|M_{ll}-M_Z| < 10 GeV$"
         MuMuSelObj.yieldTitle+= " + Z peak $|M_{ll}-M_Z| < 10 GeV$"
 
         ElElSelObj.refine(cut = [lambda_inZ(self.ElElFakeSel[0])])
         MuMuSelObj.refine(cut = [lambda_inZ(self.MuMuFakeSel[0])])
-    
+
     #---- Tight selection ----#
     ElElSelObj.selName += "TightSelected"
     ElElSelObj.yieldTitle += " + Tight selection"
@@ -712,7 +712,7 @@ def makeDoubleLeptonSelection(self,baseSel,use_dd=True,fake_selection=False):
     MuMuSelObj.yieldTitle += " + Tight selection"
     ElMuSelObj.selName += "TightSelected"
     ElMuSelObj.yieldTitle += " + Tight selection"
-    
+
     if use_dd:
         # Use datadriven in parrallel of actual selection #
         enable = "FakeExtrapolation" in self.datadrivenContributions and self.datadrivenContributions["FakeExtrapolation"].usesSample(self.sample, self.sampleCfg)
@@ -753,13 +753,13 @@ def makeDoubleLeptonSelection(self,baseSel,use_dd=True,fake_selection=False):
         # Return only the selection fot the fake datadriven (eg for skimmer) #
         ElElSelObj.refine(cut    = [self.lambda_fakepair_ElEl(self.ElElFakeSel[0]),
                                     op.rng_len(self.electronsTightSel) + op.rng_len(self.muonsTightSel)<=2],
-                          weight = ElElTightSF(self.ElElFakeSel[0]))
+                          weight = [self.ElElFakeFactor(self.ElElFakeSel[0])]+ElElTightSF(self.ElElFakeSel[0]))
         MuMuSelObj.refine(cut    = [self.lambda_fakepair_MuMu(self.MuMuFakeSel[0]),
                                     op.rng_len(self.electronsTightSel) + op.rng_len(self.muonsTightSel)<=2],
-                          weight = MuMuTightSF(self.MuMuFakeSel[0]))
+                          weight = [self.MuMuFakeFactor(self.MuMuFakeSel[0])]+MuMuTightSF(self.MuMuFakeSel[0]))
         ElMuSelObj.refine(cut    = [self.lambda_fakepair_ElMu(self.ElMuFakeSel[0]),
                                     op.rng_len(self.electronsTightSel) + op.rng_len(self.muonsTightSel)<=2],
-                          weight = ElMuTightSF(self.ElMuFakeSel[0]))
+                          weight = [self.ElMuFakeFactor(self.ElMuFakeSel[0])]+ElMuTightSF(self.ElMuFakeSel[0]))
     else:
         # Return only the selection for the SR #
         ElElSelObj.refine(cut    = [self.lambda_tightpair_ElEl(self.ElElFakeSel[0]),
@@ -784,7 +784,7 @@ def makeDoubleLeptonSelection(self,baseSel,use_dd=True,fake_selection=False):
 
 
     return ElElSelObj,MuMuSelObj,ElMuSelObj
-            
+
 
 
 def makeAtLeastTwoAk4JetSelection(self,selObject,copy_sel=False,use_dd=True):
@@ -802,7 +802,7 @@ def makeAtLeastTwoAk4JetSelection(self,selObject,copy_sel=False,use_dd=True):
     selObject.yieldTitle += " + Ak4 Jets $\geq 2$"
     selObject.refine(cut=[op.rng_len(self.ak4Jets)>=2])
     if copy_sel :
-        return selObject 
+        return selObject
 
 def makeAtLeastOneAk8JetSelection(self,selObject,copy_sel=False,use_dd=True):
     """
@@ -820,7 +820,7 @@ def makeAtLeastOneAk8JetSelection(self,selObject,copy_sel=False,use_dd=True):
     selObject.refine(cut=[op.rng_len(self.ak8Jets)>=1])
     if copy_sel:
         return selObject
-    
+
 def makeExclusiveResolvedNoBtagSelection(self,selObject,copy_sel=False,use_dd=True):
     """
     Produces the exclusive resolved selection with no btagging
@@ -856,9 +856,9 @@ def makeExclusiveResolvedOneBtagSelection(self,selObject,copy_sel=False,use_dd=T
     selObject.yieldTitle += " + Exclusive Resolved (1 bjet)"
     if use_dd:
         # Use the datadriven selection in parallel of the SR one #
-        enable = "DYEstimation" in self.datadrivenContributions and self.datadrivenContributions["DYEstimation"].usesSample(self.sample, self.sampleCfg) 
+        enable = "DYEstimation" in self.datadrivenContributions and self.datadrivenContributions["DYEstimation"].usesSample(self.sample, self.sampleCfg)
         selObject.create(ddSuffix  = "DYEstimation",
-                         cut       = [op.rng_len(self.ak4BJets)==1,op.rng_len(self.ak8BJets)==0], 
+                         cut       = [op.rng_len(self.ak4BJets)==1,op.rng_len(self.ak8BJets)==0],
                          weight    = AppliedSF,
                          ddCut     = [op.rng_len(self.ak4BJets)==0,
                                       op.rng_len(self.ak8BJets)==0,
@@ -872,7 +872,7 @@ def makeExclusiveResolvedOneBtagSelection(self,selObject,copy_sel=False,use_dd=T
                          weight = 2*self.ResolvedDYReweighting1b(self.ak4Jets))
     else:
         # Only return the SR selection #
-        selObject.refine(cut    = [op.rng_len(self.ak4BJets)==1,op.rng_len(self.ak8BJets)==0], 
+        selObject.refine(cut    = [op.rng_len(self.ak4BJets)==1,op.rng_len(self.ak8BJets)==0],
                          weight = AppliedSF)
 
     if copy_sel:
@@ -885,7 +885,7 @@ def makeExclusiveResolvedTwoBtagsSelection(self,selObject,copy_sel=False,use_dd=
         - selObject : SelectionObject class objects (contains bamboo selection, its name and the yield title)
         - copy_sel : wether to copy and return a new selection object built on the one provided, if not will modify it
     Careful : if copy_sel is False, the selObject will be modified
-    Selection : no btagged Ak8 jet (aka boosted), two Ak4 btagged jets 
+    Selection : no btagged Ak8 jet (aka boosted), two Ak4 btagged jets
     """
     AppliedSF = None
     if copy_sel:
@@ -896,7 +896,7 @@ def makeExclusiveResolvedTwoBtagsSelection(self,selObject,copy_sel=False,use_dd=
 
     if use_dd:
         # Use the datadriven selection in parallel of the SR one #
-        enable = "DYEstimation" in self.datadrivenContributions and self.datadrivenContributions["DYEstimation"].usesSample(self.sample, self.sampleCfg) 
+        enable = "DYEstimation" in self.datadrivenContributions and self.datadrivenContributions["DYEstimation"].usesSample(self.sample, self.sampleCfg)
         selObject.create(ddSuffix  = "DYEstimation",
                          cut       = [op.rng_len(self.ak4BJets)>=2,op.rng_len(self.ak8BJets)==0],
                          weight    = AppliedSF,
@@ -913,7 +913,7 @@ def makeExclusiveResolvedTwoBtagsSelection(self,selObject,copy_sel=False,use_dd=
                          weight = 2*self.ResolvedDYReweighting2b(self.ak4Jets))
     else:
         # Only return the SR selection #
-        selObject.refine(cut    = [op.rng_len(self.ak4BJets)>=2,op.rng_len(self.ak8BJets)==0], 
+        selObject.refine(cut    = [op.rng_len(self.ak4BJets)>=2,op.rng_len(self.ak8BJets)==0],
                          weight = AppliedSF)
 
     if self.args.TTBarCR:
@@ -923,7 +923,7 @@ def makeExclusiveResolvedTwoBtagsSelection(self,selObject,copy_sel=False,use_dd=
     if copy_sel:
         return selObject
 
-def makeInclusiveBoostedNoBtagSelection(self,selObject,copy_sel=False):
+def makeInclusiveBoostedNoBtagSelection(self,selObject,copy_sel=False,use_dd=True):
     """
     Produces the inclusive boosted selection(0 btag)
     inputs :
@@ -957,12 +957,12 @@ def makeInclusiveBoostedOneBtagSelection(self,selObject,copy_sel=False,use_dd=Tr
 
     if use_dd:
         # Use the datadriven selection in parallel of the SR one #
-        enable = "DYEstimation" in self.datadrivenContributions and self.datadrivenContributions["DYEstimation"].usesSample(self.sample, self.sampleCfg) 
+        enable = "DYEstimation" in self.datadrivenContributions and self.datadrivenContributions["DYEstimation"].usesSample(self.sample, self.sampleCfg)
         selObject.create(ddSuffix  = "DYEstimation",
                          cut       = [op.rng_len(self.ak8BJets) >= 1],
                          weight    = AppliedSF,
                          ddCut     = [op.rng_len(self.ak8BJets) == 0,op.rng_len(self.ak4BJets) == 0],
-                         ddWeight  = self.BoostedDYReweighting1b(self.ak8Jets[0]), 
+                         ddWeight  = self.BoostedDYReweighting1b(self.ak8Jets[0]),
                          enable    = enable)
     elif dy_selection:
         # Only return the datadriven selection (eg for Skimmer) #
@@ -972,7 +972,7 @@ def makeInclusiveBoostedOneBtagSelection(self,selObject,copy_sel=False,use_dd=Tr
         # Only return the SR selection #
         selObject.refine(cut    = [op.rng_len(self.ak8BJets)>=1],
                          weight = AppliedSF)
-        
+
 
 
     if copy_sel:
@@ -988,7 +988,7 @@ def makeDNNOutputNodesSelections(self,selObject,output,suffix=""):
         newSelObj = copy(selBaseObject)
         newSelObj.selName += f"{suffix}{node}"
         newSelObj.yieldTitle += f"{suffix} in {node}"
-        newSelObj.refine(cut = [maxIdx == op.c_int(i)]) 
+        newSelObj.refine(cut = [maxIdx == op.c_int(i)])
         selObjDict[node] = newSelObj
     return selObjDict
 

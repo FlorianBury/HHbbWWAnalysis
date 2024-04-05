@@ -46,5 +46,10 @@ targets:
   - Benchmarkcluster5
   - Benchmarkcluster6
   - Benchmarkcluster7
+  - BenchmarkcHHH0_C2_1
+  - BenchmarkcHHH1_C2_0p1
+  - BenchmarkcHHH1_C2_0p35
+  - BenchmarkcHHH1_C2_3
+  - BenchmarkcHHH1_C2_m2
 
 

@@ -264,6 +264,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -298,6 +299,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -332,6 +334,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -376,6 +379,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -410,6 +414,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -438,12 +443,13 @@
       show_theory: True
       parameters: 
         - name:   'kt'
-          start:  -25.
-          stop:   25.
+          start:  -5.
+          stop:   5.
           points: 51
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -488,6 +494,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -522,6 +529,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -556,6 +564,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -601,6 +610,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -635,6 +645,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -669,6 +680,7 @@
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -709,12 +721,13 @@
       show_theory: True
       parameters: 
         - name:   'C2'
-          start:  -5.
-          stop:   5.
-          points: 51
+          start:  -3.
+          stop:   3.
+          points: 61
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -743,12 +756,13 @@
       show_theory: True
       parameters: 
         - name:   'C2'
-          start:  -5.
-          stop:   5.
-          points: 51
+          start:  -3.
+          stop:   3.
+          points: 61
     plotting:
       y_log: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -777,12 +791,18 @@
       show_theory: True
       parameters: 
         - name:   'C2'
-          start:  -5.
-          stop:   5.
-          points: 51
+          start:  -3.
+          stop:   3.
+          points: 61
     plotting:
+      y_max: 100000
       y_log: True
+      summary: True
+      #preliminary: True
+      model_parameters: {'#kappa_{#lambda} = #kappa_{t} = #kappa_{V} = #kappa_{2V}' : 1.}
+      paper: True
       show_points: False
+      show_excluded_ranges: True
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -949,7 +969,7 @@
     physics: !include physics_model.yml
     scan:
       parameters: 
-        - name:   'kl'
+        - name:   'kt'
           start:  -5.
           stop:   5.
           points: 51
@@ -1025,7 +1045,7 @@
     physics: !include physics_model.yml
     scan:
       parameters: 
-        - name:   'kl'
+        - name:   'kt'
           start:  -5.
           stop:   5.
           points: 51
@@ -1196,11 +1216,12 @@
       mem : 9000
     physics: !include physics_model.yml
     scan:
+      recompute-best-fit: True
       parameters: 
         - name:   'CV'
-          start:  -5.
-          stop:   5.
-          points: 51
+          start:  -3.
+          stop:   3.
+          points: 61
           theory: 1.
     plotting:
       y_log: False
@@ -1234,11 +1255,12 @@
       mem : 9000
     physics: !include physics_model.yml
     scan:
+      recompute-best-fit: True
       parameters: 
         - name:   'CV'
-          start:  -5.
-          stop:   5.
-          points: 51
+          start:  -3.
+          stop:   3.
+          points: 61
           theory: 1.
     plotting:
       y_log: False
@@ -1272,11 +1294,12 @@
       mem : 9000
     physics: !include physics_model.yml
     scan:
+      recompute-best-fit: True
       parameters: 
         - name:   'CV'
-          start:  -5.
-          stop:   5.
-          points: 51
+          start:  -3.
+          stop:   3.
+          points: 61
           theory: 1.
     plotting:
       y_log: False
@@ -1323,9 +1346,9 @@
     scan:
       parameters: 
         - name:   'C2'
-          start:  -5.
-          stop:   5.
-          points: 51
+          start:  -3.
+          stop:   3.
+          points: 61
           theory: 0.
     plotting:
       y_log: False
@@ -1359,11 +1382,12 @@
       mem : 9000
     physics: !include physics_model_C2.yml
     scan:
+      recompute-best-fit: True
       parameters: 
         - name:   'C2'
-          start:  -5.
-          stop:   5.
-          points: 51
+          start:  -3.
+          stop:   3.
+          points: 61
           theory: 0.
     plotting:
       y_log: False
@@ -1374,6 +1398,8 @@
       show_points: False
       shift_negative_values: True
       y_max: 10
+      x_min: -3.
+      x_max: 3.
     combine_bins: True
     combine_eras: True
     split_eras: True
@@ -1399,9 +1425,9 @@
     scan:
       parameters: 
         - name:   'C2'
-          start:  -5.
-          stop:   5.
-          points: 51
+          start:  -3.
+          stop:   3.
+          points: 61
           theory: 0.
     plotting:
       y_log: False
@@ -1444,7 +1470,7 @@
     command: "combine -M MultiDimFit --redefineSignalPOIs kl,kt --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,CV=1.0,C2V=1.0 --freezeParameters r,r_gghh,r_qqhh,CV,C2V --mass 125 --saveNLL --algo grid --alignEdges 1"
     unblind: True
     submit :  
-      time: '0-04:00:00'
+      time: '0-06:00:00'
       mem : 9000
     physics: !include physics_model.yml
     scan:
@@ -1452,12 +1478,12 @@
         - name:   'kl'
           start:  -25.
           stop:   25.
-          points: 51
+          points: 61
           theory: 1
         - name:   'kt'
           start:  -5.
           stop:   5.
-          points: 51
+          points: 61
           theory: 1
     plotting:
       show_best_fit: True
@@ -1467,6 +1493,7 @@
       show_sm_point: True
       show_box: False
       shift_negative_values: True
+      interpolation_method: "linear"
     combine_bins: True
     combine_eras: True
     split_eras: False
@@ -1504,14 +1531,14 @@
     scan:
       parameters: 
         - name:   'CV'
-          start:  -5.
-          stop:   5.
-          points: 51
+          start:  -4.
+          stop:   4.
+          points: 61
           theory: 1
         - name:   'C2V'
-          start:  -4.
-          stop:   6.
-          points: 51
+          start:  -6.
+          stop:   8.
+          points: 71
           theory: 1
     plotting:
       show_best_fit: True
@@ -1521,6 +1548,7 @@
       show_sm_point: True
       show_box: True
       shift_negative_values: True
+      interpolation_method: "linear"
     combine_bins: True
     combine_eras: True
     split_eras: False
@@ -1548,7 +1576,7 @@
 ################### SCAN kV-K2V ###################
   likelihood_scan_kl_k2V_comb:
     mode: likelihood_scan
-    command: "combine -M MultiDimFit --redefineSignalPOIs kl,C2V --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0 --freezeParameters r,r_gghh,r_qqhh,,kt,CV --mass 125 --saveNLL --algo grid --alignEdges 1"
+    command: "combine -M MultiDimFit --redefineSignalPOIs kl,C2V --setParameters r=1.0,r_gghh=1.0,r_qqhh=1.0,kt=1.0,CV=1.0 --freezeParameters r,r_gghh,r_qqhh,kt,CV --mass 125 --saveNLL --algo grid --alignEdges 1"
     unblind: True
     submit :  
       time: '0-04:00:00'
@@ -1556,7 +1584,7 @@
     physics: !include physics_model.yml
     scan:
       parameters: 
-        - name:   'kt'
+        - name:   'kl'
           start:  -25.
           stop:   25.
           points: 51
@@ -1574,6 +1602,7 @@
       show_sm_point: True
       show_box: True
       shift_negative_values: True
+      interpolation_method: "linear"
     combine_bins: True
     combine_eras: True
     split_eras: False
@@ -1622,12 +1651,12 @@
     plotting:
       show_best_fit: True
       show_best_fit_error: True
-      show_significances: [1,2,3,5]
+      show_significances: [1,2]
       interpolate_nans: True
       show_sm_point: True
-      show_box: True
+      show_box: False
       shift_negative_values: True
-
+      interpolation_method: "linear"
     combine_bins: True
     combine_eras: True
     split_eras:  False
@@ -1916,7 +1945,7 @@
       poi                   : 'r'
       y-cut                 : 6
       y-max                 : 10
-      range                 : [-60.,90.]
+      range                 : [-40.,40.]
       legend-columns        : 3
       legend-position       : [0.15,0.65,0.78,0.92]
       legend-textsize       : 0.03
@@ -1962,7 +1991,7 @@
       poi                   : 'r'
       y-cut                 : 6
       y-max                 : 10
-      range                 : [-60.,90.]
+      range                 : [-40.,40.]
       legend-columns        : 3
       legend-position       : [0.15,0.65,0.78,0.92]
       legend-textsize       : 0.03

@@ -3,29 +3,49 @@ Fact:   discard
 Renorm: discard
 Mixed:  discard
 Envelope: 
-    CMS_bbwwdl_thu_shape: 
-        cat: [".*DL.*"]
-    CMS_bbwwsl_thu_shape:
-        cat: [".*SL.*"]
-    
-underlying_event: underlying_event
+  scale_DY: 
+    group: "DY"
+  scale_TT: 
+    group: "TT"
+  scale_VV: 
+    group: "VV"
+  scale_WJets:
+    group: "WJets"
+  scale_tHW: 
+    group: "tHW"
+  scale_tHq: 
+    group: "tHq"
+  scale_ttH: 
+    group: "ttH"
+  scale_ttW: 
+    group: "ttW"
+  scale_ttZ: 
+    group: "ttZ"
+  scale_ggHH: 
+    group: [".*hbbhww.*",".*hbbhtt.*"]
+
+# Theory #
+underlying_event:   underlying_event
+hdamp:              hdamp
+erdOn:              erdOn
+GluonMove:          GluonMove
+QCDbased:           QCDbased
 
 # PS #
-psFSR: 
-    CMS_bbwwsl_ps_fsr:
-        cat: [".*SL.*"]
-    CMS_bbwwdl_ps_fsr:
-        cat: [".*DL.*"]
+psFSR:  
+  ps_fsr_TT:
+    group: "TT"
+  ps_fsr_HH:
+    group: [".*hbbhww.*",".*hbbhtt.*"]
 psISR: 
-    CMS_bbwwsl_ps_isr:
-        cat: [".*SL.*"]
-    CMS_bbwwdl_ps_isr:
-        cat: [".*DL.*"]
-    
+  ps_isr_TT:
+    group: "TT"
+  ps_isr_HH:
+    group: [".*hbbhww.*",".*hbbhtt.*"]
 
 # Basics #
 L1PreFiring:        CMS_l1_ecal_prefiring_{era}
-pileup:             CMS_pileup_{era}
+pileup:             CMS_pileup
 ttbarweightsyst:    CMS_top_pT_reweighting
 
 # Btag SF #
@@ -63,59 +83,166 @@ ttH_electronMuon_trigSF:
 
 
 # Lepton SF #
-el_loose:               CMS_eff_e_id_loose_{era}
-el_tight:               CMS_eff_e_id_tight_{era}
-el_tth:                 CMS_eff_e_id_tth_{era}
-mu_loose:               CMS_eff_m_id_loose_{era}
-mu_tight:               CMS_eff_m_id_tight_{era}
-mu_tth:                 CMS_eff_m_id_tth_{era}
+el_loose:    CMS_eff_e_id_loose_{era}
+el_tight:    CMS_eff_e_id_tight_{era}
+el_tth:      CMS_eff_e_id_tth_{era}
+mu_loose:    CMS_eff_m_id_loose_{era}
+mu_tight:    CMS_eff_m_id_tight_{era}
+mu_tth:      CMS_eff_m_id_tth_{era}
 
 
 # FakeRates #
-el_FR_Loose_SL_pt_syst:     
-    CMS_bbwwsl_FakeRate_e_pt_{era}:
-        cat: [".*SL.*"]
-el_FR_Loose_SL_barrel_syst: 
-    CMS_bbwwsl_FakeRate_e_barrel_{era}:
-        cat: [".*SL.*"]
-el_FR_Loose_SL_norm_syst:   
-    CMS_bbwwsl_FakeRate_e_norm_{era}:
-        cat: [".*SL.*"]
-mu_FR_Loose_SL_pt_syst:     
-    CMS_bbwwsl_FakeRate_m_pt_{era}:
-        cat: [".*SL.*"]
-mu_FR_Loose_SL_barrel_syst: 
-    CMS_bbwwsl_FakeRate_m_barrel_{era}:
-        cat: [".*SL.*"]
-mu_FR_Loose_SL_norm_syst:   
-    CMS_bbwwsl_FakeRate_m_norm_{era}:
-        cat: [".*SL.*"]
+#el_FR_Loose_SL_pt_syst:     
+#    CMS_bbwwsl_FakeRate_e_pt_{era}:
+#        cat: [".*SL.*"]
+#el_FR_Loose_SL_barrel_syst: 
+#    CMS_bbwwsl_FakeRate_e_barrel_{era}:
+#        cat: [".*SL.*"]
+#el_FR_Loose_SL_norm_syst:   
+#    CMS_bbwwsl_FakeRate_e_norm_{era}:
+#        cat: [".*SL.*"]
+#mu_FR_Loose_SL_pt_syst:     
+#    CMS_bbwwsl_FakeRate_m_pt_{era}:
+#        cat: [".*SL.*"]
+#mu_FR_Loose_SL_barrel_syst: 
+#    CMS_bbwwsl_FakeRate_m_barrel_{era}:
+#        cat: [".*SL.*"]
+#mu_FR_Loose_SL_norm_syst:   
+#    CMS_bbwwsl_FakeRate_m_norm_{era}:
+#        cat: [".*SL.*"]
+#
+#el_FR_Loose_DL_barrel_syst: 
+#    CMS_bbwwdl_FakeRate_e_barrel_{era}:
+#        cat: [".*DL.*"]
+#el_FR_Loose_DL_norm_syst:   
+#    CMS_bbwwdl_FakeRate_e_norm_{era}:
+#        cat: [".*DL.*"]
+#el_FR_Loose_DL_pt_syst:     
+#    CMS_bbwwdl_FakeRate_e_pt_{era}:
+#        cat: [".*DL.*"]
+#
+#
+#mu_FR_Loose_DL_barrel_syst: 
+#    CMS_bbwwdl_FakeRate_m_barrel_{era}:
+#        cat: [".*DL.*"]
+#mu_FR_Loose_DL_norm_syst:   
+#    CMS_bbwwdl_FakeRate_m_norm_{era}:
+#        cat: [".*DL.*"]
+#mu_FR_Loose_DL_pt_syst:     
+#    CMS_bbwwdl_FakeRate_m_pt_{era}:
+#        cat: [".*DL.*"]
 
-el_FR_Loose_DL_barrel_syst: 
-    CMS_bbwwdl_FakeRate_e_barrel_{era}:
-        cat: [".*DL.*"]
-el_FR_Loose_DL_norm_syst:   
-    CMS_bbwwdl_FakeRate_e_norm_{era}:
-        cat: [".*DL.*"]
-el_FR_Loose_DL_pt_syst:     
-    CMS_bbwwdl_FakeRate_e_pt_{era}:
+
+
+muonCorrFR:                 
+    CMS_bbwwdl_FakeRate_m_nonclosure_{era}:
         cat: [".*DL.*"]
 electronCorrFR:             
     CMS_bbwwdl_FakeRate_e_nonclosure_{era}:
         cat: [".*DL.*"]
-mu_FR_Loose_DL_barrel_syst: 
-    CMS_bbwwdl_FakeRate_m_barrel_{era}:
+
+  
+mu_FR_abseta_0p0_1p2_pt_10p0_15p0:
+    CMS_bbwwdl_FakeRate_m_BVVVL_{era}:
         cat: [".*DL.*"]
-mu_FR_Loose_DL_norm_syst:   
-    CMS_bbwwdl_FakeRate_m_norm_{era}:
+mu_FR_abseta_0p0_1p2_pt_15p0_20p0:
+    CMS_bbwwdl_FakeRate_m_BVVL_{era}:
         cat: [".*DL.*"]
-mu_FR_Loose_DL_pt_syst:     
-    CMS_bbwwdl_FakeRate_m_pt_{era}:
+mu_FR_abseta_0p0_1p2_pt_20p0_32p0:
+    CMS_bbwwdl_FakeRate_m_BVL_{era}:
         cat: [".*DL.*"]
-muonCorrFR:                 
-    CMS_bbwwdl_FakeRate_m_nonclosure_{era}:
+mu_FR_abseta_0p0_1p2_pt_32p0_45p0:
+    CMS_bbwwdl_FakeRate_m_BL_{era}:
+        cat: [".*DL.*"]
+mu_FR_abseta_0p0_1p2_pt_25p0_45p0:
+    CMS_bbwwsl_FakeRate_m_BL_{era}:
+        cat: [".*SL.*"]
+mu_FR_abseta_0p0_1p2_pt_45p0_65p0:
+    CMS_bbwwsl_FakeRate_m_BM_{era}:
+        cat: [".*SL.*"]
+    CMS_bbwwdl_FakeRate_m_BM_{era}:
+        cat: [".*DL.*"]
+mu_FR_abseta_0p0_1p2_pt_65p0_100p0:    
+    CMS_bbwwsl_FakeRate_m_BH_{era}:
+        cat: [".*SL.*"]
+    CMS_bbwwdl_FakeRate_m_BH_{era}:
         cat: [".*DL.*"]
 
+
+mu_FR_abseta_1p2_2p4_pt_10p0_15p0:
+    CMS_bbwwdl_FakeRate_m_EVVVL_{era}:
+        cat: [".*DL.*"]
+mu_FR_abseta_1p2_2p4_pt_15p0_20p0:
+    CMS_bbwwdl_FakeRate_m_EVVL_{era}:
+        cat: [".*DL.*"]
+mu_FR_abseta_1p2_2p4_pt_20p0_32p0:
+    CMS_bbwwdl_FakeRate_m_EVL_{era}:
+        cat: [".*DL.*"]
+mu_FR_abseta_1p2_2p4_pt_32p0_45p0:
+    CMS_bbwwdl_FakeRate_m_EL_{era}:
+        cat: [".*DL.*"]
+mu_FR_abseta_1p2_2p4_pt_25p0_45p0:
+    CMS_bbwwsl_FakeRate_m_EL_{era}:
+        cat: [".*SL.*"]
+mu_FR_abseta_1p2_2p4_pt_45p0_65p0:
+    CMS_bbwwsl_FakeRate_m_EM_{era}:
+        cat: [".*SL.*"]
+    CMS_bbwwdl_FakeRate_m_EM_{era}:
+        cat: [".*DL.*"]
+mu_FR_abseta_1p2_2p4_pt_65p0_100p0:
+    CMS_bbwwsl_FakeRate_m_EH_{era}:
+        cat: [".*SL.*"]
+    CMS_bbwwdl_FakeRate_m_EM_{era}:
+        cat: [".*DL.*"]
+
+
+
+
+el_FR_abseta_0p0_1p479_pt_15p0_25p0:
+    CMS_bbwwdl_FakeRate_e_BVVL_{era}:
+        cat: [".*DL.*"]
+el_FR_abseta_0p0_1p479_pt_25p0_35p0:
+    CMS_bbwwdl_FakeRate_e_BVL_{era}:
+        cat: [".*DL.*"]
+el_FR_abseta_0p0_1p479_pt_35p0_45p0:
+    CMS_bbwwdl_FakeRate_e_BL_{era}:
+        cat: [".*DL.*"]
+el_FR_abseta_0p0_1p479_pt_32p0_45p0:   
+    CMS_bbwwsl_FakeRate_e_BL_{era}:
+        cat: [".*SL.*"]
+el_FR_abseta_0p0_1p479_pt_45p0_65p0: 
+    CMS_bbwwsl_FakeRate_e_BM_{era}:
+        cat: [".*SL.*"]
+    CMS_bbwwdl_FakeRate_e_BM_{era}:
+        cat: [".*DL.*"]
+el_FR_abseta_0p0_1p479_pt_65p0_100p0:  
+    CMS_bbwwsl_FakeRate_e_BH_{era}:
+        cat: [".*SL.*"]
+    CMS_bbwwdl_FakeRate_e_BH_{era}:
+        cat: [".*DL.*"]
+
+el_FR_abseta_1p479_2p5_pt_15p0_25p0:
+    CMS_bbwwdl_FakeRate_e_EVVL_{era}:
+        cat: [".*DL.*"]
+el_FR_abseta_1p479_2p5_pt_25p0_35p0:
+    CMS_bbwwdl_FakeRate_e_EVL_{era}:
+        cat: [".*DL.*"]
+el_FR_abseta_1p479_2p5_pt_35p0_45p0:
+    CMS_bbwwdl_FakeRate_e_EL_{era}:
+        cat: [".*DL.*"]
+el_FR_abseta_1p479_2p5_pt_32p0_45p0:  
+    CMS_bbwwsl_FakeRate_e_EL_{era}:
+        cat: [".*SL.*"]
+el_FR_abseta_1p479_2p5_pt_45p0_65p0: 
+    CMS_bbwwsl_FakeRate_e_EM_{era}:
+        cat: [".*SL.*"]
+    CMS_bbwwdl_FakeRate_e_EM_{era}:
+        cat: [".*DL.*"]
+el_FR_abseta_1p479_2p5_pt_65p0_100p0:  
+    CMS_bbwwsl_FakeRate_e_EH_{era}:
+        cat: [".*SL.*"]
+    CMS_bbwwdl_FakeRate_e_EH_{era}:
+        cat: [".*DL.*"]
 
 # JER
 jer:                    CMS_res_j_{era}
@@ -171,30 +298,6 @@ dy_resolved_2b:
     CMS_bbwwdl_DY_resolved2b_{era}:
         cat: [".*DL.*"]
 
-dy_resolved_nonclosure_dy_vvv_shape1 : 
-    CMS_bbwwdl_DY_ncc1_resolved_dy_vvv_{era}:
-        cat: [".*DL.*"]
-dy_resolved_nonclosure_dy_vvv_shape2 : 
-    CMS_bbwwdl_DY_ncc2_resolved_dy_vvv_{era}:
-        cat: [".*DL.*"]
-dy_resolved_nonclosure_top_shape1 : 
-    CMS_bbwwdl_DY_ncc1_resolved_top_{era}:
-        cat: [".*DL.*"]
-dy_resolved_nonclosure_top_shape2 : 
-    CMS_bbwwdl_DY_ncc2_resolved_top_{era}:
-        cat: [".*DL.*"]
-dy_boosted_nonclosure_top_shape1 : 
-    CMS_bbwwdl_DY_ncc1_boosted_toph_{era}:
-        cat: [".*DL.*"]
-dy_boosted_nonclosure_top_shape2 : 
-    CMS_bbwwdl_DY_ncc2_boosted_toph_{era}:
-        cat: [".*DL.*"]
-dy_boosted_nonclosure_dy_vvv_shape1 : 
-    CMS_bbwwdl_DY_ncc1_boost_dy_vvv:
-        cat: [".*DL.*"]
-dy_boosted_nonclosure_dy_vvv_shape2 : 
-    CMS_bbwwdl_DY_ncc2_boost_dy_vvv:
-        cat: [".*DL.*"]
 dy_inclusive_nonclosure_dy_vvv_shape1 : 
     CMS_bbwwdl_DY_ncc1_inclusive_dy_vvv_{era}:
         cat: [".*DL.*"]
@@ -213,53 +316,41 @@ dy_boosted_nonclosure_other_shape1 :
 dy_boosted_nonclosure_other_shape2 : 
     CMS_bbwwdl_DY_ncc2_boosted_other:
         cat: [".*DL.*"]
-dy_inclusive_nonclosure_otherh_shape1 : 
-    CMS_bbwwdl_DY_ncc1_inclusive_otherh_{era}:
-        cat: [".*DL.*"]
-dy_inclusive_nonclosure_otherh_shape2 : 
-    CMS_bbwwdl_DY_ncc2_inclusive_otherh_{era}:
-        cat: [".*DL.*"]
-dy_inclusive_nonclosure_otherh_shape1 : 
-    CMS_bbwwdl_DY_ncc1_inclusive_otherh_{era}:
-        cat: [".*DL.*"]
-dy_inclusive_nonclosure_otherh_shape2 : 
-    CMS_bbwwdl_DY_ncc2_inclusive_otherh_{era}:
-        cat: [".*DL.*"]
 
 # Fake non closure #
-fake_nc_e_res1b_GGF_nom:         CMS_bbwwsl_Clos_nom_e_res1b_GGF
-fake_nc_e_res1b_GGF_slope:       CMS_bbwwsl_Clos_slope_mu_res1b_GGF
-fake_nc_m_res1b_GGF_nom:         CMS_bbwwsl_Clos_nom_mu_res1b_GGF
-fake_nc_m_res1b_GGF_slope:       CMS_bbwwsl_Clos_slope_mu_res1b_GGF
-fake_nc_e_res1b_VBF_nom:         CMS_bbwwsl_Clos_nom_e_res1b_VBF
-fake_nc_e_res1b_VBF_slope:       CMS_bbwwsl_Clos_slope_e_res1b_VBF
-fake_nc_m_res1b_VBF_nom:         CMS_bbwwsl_Clos_nom_mu_res1b_VBF
-fake_nc_m_res1b_VBF_slope:       CMS_bbwwsl_Clos_slope_mu_res1b_VBF
-fake_nc_e_res2b_GGF_nom:         CMS_bbwwsl_Clos_nom_e_res2b_GGF
-fake_nc_e_res2b_GGF_slope:       CMS_bbwwsl_Clos_slope_e_res2b_GGF
-fake_nc_m_res2b_GGF_nom:         CMS_bbwwsl_Clos_nom_mu_res2b_GGF
-fake_nc_m_res2b_GGF_slope:       CMS_bbwwsl_Clos_slope_mu_res2b_GGF
-fake_nc_e_res2b_VBF_nom:         CMS_bbwwsl_Clos_nom_e_res2b_VBF
-fake_nc_e_res2b_VBF_slope:       CMS_bbwwsl_Clos_slope_e_res2b_VBF
-fake_nc_m_res2b_VBF_nom:         CMS_bbwwsl_Clos_nom_mu_res2b_VBF
-fake_nc_m_res2b_VBF_slope:       CMS_bbwwsl_Clos_slope_mu_res2b_VBF
-fake_nc_e_boosted_GGF_nom:       CMS_bbwwsl_Clos_nom_e_boosted_GGF
-fake_nc_e_boosted_GGF_slope:     CMS_bbwwsl_Clos_slope_e_boosted_GGF
-fake_nc_m_boosted_GGF_nom:       CMS_bbwwsl_Clos_nom_mu_boosted_GGF
-fake_nc_m_boosted_GGF_slope:     CMS_bbwwsl_Clos_slope_mu_boosted_GGF
-fake_nc_e_boosted_VBF_nom:       CMS_bbwwsl_Clos_nom_e_boosted_VBF
-fake_nc_e_boosted_VBF_slope:     CMS_bbwwsl_Clos_slope_e_boosted_VBF
-fake_nc_m_boosted_VBF_nom:       CMS_bbwwsl_Clos_nom_mu_boosted_VBF
-fake_nc_m_boosted_VBF_slope:     CMS_bbwwsl_Clos_slope_mu_boosted_VBF
-fake_nc_e_inc_other_nom:         CMS_bbwwsl_Clos_nom_e_inc_other
-fake_nc_e_inc_other_slope:       CMS_bbwwsl_Clos_slope_e_inc_other
-fake_nc_m_inc_other_nom:         CMS_bbwwsl_Clos_nom_mu_inc_other
-fake_nc_m_inc_other_slope:       CMS_bbwwsl_Clos_slope_mu_inc_other
-fake_nc_e_res_toph_nom:          CMS_bbwwsl_Clos_nom_e_res_toph
-fake_nc_e_res_toph_slope:        CMS_bbwwsl_Clos_slope_e_res_toph
-fake_nc_m_res_toph_nom:          CMS_bbwwsl_Clos_nom_mu_res_toph
-fake_nc_m_res_toph_slope:        CMS_bbwwsl_Clos_slope_mu_res_toph
-fake_nc_e_boosted_toph_nom:      CMS_bbwwsl_Clos_nom_e_boosted_toph
-fake_nc_e_boosted_toph_slope:    CMS_bbwwsl_Clos_slope_e_boosted_toph
-fake_nc_m_boosted_toph_nom:      CMS_bbwwsl_Clos_nom_mu_boosted_toph
-fake_nc_m_boosted_toph_slope:    CMS_bbwwsl_Clos_slope_mu_boosted_toph
+fake_nc_e_res1b_GGF_nom:         CMS_bbwwsl_Clos_nom_e_res1b_GGF_{era}
+fake_nc_e_res1b_GGF_slope:       CMS_bbwwsl_Clos_slope_mu_res1b_GGF_{era}
+fake_nc_m_res1b_GGF_nom:         CMS_bbwwsl_Clos_nom_mu_res1b_GGF_{era}
+fake_nc_m_res1b_GGF_slope:       CMS_bbwwsl_Clos_slope_mu_res1b_GGF_{era}
+fake_nc_e_res1b_VBF_nom:         CMS_bbwwsl_Clos_nom_e_res1b_VBF_{era}
+fake_nc_e_res1b_VBF_slope:       CMS_bbwwsl_Clos_slope_e_res1b_VBF_{era}
+fake_nc_m_res1b_VBF_nom:         CMS_bbwwsl_Clos_nom_mu_res1b_VBF_{era}
+fake_nc_m_res1b_VBF_slope:       CMS_bbwwsl_Clos_slope_mu_res1b_VBF_{era}
+fake_nc_e_res2b_GGF_nom:         CMS_bbwwsl_Clos_nom_e_res2b_GGF_{era}
+fake_nc_e_res2b_GGF_slope:       CMS_bbwwsl_Clos_slope_e_res2b_GGF_{era}
+fake_nc_m_res2b_GGF_nom:         CMS_bbwwsl_Clos_nom_mu_res2b_GGF_{era}
+fake_nc_m_res2b_GGF_slope:       CMS_bbwwsl_Clos_slope_mu_res2b_GGF_{era}
+fake_nc_e_res2b_VBF_nom:         CMS_bbwwsl_Clos_nom_e_res2b_VBF_{era}
+fake_nc_e_res2b_VBF_slope:       CMS_bbwwsl_Clos_slope_e_res2b_VBF_{era}
+fake_nc_m_res2b_VBF_nom:         CMS_bbwwsl_Clos_nom_mu_res2b_VBF_{era}
+fake_nc_m_res2b_VBF_slope:       CMS_bbwwsl_Clos_slope_mu_res2b_VBF_{era}
+fake_nc_e_boosted_GGF_nom:       CMS_bbwwsl_Clos_nom_e_boosted_GGF_{era}
+fake_nc_e_boosted_GGF_slope:     CMS_bbwwsl_Clos_slope_e_boosted_GGF_{era}
+fake_nc_m_boosted_GGF_nom:       CMS_bbwwsl_Clos_nom_mu_boosted_GGF_{era}
+fake_nc_m_boosted_GGF_slope:     CMS_bbwwsl_Clos_slope_mu_boosted_GGF_{era}
+fake_nc_e_boosted_VBF_nom:       CMS_bbwwsl_Clos_nom_e_boosted_VBF_{era}
+fake_nc_e_boosted_VBF_slope:     CMS_bbwwsl_Clos_slope_e_boosted_VBF_{era}
+fake_nc_m_boosted_VBF_nom:       CMS_bbwwsl_Clos_nom_mu_boosted_VBF_{era}
+fake_nc_m_boosted_VBF_slope:     CMS_bbwwsl_Clos_slope_mu_boosted_VBF_{era}
+fake_nc_e_inc_wjets_other_nom:   CMS_bbwwsl_Clos_nom_e_inc_wjets_other_{era}
+fake_nc_e_inc_wjets_other_slope: CMS_bbwwsl_Clos_slope_e_inc_wjets_other_{era}
+fake_nc_m_inc_wjets_other_nom:   CMS_bbwwsl_Clos_nom_mu_inc_wjets_other_{era}
+fake_nc_m_inc_wjets_other_slope: CMS_bbwwsl_Clos_slope_mu_inc_wjets_other_{era}
+fake_nc_e_res_toph_nom:          CMS_bbwwsl_Clos_nom_e_res_toph_{era}
+fake_nc_e_res_toph_slope:        CMS_bbwwsl_Clos_slope_e_res_toph_{era}
+fake_nc_m_res_toph_nom:          CMS_bbwwsl_Clos_nom_mu_res_toph_{era}
+fake_nc_m_res_toph_slope:        CMS_bbwwsl_Clos_slope_mu_res_toph_{era}
+fake_nc_e_boosted_toph_nom:      CMS_bbwwsl_Clos_nom_e_boosted_toph_{era}
+fake_nc_e_boosted_toph_slope:    CMS_bbwwsl_Clos_slope_e_boosted_toph_{era}
+fake_nc_m_boosted_toph_nom:      CMS_bbwwsl_Clos_nom_mu_boosted_toph_{era}
+fake_nc_m_boosted_toph_slope:    CMS_bbwwsl_Clos_slope_mu_boosted_toph_{era}

@@ -1,9 +1,10 @@
 signal_ggf_spin2_{mass}_hbbhww:
   type: signal  
-  legend: "Graviton#rightarrowHH#rightarrowbbWW ({mass} GeV)"
+  legend: "X (spin-2,{mass} GeV) #rightarrow HH"
+  group: HH
   order: 14
-  line-color: '#288a24'
-  fill-color: '#288a24'
+  line-color: '#c91a26'
+  fill-color: '#c91a26'
   line-type: 1
   line-width: 2
   fill-type: 3345
@@ -11,7 +12,8 @@ signal_ggf_spin2_{mass}_hbbhww:
     - GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-{mass}.root
 signal_ggf_spin2_{mass}_hbbhtt:
   type: signal
-  legend: "Graviton#rightarrowHH#rightarrowbb#tau#tau ({mass} GeV)"
+  group: HH
+  legend: "X (spin-2,{mass} GeV) #rightarrow HH"
   order: 14
   line-color: '#c91a26'
   fill-color: '#c91a26'

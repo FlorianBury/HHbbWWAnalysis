@@ -17,9 +17,9 @@
   #######  Fakes  #######
   - module: nonclosure.py:NonClosureFake
     init: 
-      path_json: ../configs/factors_SL_Fake.json
-    histConverter: !include cat_SL_nonresonant_channel.yml 
-    aggregation: !include cat_SL_nonresonant_aggregation.yml
+      path_json: ../configs/factors_SL_Fakes.json
+    histConverter: !include ../configs/cat_SL_channel_nonresonant.yml
+    aggregation: !include ../configs/cat_SL_aggregation_nonresonant.yml
     categories: 
       HH_SL_e_resolved1b_GGF:
         key:      HH_SL_e_resolved1b_GGF_2016
@@ -57,12 +57,12 @@
       HH_SL_m_boosted_VBF:
         key:      HH_SL_m_boosted_VBF_2016
         systName: fake_nc_m_boosted_VBF
-      HH_SL_e_inclusive_other:
-        key:      HH_SL_e_inclusive_other_2016
-        systName: fake_nc_e_inc_other
-      HH_SL_m_inclusive_other:
-        key:      HH_SL_m_inclusive_other_2016
-        systName: fake_nc_m_inc_other
+      HH_SL_e_inclusive_wjets_other:
+        key:      HH_SL_e_inclusive_wjets_other_2016
+        systName: fake_nc_e_inc_wjets_other
+      HH_SL_m_inclusive_wjets_other:
+        key:      HH_SL_m_inclusive_wjets_other_2016
+        systName: fake_nc_m_inc_wjets_other
       HH_SL_e_resolved_TopH:
         key:      HH_SL_e_resolved_TopH_2016
         systName: fake_nc_e_res_toph
@@ -75,50 +75,6 @@
       HH_SL_m_boosted_TopH:
         key:      HH_SL_m_boosted_TopH_2016
         systName: fake_nc_m_boosted_toph
-  #######  Underlying event  #######
-  - module: nonclosure.py:UnderlyingEvent
-    init: 
-      path_json: ../configs/UE_NonRes.json
-    categories: 
-      HH_DL_resolved1b_GGF:
-        systName: underlying_event
-      HH_DL_resolved1b_VBF:
-        systName: underlying_event
-      HH_DL_resolved2b_GGF:
-        systName: underlying_event
-      HH_DL_resolved2b_GGF:
-        systName: underlying_event
-      HH_DL_boosted_GGF:
-        systName: underlying_event
-      HH_DL_boosted_VBF:
-        systName: underlying_event
-      HH_DL_inclusive_DY_VVV:
-        systName: underlying_event
-      HH_DL_resolved_other:
-        systName: underlying_event
-      HH_DL_boosted_other:
-        systName: underlying_event
-      HH_SL_resolved1b_GGF:
-        systName: underlying_event
-      HH_SL_resolved1b_VBF:
-        systName: underlying_event
-      HH_SL_resolved2b_GGF:
-        systName: underlying_event
-      HH_SL_resolved2b_GGF:
-        systName: underlying_event
-      HH_SL_boosted_GGF:
-        systName: underlying_event
-      HH_SL_boosted_VBF:
-        systName: underlying_event
-      HH_SL_inclusive_other:
-        systName: underlying_event
-      HH_SL_resolved_TopH:
-        systName: underlying_event
-      HH_SL_boosted_TopH:
-        systName: underlying_event
-
-
-
 #################  2017 ###################
 2017:
   #######  DY  #######
@@ -138,9 +94,9 @@
   #######  Fakes  #######
   - module: nonclosure.py:NonClosureFake
     init: 
-      path_json: ../configs/factors_SL_Fake.json
-    histConverter: !include cat_SL_nonresonant_channel.yml 
-    aggregation: !include cat_SL_nonresonant_aggregation.yml
+      path_json: ../configs/factors_SL_Fakes.json
+    histConverter: !include ../configs/cat_SL_channel_nonresonant.yml
+    aggregation: !include ../configs/cat_SL_aggregation_nonresonant.yml
     categories: 
       HH_SL_e_resolved1b_GGF:
         key:      HH_SL_e_resolved1b_GGF_2017
@@ -178,12 +134,12 @@
       HH_SL_m_boosted_VBF:
         key:      HH_SL_m_boosted_VBF_2017
         systName: fake_nc_m_boosted_VBF
-      HH_SL_e_inclusive_other:
-        key:      HH_SL_e_inclusive_other_2017
-        systName: fake_nc_e_inc_other
-      HH_SL_m_inclusive_other:
-        key:      HH_SL_m_inclusive_other_2017
-        systName: fake_nc_m_inc_other
+      HH_SL_e_inclusive_wjets_other:
+        key:      HH_SL_e_inclusive_wjets_other_2017
+        systName: fake_nc_e_inc_wjets_other
+      HH_SL_m_inclusive_wjets_other:
+        key:      HH_SL_m_inclusive_wjets_other_2017
+        systName: fake_nc_m_inc_wjets_other
       HH_SL_e_resolved_TopH:
         key:      HH_SL_e_resolved_TopH_2017
         systName: fake_nc_e_res_toph
@@ -196,49 +152,6 @@
       HH_SL_m_boosted_TopH:
         key:      HH_SL_m_boosted_TopH_2017
         systName: fake_nc_m_boosted_toph
-  #######  Underlying event  #######
-  - module: nonclosure.py:UnderlyingEvent
-    init: 
-      path_json: ../configs/UE_NonRes.json
-    categories: 
-      HH_DL_resolved1b_GGF:
-        systName: underlying_event
-      HH_DL_resolved1b_VBF:
-        systName: underlying_event
-      HH_DL_resolved2b_GGF:
-        systName: underlying_event
-      HH_DL_resolved2b_GGF:
-        systName: underlying_event
-      HH_DL_boosted_GGF:
-        systName: underlying_event
-      HH_DL_boosted_VBF:
-        systName: underlying_event
-      HH_DL_inclusive_DY_VVV:
-        systName: underlying_event
-      HH_DL_resolved_other:
-        systName: underlying_event
-      HH_DL_boosted_other:
-        systName: underlying_event
-      HH_SL_resolved1b_GGF:
-        systName: underlying_event
-      HH_SL_resolved1b_VBF:
-        systName: underlying_event
-      HH_SL_resolved2b_GGF:
-        systName: underlying_event
-      HH_SL_resolved2b_GGF:
-        systName: underlying_event
-      HH_SL_boosted_GGF:
-        systName: underlying_event
-      HH_SL_boosted_VBF:
-        systName: underlying_event
-      HH_SL_inclusive_other:
-        systName: underlying_event
-      HH_SL_resolved_TopH:
-        systName: underlying_event
-      HH_SL_boosted_TopH:
-        systName: underlying_event
-
-
 #################  2018 ###################
 2018:
   #######  DY  #######
@@ -258,9 +171,9 @@
   #######  Fakes  #######
   - module: nonclosure.py:NonClosureFake
     init: 
-      path_json: ../configs/factors_SL_Fake.json
-    histConverter: !include cat_SL_nonresonant_channel.yml 
-    aggregation: !include cat_SL_nonresonant_aggregation.yml
+      path_json: ../configs/factors_SL_Fakes.json
+    histConverter: !include ../configs/cat_SL_channel_nonresonant.yml
+    aggregation: !include ../configs/cat_SL_aggregation_nonresonant.yml
     categories: 
       HH_SL_e_resolved1b_GGF:
         key:      HH_SL_e_resolved1b_GGF_2018
@@ -298,12 +211,12 @@
       HH_SL_m_boosted_VBF:
         key:      HH_SL_m_boosted_VBF_2018
         systName: fake_nc_m_boosted_VBF
-      HH_SL_e_inclusive_other:
-        key:      HH_SL_e_inclusive_other_2018
-        systName: fake_nc_e_inc_other
-      HH_SL_m_inclusive_other:
-        key:      HH_SL_m_inclusive_other_2018
-        systName: fake_nc_m_inc_other
+      HH_SL_e_inclusive_wjets_other:
+        key:      HH_SL_e_inclusive_wjets_other_2018
+        systName: fake_nc_e_inc_wjets_other
+      HH_SL_m_inclusive_wjets_other:
+        key:      HH_SL_m_inclusive_wjets_other_2018
+        systName: fake_nc_m_inc_wjets_other
       HH_SL_e_resolved_TopH:
         key:      HH_SL_e_resolved_TopH_2018
         systName: fake_nc_e_res_toph
@@ -316,45 +229,4 @@
       HH_SL_m_boosted_TopH:
         key:      HH_SL_m_boosted_TopH_2018
         systName: fake_nc_m_boosted_toph
-  #######  Underlying event  #######
-  - module: nonclosure.py:UnderlyingEvent
-    init: 
-      path_json: ../configs/UE_NonRes.json
-    categories: 
-      HH_DL_resolved1b_GGF:
-        systName: underlying_event
-      HH_DL_resolved1b_VBF:
-        systName: underlying_event
-      HH_DL_resolved2b_GGF:
-        systName: underlying_event
-      HH_DL_resolved2b_GGF:
-        systName: underlying_event
-      HH_DL_boosted_GGF:
-        systName: underlying_event
-      HH_DL_boosted_VBF:
-        systName: underlying_event
-      HH_DL_inclusive_DY_VVV:
-        systName: underlying_event
-      HH_DL_resolved_other:
-        systName: underlying_event
-      HH_DL_boosted_other:
-        systName: underlying_event
-      HH_SL_resolved1b_GGF:
-        systName: underlying_event
-      HH_SL_resolved1b_VBF:
-        systName: underlying_event
-      HH_SL_resolved2b_GGF:
-        systName: underlying_event
-      HH_SL_resolved2b_GGF:
-        systName: underlying_event
-      HH_SL_boosted_GGF:
-        systName: underlying_event
-      HH_SL_boosted_VBF:
-        systName: underlying_event
-      HH_SL_inclusive_other:
-        systName: underlying_event
-      HH_SL_resolved_TopH:
-        systName: underlying_event
-      HH_SL_boosted_TopH:
-        systName: underlying_event
 

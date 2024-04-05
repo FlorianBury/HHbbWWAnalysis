@@ -96,20 +96,8 @@ Fakes:
     - VBFHToWWToLNuQQFakeExtrapolation.root
     - VBFHToZZTo4LFakeExtrapolation.root
     - VHToNonbbFakeExtrapolation.root
-    - W1JetsToLNuFakeExtrapolation.root
-    - W2JetsToLNuFakeExtrapolation.root
-    - W3JetsToLNuFakeExtrapolation.root
-    - W4JetsToLNuFakeExtrapolation.root
     - WGToLNuGFakeExtrapolation.root
-    - WJetsToLNuFakeExtrapolation.root
-    - WJetsToLNu_HT-100To200FakeExtrapolation.root
-    - WJetsToLNu_HT-1200To2500FakeExtrapolation.root
-    - WJetsToLNu_HT-200To400FakeExtrapolation.root
-    - WJetsToLNu_HT-2500ToInfFakeExtrapolation.root
-    - WJetsToLNu_HT-400To600FakeExtrapolation.root
-    - WJetsToLNu_HT-600To800FakeExtrapolation.root
-    - WJetsToLNu_HT-70To100FakeExtrapolation.root
-    - WJetsToLNu_HT-800To1200FakeExtrapolation.root
+    - WJetsToLNu_NLOFakeExtrapolation.root
     - WminusH_HToBB_WToLNuFakeExtrapolation.root
     - WplusH_HToBB_WToLNuFakeExtrapolation.root
     - WpWpJJFakeExtrapolation.root
@@ -128,4 +116,3 @@ Fakes:
     - ZZTo2L2QFakeExtrapolation.root
     - ZZTo4LFakeExtrapolation.root
     - ZZZFakeExtrapolation.root
-
