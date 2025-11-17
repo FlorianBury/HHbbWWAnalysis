@@ -15,9 +15,10 @@ from selectionDef import *
 
 def addGenParticle(varDict,container,name,idx=None,map_sum_E=None):
     if idx is None:
-        varDict[f'n_{name}']      = op.static_cast("UInt_t",op.rng_len(container))
         idx = 0
     varDict[f'{name}_idx']    = op.switch(op.rng_len(container)>idx, op.static_cast("Int_t",container[idx].idx), op.c_float(-9999.))
+    varDict[f'{name}_parent'] = op.switch(op.rng_len(container)>idx, op.static_cast("Int_t",container[idx].parent.idx), op.c_float(-9999.))
+
     varDict[f'{name}_pdgId']  = op.switch(op.rng_len(container)>idx, container[idx].pdgId, op.c_float(-9999.))
     varDict[f'{name}_pt']     = op.switch(op.rng_len(container)>idx, container[idx].pt, op.c_float(-9999.))
     varDict[f'{name}_eta']    = op.switch(op.rng_len(container)>idx, container[idx].eta, op.c_float(-9999.))
@@ -107,42 +108,49 @@ def addMET(varDict,met):
     varDict[f'met_E']      = met.p4.E()
 
 
-def addRecoFatjet(varDict,container,lambda_btag):
-    varDict[f'fatj_idx']    = op.switch(op.rng_len(container)>0, op.static_cast("Int_t",container[0].idx), op.c_float(-9999.))
-    varDict[f'fatj_pt']     = op.switch(op.rng_len(container)>0, container[0].pt, op.c_float(-9999.))
-    varDict[f'fatj_eta']    = op.switch(op.rng_len(container)>0, container[0].eta, op.c_float(-9999.))
-    varDict[f'fatj_phi']    = op.switch(op.rng_len(container)>0, container[0].phi, op.c_float(-9999.))
-    varDict[f'fatj_mass']   = op.switch(op.rng_len(container)>0, container[0].mass, op.c_float(-9999.))
-    varDict[f'fatj_Px']     = op.switch(op.rng_len(container)>0, container[0].p4.Px(), op.c_float(-9999.))
-    varDict[f'fatj_Py']     = op.switch(op.rng_len(container)>0, container[0].p4.Py(), op.c_float(-9999.))
-    varDict[f'fatj_Pz']     = op.switch(op.rng_len(container)>0, container[0].p4.Pz(), op.c_float(-9999.))
-    varDict[f'fatj_E']      = op.switch(op.rng_len(container)>0, container[0].p4.E(), op.c_float(-9999.))
+def addRecoFatjet(varDict,container,i,lambda_btag):
+    varDict[f'fatj{i+1}_idx']       = op.switch(op.rng_len(container)>i, op.static_cast("Int_t",container[0].idx), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_pt']        = op.switch(op.rng_len(container)>i, container[i].pt, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_eta']       = op.switch(op.rng_len(container)>i, container[i].eta, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_phi']       = op.switch(op.rng_len(container)>i, container[i].phi, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_mass']      = op.switch(op.rng_len(container)>i, container[i].mass, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_Px']        = op.switch(op.rng_len(container)>i, container[i].p4.Px(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_Py']        = op.switch(op.rng_len(container)>i, container[i].p4.Py(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_Pz']        = op.switch(op.rng_len(container)>i, container[i].p4.Pz(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_E']         = op.switch(op.rng_len(container)>i, container[i].p4.E(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_E']         = op.switch(op.rng_len(container)>i, container[i].p4.E(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_btagged']   = op.switch(op.rng_len(container)>i, lambda_btag(container[i]), op.c_float(-9999.))
 
-    varDict[f'fatj_sub1_idx']    = op.switch(op.rng_len(container)>0, op.static_cast("Int_t",container[0].subJet1.idx), op.c_float(-9999.))
-    varDict[f'fatj_sub1_btag']   = op.switch(op.rng_len(container)>0, container[0].subJet1.btagDeepB, op.c_float(-9999.))
-    varDict[f'fatj_sub1_btagged']= op.switch(op.rng_len(container)>0, lambda_btag(container[0].subJet1), op.c_float(-9999.))
-    varDict[f'fatj_sub1_pt']     = op.switch(op.rng_len(container)>0, container[0].subJet1.pt, op.c_float(-9999.))
-    varDict[f'fatj_sub1_eta']    = op.switch(op.rng_len(container)>0, container[0].subJet1.eta, op.c_float(-9999.))
-    varDict[f'fatj_sub1_phi']    = op.switch(op.rng_len(container)>0, container[0].subJet1.phi, op.c_float(-9999.))
-    varDict[f'fatj_sub1_mass']   = op.switch(op.rng_len(container)>0, container[0].subJet1.mass, op.c_float(-9999.))
-    varDict[f'fatj_sub1_Px']     = op.switch(op.rng_len(container)>0, container[0].subJet1.p4.Px(), op.c_float(-9999.))
-    varDict[f'fatj_sub1_Py']     = op.switch(op.rng_len(container)>0, container[0].subJet1.p4.Py(), op.c_float(-9999.))
-    varDict[f'fatj_sub1_Pz']     = op.switch(op.rng_len(container)>0, container[0].subJet1.p4.Pz(), op.c_float(-9999.))
-    varDict[f'fatj_sub1_E']      = op.switch(op.rng_len(container)>0, container[0].subJet1.p4.E(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub1_idx']  = op.switch(op.rng_len(container)>i, op.static_cast("Int_t",container[0].subJet1.idx), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub1_btag'] = op.switch(op.rng_len(container)>i, container[i].subJet1.btagDeepB, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub1_pt']   = op.switch(op.rng_len(container)>i, container[i].subJet1.pt, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub1_eta']  = op.switch(op.rng_len(container)>i, container[i].subJet1.eta, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub1_phi']  = op.switch(op.rng_len(container)>i, container[i].subJet1.phi, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub1_mass'] = op.switch(op.rng_len(container)>i, container[i].subJet1.mass, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub1_Px']   = op.switch(op.rng_len(container)>i, container[i].subJet1.p4.Px(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub1_Py']   = op.switch(op.rng_len(container)>i, container[i].subJet1.p4.Py(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub1_Pz']   = op.switch(op.rng_len(container)>i, container[i].subJet1.p4.Pz(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub1_E']    = op.switch(op.rng_len(container)>i, container[i].subJet1.p4.E(), op.c_float(-9999.))
 
-    varDict[f'fatj_sub2_idx']    = op.switch(op.rng_len(container)>0, op.static_cast("Int_t",container[0].subJet2.idx), op.c_float(-9999.))
-    varDict[f'fatj_sub2_btag']   = op.switch(op.rng_len(container)>0, container[0].subJet2.btagDeepB, op.c_float(-9999.))
-    varDict[f'fatj_sub2_btagged']= op.switch(op.rng_len(container)>0, lambda_btag(container[0].subJet2), op.c_float(-9999.))
-    varDict[f'fatj_sub2_pt']     = op.switch(op.rng_len(container)>0, container[0].subJet2.pt, op.c_float(-9999.))
-    varDict[f'fatj_sub2_eta']    = op.switch(op.rng_len(container)>0, container[0].subJet2.eta, op.c_float(-9999.))
-    varDict[f'fatj_sub2_phi']    = op.switch(op.rng_len(container)>0, container[0].subJet2.phi, op.c_float(-9999.))
-    varDict[f'fatj_sub2_mass']   = op.switch(op.rng_len(container)>0, container[0].subJet2.mass, op.c_float(-9999.))
-    varDict[f'fatj_sub2_Px']     = op.switch(op.rng_len(container)>0, container[0].subJet2.p4.Px(), op.c_float(-9999.))
-    varDict[f'fatj_sub2_Py']     = op.switch(op.rng_len(container)>0, container[0].subJet2.p4.Py(), op.c_float(-9999.))
-    varDict[f'fatj_sub2_Pz']     = op.switch(op.rng_len(container)>0, container[0].subJet2.p4.Pz(), op.c_float(-9999.))
-    varDict[f'fatj_sub2_E']      = op.switch(op.rng_len(container)>0, container[0].subJet2.p4.E(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub2_idx']  = op.switch(op.rng_len(container)>i, op.static_cast("Int_t",container[0].subJet2.idx), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub2_btag'] = op.switch(op.rng_len(container)>i, container[i].subJet2.btagDeepB, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub2_pt']   = op.switch(op.rng_len(container)>i, container[i].subJet2.pt, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub2_eta']  = op.switch(op.rng_len(container)>i, container[i].subJet2.eta, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub2_phi']  = op.switch(op.rng_len(container)>i, container[i].subJet2.phi, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub2_mass'] = op.switch(op.rng_len(container)>i, container[i].subJet2.mass, op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub2_Px']   = op.switch(op.rng_len(container)>i, container[i].subJet2.p4.Px(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub2_Py']   = op.switch(op.rng_len(container)>i, container[i].subJet2.p4.Py(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub2_Pz']   = op.switch(op.rng_len(container)>i, container[i].subJet2.p4.Pz(), op.c_float(-9999.))
+    varDict[f'fatj{i+1}_sub2_E']    = op.switch(op.rng_len(container)>i, container[i].subJet2.p4.E(), op.c_float(-9999.))
 
-def getGenParticle(tree,pdgIds=[],parent=None,parent_pdgIds=[],from_hardscattering=False,flags=[(0x1 << 0), (0x1 << 12)]):
+def getGenParticle(tree,pdgIds=[],parents=None,vetos=None,parent_pdgIds=[],from_hardscattering=False,flags=[(0x1 << 0), (0x1 << 7), (0x1 << 8), (0x1 << 12)]):
+    # (0x1 << 0)  : isPrompt
+    # (0x1 << 7)  : isHardProcess
+    # (0x1 << 8)  : fromHardProcess
+    # (0x1 << 12) : isFirstCopy
+    # https://github.com/cms-nanoAOD/nanoAOD-tools/blob/master/python/postprocessing/framework/datamodel.py
+    # vetos is bugged! could not debug it so using parent_pdgIds instead to force parent
+
     # Make pdgIds into a list #
     if not isinstance(pdgIds,(list,tuple)):
         pdgIds = [pdgIds]
@@ -152,16 +160,57 @@ def getGenParticle(tree,pdgIds=[],parent=None,parent_pdgIds=[],from_hardscatteri
     else:
         lambda_status = lambda p : op.AND(*[p.statusFlags & flag for flag in flags])
     # Lambda for parent in ancestors #
-    if parent is None:
+    if parents is None:
         lambda_check_parents = lambda a: op.c_bool(True)
     else:
-        if isinstance(parent,bamboo.treeproxies.SelectionProxy):
-            lambda_check_parents = lambda a: op.rng_any(
-                parent,
-                lambda par : a.idx == par.idx
+        if not isinstance(parents,(list,tuple)):
+            parents = [parents]
+        lambdas = []
+        for parent in parents:
+            if isinstance(parent,bamboo.treeproxies.SelectionProxy):
+                lambdas.append(
+                    lambda a: op.rng_any(
+                        parent,
+                        lambda par : a.idx == par.idx
+                    )
+                )
+            else:
+                lambdas.append(lambda a: a.idx == parent.idx)
+        if len(lambdas) > 0:
+            lambda_check_parents = lambda a : op.OR(
+                *[
+                    lam(a)
+                    for lam in lambdas
+                ]
             )
         else:
-            lambda_check_parents = lambda a: a.idx == parent.idx
+            lambda_check_parents = lambda a: op.c_bool(True)
+    # Lambda for veoting parent in ancestors #
+    if vetos is None:
+        lambda_check_vetos = lambda a: op.c_bool(False)
+    else:
+        if not isinstance(vetos,(list,tuple)):
+            vetos = [vetos]
+        lambdas = []
+        for veto in vetos:
+            if isinstance(veto,bamboo.treeproxies.SelectionProxy):
+                lambdas.append(
+                    lambda a: op.rng_any(
+                        veto,
+                        lambda par : a.idx == par.idx
+                    )
+                )
+            else:
+                lambdas.append(lambda a: a.idx == veto.idx)
+        if len(lambdas) > 0:
+            lambda_check_vetos = lambda a : op.OR(
+                *[
+                    lam(a)
+                    for lam in lambdas
+                ]
+            )
+        else:
+            lambda_check_vetos = lambda a: op.c_bool(False)
     # Lambda for parent pdgIds as direct parent #
     if isinstance(parent_pdgIds,int):
         lambda_check_parent_pdgIds = lambda a: p.parent.pdgId == parent_pdgIds
@@ -175,12 +224,16 @@ def getGenParticle(tree,pdgIds=[],parent=None,parent_pdgIds=[],from_hardscatteri
     # Hard scattering lambda #
     if from_hardscattering:
         lambda_scatter = lambda p: op.AND(
+            #p.parent.parent.idx < 0, # not included because some events are fucked up
             op.abs(p.parent.eta) > 10000,
         )
     else:
-        lambda_scatter = lambda p: op.abs(p.parent.eta) < 10000
-    # return select #
-    return op.select(
+        lambda_scatter = lambda p: op.AND(
+            p.parent.parent.idx >= 0,
+            op.abs(p.parent.eta) < 10000,
+        )
+    # Get the selected particles #
+    particles = op.select(
         tree.GenPart,
         lambda p : op.AND(
             op.OR(
@@ -192,42 +245,65 @@ def getGenParticle(tree,pdgIds=[],parent=None,parent_pdgIds=[],from_hardscatteri
                 p.ancestors,
                 lambda_check_parents,
             ),
+            op.NOT(
+                lambda_check_vetos(p.parent)
+                #op.rng_any(
+                #    p.ancestors,
+                #    lambda_check_vetos,
+                #),
+            ),
             lambda_check_parent_pdgIds(p),
         )
     )
-
-def getGenISR(tree,pdgIds=[]):
+    # Need to make sure no particle in this list has ancestors in the list already
+    # This is to avoid for example pair creation identified as genuine quarks
+    # Same with leptons, for example muons can create pairs of electrons
+    # Also we want to avoid selecting a tau, and its decays
     return op.select(
-        tree.GenPart,
-        lambda p : op.AND(
-            # PDG ID
-            op.OR(
-                *[p.pdgId == pdgId for pdgId in pdgIds]
-            ),
-            p.pt >= 10,
-            # Origin
-            op.OR(
-                # Directly from the beam
-                op.AND(
-                    p.parent.parent.idx < 0,
-                    op.abs(p.parent.eta) > 10000,
-                ),
-                # ISR
-                op.AND(
-                    p.parent.idx < 0,
-                    op.abs(p.eta) < 6.,
+        particles,
+        lambda p1: op.NOT( # p1 is the particle we want to check
+            op.rng_any(
+                particles,
+                lambda p2: op.AND( # p2 are all the other particles before
+                    p2.idx < p1.idx, # make sure p2 is before p1
+                    op.rng_any(
+                        p1.ancestors,
+                        lambda a : a.idx == p2.idx
+                    )
                 )
             )
         )
     )
 
+def getGenISR(tree):
+    return getGenParticle(
+        tree,
+        pdgIds = [+1,+2,+3,+4,+5,-1,-2,-3,-4,-5,21],
+        from_hardscattering = True,
+        flags = [
+            (0x1 << 0), # isPrompt
+            (0x1 << 7), # isHardProcess
+            (0x1 << 8), # fromHardProcess
+        ], # no isFirstCopy for ISR
+    )
 
-
+def addGeneratorInfo(varDict,tree):
+    varDict['Generator_scalePDF'] = None
+    varDict['Generator_weight'] = None
+    varDict['Generator_id1'] = None
+    varDict['Generator_id2'] = None
+    varDict['Generator_x1'] = None
+    varDict['Generator_x2'] = None
+    varDict['Generator_xpdf1'] = None
+    varDict['Generator_xpdf2'] = None
 
 
 class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
+    def initialize(self):
+        super().initialize(forSkimmer=True) # avoids doing the pseudo-data for skimmer
+
     def definePlots(self, tree, noSel, sample=None, sampleCfg=None):
-        noSel = super().prepareObjects(tree, noSel, sample, sampleCfg, 'DL')
+        noSel = super().prepareObjects(tree, noSel, sample, sampleCfg, channel='DL', forSkimmer=True)
         noSel = self.beforeJetselection(noSel)
         era = sampleCfg['era']
         plots = []
@@ -267,7 +343,11 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
         ##########################################################
         varDL = {
             'event': None,
+            'run': None,
+            'ls': None,
         }
+        varDL["MC_weight"] = t.genWeight
+        varDL["total_weight"] = selObj.sel.weight
         # Make selections and record the flags #
         lepSelObjs = makeDoubleLeptonSelection(self,noSel,use_dd=False,fake_selection=False)
         #from IPython import embed; embed()
@@ -327,9 +407,9 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
                         lambda m : op.deltaR(m.p4,j.p4) < 0.4,
                     ),
                     op.rng_any(
-                        self.ak8BJets,
+                        self.ak8Jets,
                         lambda f : op.deltaR(f.p4,j.p4) < 1.2,
-                    ),
+                    ), # AK8 and not AK8B to avoid double counting AK4 and AK8
                 )
             )
         )
@@ -355,9 +435,11 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
             addRecoJet(varDL,jets,i,self.lambda_ak4Btag)
 
         # Fatjets #
-        addRecoFatjet(varDL,self.ak8BJets,self.lambda_subjetBtag)
+        for i in range(4):
+            addRecoFatjet(varDL,fatjets,i,self.lambda_ak8Btag)
 
         # Select VBF jets (remove AK4 double counting) #
+        # (AK4 already cleaned from AK8)
         VBF = op.select(
             self.VBFJets,
             lambda j: op.AND(
@@ -406,29 +488,33 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
         # MET #
         addMET(varDL,self.corrMET)
 
+        # Generator info #
+        addGeneratorInfo(varDL,tree)
 
         # Save into plots #
-        plots.append(Skim(f'reco_DL',varDL,noSel))
+        SR_cut = noSel.refine('SR',SRCut)
+        plots.append(Skim(f'reco_DL',varDL,SR_cut))
 
 
         ##########################################################
         #                      ttbar sample                      #
         ##########################################################
         if sample in ['TTTo2L2Nu','TTToSemiLeptonic','TTToHadronic']:
-            top = getGenParticle(tree,6,from_hardscattering=True)
-            antitop = getGenParticle(tree,-6,from_hardscattering=True)
-            bottom = getGenParticle(tree,5,top)
-            antibottom = getGenParticle(tree,-5,antitop)
-            W_plus_from_top = getGenParticle(tree,+24,top)
-            W_minus_from_antitop = getGenParticle(tree,-24,antitop)
-            lep_plus = getGenParticle(tree,[-11,-13,-15],W_plus_from_top)
-            lep_minus = getGenParticle(tree,[+11,+13,+15],W_minus_from_antitop)
-            neutrino = getGenParticle(tree,[+12,+14,+16],W_plus_from_top)
-            antineutrino = getGenParticle(tree,[-12,-14,-16],W_minus_from_antitop)
-            quark_up = getGenParticle(tree,[+2,+4],W_plus_from_top)
-            quark_down = getGenParticle(tree,[+1,+3],W_minus_from_antitop)
-            antiquark_up = getGenParticle(tree,[-2,-4],W_minus_from_antitop)
-            antiquark_down = getGenParticle(tree,[-1,-3],W_plus_from_top)
+            top = getGenParticle(tree,pdgIds=6,from_hardscattering=True)
+            antitop = getGenParticle(tree,pdgIds=-6,from_hardscattering=True)
+            W_plus_from_top = getGenParticle(tree,pdgIds=+24,parents=top)
+            W_minus_from_antitop = getGenParticle(tree,pdgIds=-24,parents=antitop)
+            bottom = getGenParticle(tree,pdgIds=5,parents=top)
+            antibottom = getGenParticle(tree,pdgIds=-5,parents=antitop)
+            # Avoid having bottom quarks in pair creation from the qaurks of the Ws
+            lep_plus = getGenParticle(tree,pdgIds=[-11,-13,-15],parents=W_plus_from_top)
+            lep_minus = getGenParticle(tree,pdgIds=[+11,+13,+15],parents=W_minus_from_antitop)
+            neutrino = getGenParticle(tree,[+12,+14,+16],parents=W_plus_from_top)
+            antineutrino = getGenParticle(tree,pdgIds=[-12,-14,-16],parents=W_minus_from_antitop)
+            quark_up = getGenParticle(tree,pdgIds=[+2,+4],parents=W_plus_from_top)
+            quark_down = getGenParticle(tree,pdgIds=[+1,+3],parents=W_minus_from_antitop)
+            antiquark_up = getGenParticle(tree,pdgIds=[-2,-4],parents=W_minus_from_antitop)
+            antiquark_down = getGenParticle(tree,pdgIds=[-1,-3],parents=W_plus_from_top)
 
             particles = {
                 'top': top,
@@ -450,9 +536,13 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
             genTTVar = {'event': None}
             for pName,pObj in particles.items():
                 addGenParticle(genTTVar,pObj,pName,map_sum_E=map_sum_E)
-            ISR = getGenISR(tree,[+1,+2,+3,+4,+5,-1,-2,-3,-4,-5,21])
+                genTTVar[f'n_{pName}'] = op.static_cast("UInt_t",op.rng_len(pObj))
+            ISR = getGenISR(tree)
             addISRParticles(genTTVar,ISR,15)
+
             genTTVar['flag_valid'] = op.static_cast("Int_t",get_lambda_valid(particles.values()))
+            addGeneratorInfo(genTTVar,tree)
+
             plots.append(Skim(f'gen_TT',genTTVar,noSel))
 
         ##########################################################
@@ -462,34 +552,40 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
             genSTVar = {'event': None}
 
             # ST_tW_top_5f #
-            top = getGenParticle(tree,6,from_hardscattering=True)
-            bottom = getGenParticle(tree,+5,top)
-            W_plus_from_top = getGenParticle(tree,+24,top)
-            lep_plus_from_top = getGenParticle(tree,[-11,-13,-15],W_plus_from_top)
-            neutrino_from_top = getGenParticle(tree,[+12,+14,+16],W_plus_from_top)
-            quark_up_from_top = getGenParticle(tree,[+2,+4],W_plus_from_top)
-            antiquark_down_from_top = getGenParticle(tree,[-1,-3],W_plus_from_top)
+            top = getGenParticle(tree,pdgIds=6,from_hardscattering=True)
 
-            W_minus_prompt = getGenParticle(tree,-24,from_hardscattering=True)
-            lep_minus_from_prompt_W = getGenParticle(tree,[+11,+13,+15],W_minus_prompt)
-            antineutrino_from_prompt_W = getGenParticle(tree,[-12,-14,-16],W_minus_prompt)
-            quark_down_from_prompt_W = getGenParticle(tree,[+1,+3],W_minus_prompt)
-            antiquark_up_from_prompt_W = getGenParticle(tree,[-2,-4],W_minus_prompt)
+            W_plus_from_top = getGenParticle(tree,pdgIds=+24,parents=top)
+            W_minus_prompt = getGenParticle(tree,pdgIds=-24,from_hardscattering=True)
+
+            bottom = getGenParticle(tree,pdgIds=+5,parents=top)
+
+            lep_plus_from_top = getGenParticle(tree,pdgIds=[-11,-13,-15],parents=W_plus_from_top)
+            neutrino_from_top = getGenParticle(tree,pdgIds=[+12,+14,+16],parents=W_plus_from_top)
+            quark_up_from_top = getGenParticle(tree,pdgIds=[+2,+4],parents=W_plus_from_top)
+            antiquark_down_from_top = getGenParticle(tree,pdgIds=[-1,-3],parents=W_plus_from_top)
+
+            lep_minus_from_prompt_W = getGenParticle(tree,pdgIds=[+11,+13,+15],parents=W_minus_prompt)
+            antineutrino_from_prompt_W = getGenParticle(tree,pdgIds=[-12,-14,-16],parents=W_minus_prompt)
+            quark_down_from_prompt_W = getGenParticle(tree,pdgIds=[+1,+3],parents=W_minus_prompt)
+            antiquark_up_from_prompt_W = getGenParticle(tree,pdgIds=[-2,-4],parents=W_minus_prompt)
 
             # ST_tW_antitop_5f #
-            antitop = getGenParticle(tree,-6,from_hardscattering=True)
-            antibottom = getGenParticle(tree,-5,antitop)
-            W_minus_from_antitop = getGenParticle(tree,-24,antitop)
-            lep_minus_from_top = getGenParticle(tree,[+11,+13,+15],W_minus_from_antitop)
-            antineutrino_from_top = getGenParticle(tree,[-12,-14,-16],W_minus_from_antitop)
-            quark_down_from_top = getGenParticle(tree,[+1,+3],W_minus_from_antitop)
-            antiquark_up_from_top = getGenParticle(tree,[-2,-4],W_minus_from_antitop)
+            antitop = getGenParticle(tree,pdgIds=-6,from_hardscattering=True)
 
-            W_plus_prompt = getGenParticle(tree,+24,from_hardscattering=True)
-            lep_plus_from_prompt_W = getGenParticle(tree,[-11,-13,-15],W_plus_prompt)
-            neutrino_from_prompt_W = getGenParticle(tree,[+12,+14,+16],W_plus_prompt)
-            quark_up_from_prompt_W = getGenParticle(tree,[+2,+4],W_plus_prompt)
-            antiquark_down_from_prompt_W = getGenParticle(tree,[-1,-3],W_plus_prompt)
+            W_minus_from_antitop = getGenParticle(tree,pdgIds=-24,parents=antitop)
+            W_plus_prompt = getGenParticle(tree,pdgIds=+24,from_hardscattering=True)
+
+            antibottom = getGenParticle(tree,pdgIds=-5,parents=antitop)
+
+            lep_minus_from_antitop = getGenParticle(tree,pdgIds=[+11,+13,+15],parents=W_minus_from_antitop)
+            antineutrino_from_antitop = getGenParticle(tree,pdgIds=[-12,-14,-16],parents=W_minus_from_antitop)
+            quark_down_from_antitop = getGenParticle(tree,pdgIds=[+1,+3],parents=W_minus_from_antitop)
+            antiquark_up_from_antitop = getGenParticle(tree,pdgIds=[-2,-4],parents=W_minus_from_antitop)
+
+            lep_plus_from_prompt_W = getGenParticle(tree,pdgIds=[-11,-13,-15],parents=W_plus_prompt)
+            neutrino_from_prompt_W = getGenParticle(tree,pdgIds=[+12,+14,+16],parents=W_plus_prompt)
+            quark_up_from_prompt_W = getGenParticle(tree,pdgIds=[+2,+4],parents=W_plus_prompt)
+            antiquark_down_from_prompt_W = getGenParticle(tree,pdgIds=[-1,-3],parents=W_plus_prompt)
 
             # Fill tree #
             particles = {
@@ -510,10 +606,10 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
                 'antitop': antitop,
                 'antibottom': antibottom,
                 'W_minus_from_antitop': W_minus_from_antitop,
-                'lep_minus_from_top': lep_minus_from_top,
-                'antineutrino_from_top': antineutrino_from_top,
-                'quark_down_from_top': quark_down_from_top,
-                'antiquark_up_from_top': antiquark_up_from_top,
+                'lep_minus_from_antitop': lep_minus_from_antitop,
+                'antineutrino_from_antitop': antineutrino_from_antitop,
+                'quark_down_from_antitop': quark_down_from_antitop,
+                'antiquark_up_from_antitop': antiquark_up_from_antitop,
                 'W_plus_prompt': W_plus_prompt,
                 'lep_plus_from_prompt_W': lep_plus_from_prompt_W,
                 'neutrino_from_prompt_W': neutrino_from_prompt_W,
@@ -523,9 +619,13 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
             genSTVar = {'event': None}
             for pName,pObj in particles.items():
                 addGenParticle(genSTVar,pObj,pName,map_sum_E=map_sum_E)
-            ISR = getGenISR(tree,[+1,+2,+3,+4,+5,-1,-2,-3,-4,-5,21])
+                genSTVar[f'n_{pName}'] = op.static_cast("UInt_t",op.rng_len(pObj))
+            ISR = getGenISR(tree)
             addISRParticles(genSTVar,ISR,15)
+
             genSTVar['flag_valid'] = op.static_cast("Int_t",get_lambda_valid(particles.values()))
+            addGeneratorInfo(genSTVar,tree)
+
             plots.append(Skim(f'gen_ST',genSTVar,noSel))
             #if sample in ['ST_tW_top_5f','ST_tW_antitop_5f','ST_tchannel_antitop_4f','ST_tchannel_top_4f','ST_schannel_4f','ST_tWll_5f']:
 
@@ -533,16 +633,16 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
         #                        Drell-Yan                       #
         ##########################################################
         if sample.startswith('DY'):
-            Z = getGenParticle(tree,+23,from_hardscattering=True)
-            lep_from_Z = getGenParticle(tree,[11,12,13,14,15,16],Z)
-            antilep_from_Z = getGenParticle(tree,[-11,-12,-13,-14,-15,-16],Z)
-            quark_from_Z = getGenParticle(tree,[1,2,3,4,5],Z)
-            antiquark_from_Z = getGenParticle(tree,[-1,-2,-3,-4,-5],Z)
+            # In DYJetsToLL_M-10to50.root : leptons are from nonres (no Z), no quark is produced
+            # In DYJetsToLL_M-50.root : both res (Z) and non res leptons, no quarks
+            # In DYToLL_0J.root : same
+            # In DYToLL_1/2J.root : both res and non res / no quarks from res /  quarks from non res (ISR)
+            Z = getGenParticle(tree,pdgIds=+23,from_hardscattering=True)
+            lep_from_Z = getGenParticle(tree,pdgIds=[11,12,13,14,15,16],parents=Z)
+            antilep_from_Z = getGenParticle(tree,pdgIds=[-11,-12,-13,-14,-15,-16],parents=Z)
 
-            lep_from_nonres = getGenParticle(tree,[11,12,13,14,15,16],from_hardscattering=True)
-            antilep_from_nonres = getGenParticle(tree,[-11,-12,-13,-14,-15,-16],from_hardscattering=True)
-            quark_from_nonres = getGenParticle(tree,[1,2,3,4,5],from_hardscattering=True)
-            antiquark_from_nonres = getGenParticle(tree,[-1,-2,-3,-4,-5],from_hardscattering=True)
+            lep_from_nonres = getGenParticle(tree,pdgIds=[11,12,13,14,15,16],from_hardscattering=True)
+            antilep_from_nonres = getGenParticle(tree,pdgIds=[-11,-12,-13,-14,-15,-16],from_hardscattering=True)
 
             genDYVar = {'event': None}
             # Fill tree #
@@ -550,31 +650,40 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
                 'Z': Z,
                 'lep_from_Z': lep_from_Z,
                 'antilep_from_Z': antilep_from_Z,
-                'quark_from_Z': quark_from_Z,
-                'antiquark_from_Z': antiquark_from_Z,
                 'lep_from_nonres': lep_from_nonres,
                 'antilep_from_nonres': antilep_from_nonres,
-                'quark_from_nonres': quark_from_nonres,
-                'antiquark_from_nonres': antiquark_from_nonres,
             }
             genDYVar = {'event': None}
             for pName,pObj in particles.items():
                 addGenParticle(genDYVar,pObj,pName,map_sum_E=map_sum_E)
-            ISR = getGenISR(tree,[+1,+2,+3,+4,+5,-1,-2,-3,-4,-5,21])
+                genDYVar[f'n_{pName}'] = op.static_cast("UInt_t",op.rng_len(pObj))
+            ISR = getGenISR(tree)
             addISRParticles(genDYVar,ISR,15)
+
             genDYVar['flag_valid'] = op.static_cast("Int_t",get_lambda_valid(particles.values()))
+            addGeneratorInfo(genDYVar,tree)
+
             plots.append(Skim(f'gen_DY',genDYVar,noSel))
 
         ##########################################################
         #                    diboson sample                      #
         ##########################################################
         if sample.startswith("ZZTo"):
-            Zs = getGenParticle(tree,+23,from_hardscattering=True)
+            # ZZTo2L2Q : at least one nonres Z
+            # - leptons can come from Z1,Z2 or non res
+            # - quarks can come from Z1,Z2, or be ISR
+            # ZZTo2L2Q also contains Z(->ll)H(->tautau->jets)
+            # Will save it to be safe
 
-            lep_from_Z         = getGenParticle(tree,[11,12,13,14,15,16],Zs)
-            antilep_from_Z     = getGenParticle(tree,[-11,-12,-13,-14,-15,-16],Zs)
-            quark_from_Z       = getGenParticle(tree,[1,2,3,4,5],Zs)
-            antiquark_from_Z   = getGenParticle(tree,[-1,-2,-3,-4,-5],Zs)
+            Zs = getGenParticle(tree,+23,from_hardscattering=True)
+            H = getGenParticle(tree,+25,from_hardscattering=True)
+
+            lep_from_Z         = getGenParticle(tree,pdgIds=[11,12,13,14,15,16],parents=Zs)
+            antilep_from_Z     = getGenParticle(tree,pdgIds=[-11,-12,-13,-14,-15,-16],parents=Zs)
+            quark_from_Z       = getGenParticle(tree,pdgIds=[1,2,3,4,5],parents=Zs)
+            antiquark_from_Z   = getGenParticle(tree,pdgIds=[-1,-2,-3,-4,-5],parents=Zs)
+            tau_from_H         = getGenParticle(tree,pdgIds=[15],parents=H)
+            antitau_from_H     = getGenParticle(tree,pdgIds=[-15],parents=H)
 
             # Want to split the p=leptons/quarks into Z1 and Z2
             # If there is a p from Z -> at least one Z
@@ -607,14 +716,13 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
             quark_from_Z1,quark_from_Z2         = split_from_Z(quark_from_Z)
             antiquark_from_Z1,antiquark_from_Z2 = split_from_Z(antiquark_from_Z)
 
-            lep_from_nonres         = getGenParticle(tree,[11,12,13,14,15,16],from_hardscattering=True)
-            antilep_from_nonres     = getGenParticle(tree,[-11,-12,-13,-14,-15,-16],from_hardscattering=True)
-            quark_from_nonres       = getGenParticle(tree,[1,2,3,4,5],from_hardscattering=True)
-            antiquark_from_nonres   = getGenParticle(tree,[-1,-2,-3,-4,-5],from_hardscattering=True)
+            lep_from_nonres         = getGenParticle(tree,pdgIds=[11,12,13,14,15,16],from_hardscattering=True)
+            antilep_from_nonres     = getGenParticle(tree,pdgIds=[-11,-12,-13,-14,-15,-16],from_hardscattering=True)
 
             # Fill tree #
             particles = {
                 'Zs' : Zs,
+                'H'  : H,
                 'lep_from_Z1': lep_from_Z1,
                 'antilep_from_Z1': antilep_from_Z1,
                 'quark_from_Z1': quark_from_Z1,
@@ -625,8 +733,9 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
                 'antiquark_from_Z2': antiquark_from_Z2,
                 'lep_from_nonres': lep_from_nonres,
                 'antilep_from_nonres': antilep_from_nonres,
-                'quark_from_nonres': quark_from_nonres,
-                'antiquark_from_nonres': antiquark_from_nonres,
+                'tau_from_H': tau_from_H,
+                'antitau_from_H': antitau_from_H,
+
             }
             genZZVar = {'event': None}
             for pName,pObj in particles.items():
@@ -635,9 +744,13 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
                     addGenParticle(genZZVar,pObj,'Z2',idx=1,map_sum_E=map_sum_E)
                 else:
                     addGenParticle(genZZVar,pObj,pName,map_sum_E=map_sum_E)
-            ISR = getGenISR(tree,[+1,+2,+3,+4,+5,-1,-2,-3,-4,-5,21])
+                genZZVar[f'n_{pName}'] = op.static_cast("UInt_t",op.rng_len(pObj))
+            ISR = getGenISR(tree)
             addISRParticles(genZZVar,ISR,15)
+
             genZZVar['flag_valid'] = op.static_cast("Int_t",get_lambda_valid(particles.values()))
+            addGeneratorInfo(genZZVar,tree)
+
             plots.append(Skim(f'gen_ZZ',genZZVar,noSel))
 
 
@@ -645,14 +758,14 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
         #                      single Higgs                      #
         ##########################################################
         if sample.startswith("ZH_HToBB_ZToLL"):
-            H = getGenParticle(tree,+25,from_hardscattering=True)
-            Z = getGenParticle(tree,+23,from_hardscattering=True)
+            H = getGenParticle(tree,pdgIds=+25,from_hardscattering=True)
+            Z = getGenParticle(tree,pdgIds=+23,from_hardscattering=True)
 
-            bottom = getGenParticle(tree,+5,H)
-            antibottom = getGenParticle(tree,-5,H)
+            bottom = getGenParticle(tree,pdgIds=+5,parents=H)
+            antibottom = getGenParticle(tree,pdgIds=-5,parents=H)
 
-            lep_plus = getGenParticle(tree,[-11,-13,-15],Z)
-            lep_minus = getGenParticle(tree,[+11,+13,+15],Z)
+            lep_plus = getGenParticle(tree,pdgIds=[-11,-13,-15],parents=Z)
+            lep_minus = getGenParticle(tree,pdgIds=[+11,+13,+15],parents=Z)
 
             # Fill tree #
             particles = {
@@ -666,9 +779,13 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
             genZHVar = {'event': None}
             for pName,pObj in particles.items():
                 addGenParticle(genZHVar,pObj,pName,map_sum_E=map_sum_E)
-            ISR = getGenISR(tree,[+1,+2,+3,+4,+5,-1,-2,-3,-4,-5,21])
+                genZHVar[f'n_{pName}'] = op.static_cast("UInt_t",op.rng_len(pObj))
+            ISR = getGenISR(tree)
             addISRParticles(genZHVar,ISR,15)
+
             genZHVar['flag_valid'] = op.static_cast("Int_t",get_lambda_valid(particles.values()))
+            addGeneratorInfo(genZHVar,tree)
+
             plots.append(Skim(f'gen_ZH',genZHVar,noSel))
 
 
@@ -677,65 +794,88 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
         #                           HH                           #
         ##########################################################
         if 'HH' in sample:
-            genHHVar = {'event': None}
+            # Base variables #
+            genHHVar = {
+                'event': None,
+                'mHH' : self.mHH,
+                'cosHH' : self.cosHH,
+            }
+
+            # Particles #
             particles = {}
             if sample.startswith("GluGluToHH") or sample.startswith('VBFHH'):
-                higgs = getGenParticle(tree,+25,from_hardscattering=True)
+                higgs = getGenParticle(tree,pdgIds=+25,from_hardscattering=True)
             elif sample.startswith('GluGluToBulkGravitonToHH'):
-                graviton = getGenParticle(tree,+39,from_hardscattering=True)
-                higgs = getGenParticle(tree,+25,parent=graviton)
+                graviton = getGenParticle(tree,pdgIds=+39,from_hardscattering=True)
+                higgs = getGenParticle(tree,pdgIds=+25,parents=graviton)
                 particles['graviton'] = graviton
             elif sample.startswith('GluGluToRadionToHH'):
-                radion = getGenParticle(tree,+35,from_hardscattering=True)
-                higgs = getGenParticle(tree,+25,radion)
+                radion = getGenParticle(tree,pdgIds=+35,from_hardscattering=True)
+                higgs = getGenParticle(tree,pdgIds=+25,parents=radion)
                 particles['radion'] = radion
             else:
                 raise RuntimeError(f'HH sample name {sample} not implemented')
-            bottom = getGenParticle(tree,+5,higgs)
-            antibottom = getGenParticle(tree,-5,higgs)
 
             particles = {
                 **particles,
                 'higgs': higgs,
-                'bottom': bottom,
-                'antibottom': antibottom,
             }
 
             if 'HHTo2B2Tau' in sample:
-                tau = getGenParticle(tree,[+15],higgs)
-                antitau = getGenParticle(tree,[-15],higgs)
+                tau = getGenParticle(tree,pdgIds=[+15],parents=higgs)
+                antitau = getGenParticle(tree,pdgIds=[-15],parents=higgs)
+                bottom = getGenParticle(tree,pdgIds=+5,parents=higgs)
+                antibottom = getGenParticle(tree,pdgIds=-5,parents=higgs)
                 particles = {
                     **particles,
                     'tau': tau,
                     'antitau': antitau,
+                    'bottom': bottom,
+                    'antibottom': antibottom,
                 }
             elif 'HHTo2B2VTo2L2Nu' in sample or 'HHTo2B2WToLNu2J' in sample or 'HHTo2B2VLNu2J' in sample:
-                W_plus = getGenParticle(tree,+24,parent=higgs)
-                W_minus = getGenParticle(tree,-24,parent=higgs)
-                lep_plus_from_W = getGenParticle(tree,[-11,-13,-15],parent=W_plus)
-                lep_minus_from_W = getGenParticle(tree,[+11,+13,+15],parent=W_minus)
-                neutrino_from_W = getGenParticle(tree,[+12,+14,+16],parent=W_plus)
-                antineutrino_from_W = getGenParticle(tree,[-12,-14,-16],parent=W_minus)
-                quark_up_from_W = getGenParticle(tree,[+2,+4],parent=W_plus)
-                quark_down_from_W = getGenParticle(tree,[+1,+3],parent=W_minus)
-                antiquark_up_from_W = getGenParticle(tree,[-2,-4],parent=W_minus)
-                antiquark_down_from_W = getGenParticle(tree,[-1,-3],parent=W_plus)
+                W_plus = getGenParticle(tree,+24,parents=higgs)
+                W_minus = getGenParticle(tree,-24,parents=higgs)
+                Zs = getGenParticle(tree,+23,parents=higgs)
 
-                Zs = getGenParticle(tree,+23,parent=higgs)
-                lep_plus_from_Z = getGenParticle(tree,[-11,-13,-15],parent=Zs)
-                lep_minus_from_Z = getGenParticle(tree,[+11,+13,+15],parent=Zs)
-                neutrino_from_Z = getGenParticle(tree,[+12,+14,+16],parent=Zs)
-                antineutrino_from_Z = getGenParticle(tree,[-12,-14,-16],parent=Zs)
-                quark_up_from_Z = getGenParticle(tree,[+2,+4],parent=Zs)
-                quark_down_from_Z = getGenParticle(tree,[+1,+3],parent=Zs)
-                antiquark_up_from_Z = getGenParticle(tree,[-2,-4],parent=Zs)
-                antiquark_down_from_Z = getGenParticle(tree,[-1,-3],parent=Zs)
+                bottom = getGenParticle(tree,pdgIds=+5,parents=higgs)
+                antibottom = getGenParticle(tree,pdgIds=-5,parents=higgs)
+
+                lep_plus_from_W = getGenParticle(tree,[-11,-13,-15],parents=W_plus)
+                lep_minus_from_W = getGenParticle(tree,[+11,+13,+15],parents=W_minus)
+                neutrino_from_W = getGenParticle(tree,[+12,+14,+16],parents=W_plus)
+                antineutrino_from_W = getGenParticle(tree,[-12,-14,-16],parents=W_minus)
+                quark_up_from_W = getGenParticle(tree,[+2,+4],parents=W_plus)
+                quark_down_from_W = getGenParticle(tree,[+1,+3,+5],parents=W_minus)
+                antiquark_up_from_W = getGenParticle(tree,[-2,-4],parents=W_minus)
+                antiquark_down_from_W = getGenParticle(tree,[-1,-3,-5],parents=W_plus)
+
+                lep_plus_from_Z = getGenParticle(tree,[-11,-13,-15],parents=Zs)
+                lep_minus_from_Z = getGenParticle(tree,[+11,+13,+15],parents=Zs)
+                neutrino_from_Z = getGenParticle(tree,[+12,+14,+16],parents=Zs)
+                antineutrino_from_Z = getGenParticle(tree,[-12,-14,-16],parents=Zs)
+                quark_up_from_Z = getGenParticle(tree,[+2,+4],parents=Zs)
+                quark_down_from_Z = getGenParticle(tree,[+1,+3,+5],parents=Zs)
+                antiquark_up_from_Z = getGenParticle(tree,[-2,-4],parents=Zs)
+                antiquark_down_from_Z = getGenParticle(tree,[-1,-3,-5],parents=Zs)
+
+                lep_plus_nonres = getGenParticle(tree,[-11,-13,-15],parents=higgs,parent_pdgIds=[25])
+                lep_minus_nonres = getGenParticle(tree,[+11,+13,+15],parents=higgs,parent_pdgIds=[25])
+                neutrino_nonres = getGenParticle(tree,[+12,+14,+16],parents=higgs,parent_pdgIds=[25])
+                antineutrino_nonres = getGenParticle(tree,[-12,-14,-16],parents=higgs,parent_pdgIds=[25])
+
+                quark_up_nonres = getGenParticle(tree,[+2,+4],parents=higgs,parent_pdgIds=[25])
+                quark_down_nonres = getGenParticle(tree,[+1,+3,+5],parents=higgs,parent_pdgIds=[25])
+                antiquark_up_nonres = getGenParticle(tree,[-2,-4],parents=higgs,parent_pdgIds=[25])
+                antiquark_down_nonres = getGenParticle(tree,[-1,-3,-5],parents=higgs,parent_pdgIds=[25])
 
                 particles = {
                     **particles,
                     'W_plus': W_plus,
                     'W_minus': W_minus,
                     'Zs': Zs,
+                    'bottom': bottom,
+                    'antibottom': antibottom,
                     'lep_plus_from_W': lep_plus_from_W,
                     'lep_minus_from_W': lep_minus_from_W,
                     'neutrino_from_W': neutrino_from_W,
@@ -752,11 +892,19 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
                     'quark_down_from_Z': quark_down_from_Z,
                     'antiquark_up_from_Z': antiquark_up_from_Z,
                     'antiquark_down_from_Z': antiquark_down_from_Z,
+                    'lep_plus_nonres' : lep_plus_nonres,
+                    'lep_minus_nonres' : lep_minus_nonres,
+                    'neutrino_nonres' : neutrino_nonres,
+                    'antineutrino_nonres' : antineutrino_nonres,
+                    'quark_up_nonres' : quark_up_nonres,
+                    'quark_down_nonres' : quark_down_nonres,
+                    'antiquark_up_nonres' : antiquark_up_nonres,
+                    'antiquark_down_nonres' : antiquark_down_nonres,
                 }
             else:
                 raise RuntimeError(f'HH sample name {sample} not implemented')
 
-            ISR = getGenISR(tree,[+1,+2,+3,+4,+5,-1,-2,-3,-4,-5,21])
+            ISR = getGenISR(tree)
             if sample.startswith('VBFHH'):
                 VBF_quark = getGenParticle(
                     tree,
@@ -793,13 +941,39 @@ class TransfermerNanoAOD(BaseNanoHHtobbWW,DataDrivenBackgroundHistogramsModule):
                     addGenParticle(genHHVar,pObj,'VBF_quark4',idx=3,map_sum_E=map_sum_E)
                 else:
                     addGenParticle(genHHVar,pObj,pName,map_sum_E=map_sum_E)
+                genHHVar[f'n_{pName}'] = op.static_cast("UInt_t",op.rng_len(pObj))
+
+            addGeneratorInfo(genHHVar,tree)
+
             genHHVar['flag_valid'] = op.static_cast("Int_t",get_lambda_valid(particles.values()))
+
+
+            # Reweighting #
+            if 'VBF' not in sample and 'Radion' not in sample and 'Graviton' not in sample:
+                genHHVar['weight_nominal'] = op.c_float(1.)
+                if self.args.HHReweighting is not None and 'VBF' not in sample and 'Radion' not in sample and 'Graviton' not in sample:
+                    from bamboo.scalefactors import get_scalefactor
+                    if 'all' in self.args.HHReweighting:
+                        targets = self.analysisConfig['benchmarks']['targets']
+                    else:
+                        targets = self.args.HHReweighting
+                    for target in targets:
+                        json_file = os.path.join(
+                            os.path.abspath(os.path.dirname(__file__)),
+                            'data',
+                            'ScaleFactors_GGF_LO',
+                            f'{sample}_to_{target}_{era}.json',
+                        )
+                        assert os.path.exists(json_file), f'File {json_file} does not exist'
+                        reweight = get_scalefactor("lepton", json_file, paramDefs=self.signalReweightParams)
+                        genHHVar[f'weight_{target}'] = op.static_cast("Float_t",reweight(None))
+                    else:
+                        print (f'Not understood target {target}, will skip')
+
             plots.append(Skim(f'gen_HH',genHHVar,noSel))
-
-
 
         return plots
 
 
     def postProcess(self, taskList, config=None, workdir=None, resultsdir=None):
-        pass # No need to do plotting
+        super().postProcess(taskList,config,workdir,resultsdir,forSkimmer=True)
